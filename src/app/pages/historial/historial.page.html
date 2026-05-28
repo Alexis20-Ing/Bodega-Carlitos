@@ -1,0 +1,246 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Historial</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-searchbar
+    [(ngModel)]="buscar"
+    (ionInput)="filtrarProductos()"
+    placeholder="Buscar producto">
+  </ion-searchbar>
+
+  <div *ngIf="productos.length === 0" class="empty">
+    No hay productos registrados.
+  </div>
+
+  <ion-card *ngFor="let item of productosFiltrados; let i = index">
+
+    <ion-card-header>
+
+      <ion-card-title>
+
+        <div *ngIf="editandoIndex !== i">
+
+          {{ item.producto }}
+
+          <br>
+
+          <small>
+            Proveedor: {{ item.proveedor }}
+          </small>
+
+        </div>
+
+        <ion-input
+          *ngIf="editandoIndex === i"
+          [(ngModel)]="item.producto">
+        </ion-input>
+
+      </ion-card-title>
+
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <!-- ========================= -->
+      <!-- VISUALIZACIÓN NORMAL -->
+      <!-- ========================= -->
+
+      <div *ngIf="editandoIndex !== i">
+
+        Cantidad: {{ item.cantidad }}
+
+        <br>
+
+        Precio: S/ {{ item.precio }}
+
+        <br>
+
+        Total: S/ {{ item.cantidad * item.precio }}
+
+        <br>
+
+        Fecha:
+        {{
+          item.fecha?.toDate
+            ? (item.fecha.toDate() | date:'short')
+            : (item.fecha | date:'short')
+        }}
+
+        <br>
+
+        Estado:
+
+        <span
+          [style.color]="
+            item.estado === 'aceptado'
+              ? 'green'
+              : item.estado === 'rechazado'
+              ? 'red'
+              : item.estado === 'pendiente'
+              ? 'orange'
+              : 'blue'
+          ">
+
+          {{
+            item.estado === 'aceptado'
+              ? '🟢 Aceptado'
+              : item.estado === 'rechazado'
+              ? '🔴 Rechazado'
+              : item.estado === 'pendiente'
+              ? '🟡 Pendiente'
+              : item.estado
+          }}
+
+        </span>
+
+        <div *ngIf="item.foto">
+
+          <img
+            [src]="item.foto"
+            style="
+              width: 100%;
+              max-height: 250px;
+              object-fit: cover;
+              margin-top: 10px;
+              border-radius: 12px;
+            ">
+
+        </div>
+
+      </div>
+
+      <!-- ========================= -->
+      <!-- MODO EDICIÓN -->
+      <!-- ========================= -->
+
+      <div *ngIf="editandoIndex === i">
+
+        <ion-item>
+
+          <ion-label position="stacked">
+            Proveedor
+          </ion-label>
+
+          <ion-input [(ngModel)]="item.proveedor">
+          </ion-input>
+
+        </ion-item>
+
+        <ion-item>
+
+          <ion-label position="stacked">
+            Cantidad
+          </ion-label>
+
+          <ion-input
+            type="number"
+            [(ngModel)]="item.cantidad">
+          </ion-input>
+
+        </ion-item>
+
+        <ion-item>
+
+          <ion-label position="stacked">
+            Precio
+          </ion-label>
+
+          <ion-input
+            type="number"
+            [(ngModel)]="item.precio">
+          </ion-input>
+
+        </ion-item>
+
+        <ion-item>
+
+          <ion-label>
+            Estado
+          </ion-label>
+
+          <ion-select [(ngModel)]="item.estado">
+
+            <ion-select-option value="pendiente">
+              Pendiente
+            </ion-select-option>
+
+            <ion-select-option value="aceptado">
+              Aceptado
+            </ion-select-option>
+
+            <ion-select-option value="rechazado">
+              Rechazado
+            </ion-select-option>
+
+          </ion-select>
+
+        </ion-item>
+
+        <ion-button
+          expand="block"
+          color="secondary"
+          (click)="actualizarFoto(item)">
+
+          Actualizar Foto
+
+        </ion-button>
+
+        <div *ngIf="item.foto">
+
+          <img
+            [src]="item.foto"
+            style="
+              width: 100%;
+              max-height: 250px;
+              object-fit: cover;
+              margin-top: 10px;
+              border-radius: 12px;
+            ">
+
+        </div>
+
+      </div>
+
+      <!-- ========================= -->
+      <!-- BOTONES -->
+      <!-- ========================= -->
+
+      <ion-button
+        *ngIf="editandoIndex !== i"
+        color="warning"
+        expand="block"
+        (click)="editar(i)">
+
+        Editar
+
+      </ion-button>
+
+      <ion-button
+        *ngIf="editandoIndex === i"
+        color="success"
+        expand="block"
+        (click)="guardarEdicion(i)">
+
+        Guardar Cambios
+
+      </ion-button>
+
+      <!-- 🔥 FIX ELIMINAR -->
+      <ion-button
+        color="danger"
+        expand="block"
+        (click)="eliminar(item)">
+
+        Eliminar
+
+      </ion-button>
+
+    </ion-card-content>
+
+  </ion-card>
+
+</ion-content>

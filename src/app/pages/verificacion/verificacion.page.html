@@ -1,0 +1,76 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+
+    <ion-title>
+      Verificación de Calidad
+    </ion-title>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- PRODUCTO SELECCIONADO -->
+  <ion-card *ngIf="producto">
+
+    <ion-card-header>
+
+      <ion-card-title>
+        {{ producto.producto }}
+      </ion-card-title>
+
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <p><b>Proveedor:</b> {{ producto.proveedor }}</p>
+      <p><b>Cantidad:</b> {{ producto.cantidad }}</p>
+      <p><b>Precio:</b> S/ {{ producto.precio }}</p>
+
+    </ion-card-content>
+
+  </ion-card>
+
+  <!-- CHECKLIST -->
+  <ion-item>
+    <ion-label>Empaque en buen estado</ion-label>
+    <ion-checkbox [(ngModel)]="empaque"></ion-checkbox>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Fecha vigente</ion-label>
+    <ion-checkbox [(ngModel)]="fecha"></ion-checkbox>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Cantidad correcta</ion-label>
+    <ion-checkbox [(ngModel)]="cantidad"></ion-checkbox>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Producto golpeado</ion-label>
+    <ion-checkbox [(ngModel)]="golpeado"></ion-checkbox>
+  </ion-item>
+
+  <!-- BOTONES -->
+  <ion-button
+    expand="block"
+    color="success"
+    (click)="aceptarProducto()">
+
+    Aceptar
+
+  </ion-button>
+
+  <ion-button
+    expand="block"
+    color="danger"
+    (click)="rechazarProducto()">
+
+    Rechazar
+
+  </ion-button>
+
+</ion-content>

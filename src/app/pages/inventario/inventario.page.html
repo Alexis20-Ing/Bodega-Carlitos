@@ -1,0 +1,67 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+
+    <ion-title>
+      Inventario
+    </ion-title>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-searchbar
+    [(ngModel)]="buscar"
+    (ionInput)="filtrarProductos()"
+    placeholder="Buscar producto">
+
+  </ion-searchbar>
+
+  <div
+    *ngIf="productos.length === 0"
+    class="empty">
+
+    No hay productos en inventario.
+
+  </div>
+
+  <ion-card
+    *ngFor="let item of productosFiltrados">
+
+    <ion-card-header>
+
+      <ion-card-title>
+
+        {{ item.producto }}
+
+      </ion-card-title>
+
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <ion-icon
+        name="cube-outline">
+
+      </ion-icon>
+
+      Stock:
+      {{ item.cantidad }}
+
+      <br>
+
+      Precio:
+      S/ {{ item.precio }}
+
+      <br>
+
+      Valor Total:
+      S/ {{ item.cantidad * item.precio }}
+
+    </ion-card-content>
+
+  </ion-card>
+
+</ion-content>

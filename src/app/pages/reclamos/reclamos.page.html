@@ -1,0 +1,89 @@
+<ion-header>
+
+  <ion-toolbar color="danger">
+
+    <ion-title>
+      Reclamos
+    </ion-title>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div *ngIf="productos.length === 0">
+
+    No hay productos dañados.
+
+  </div>
+
+  <ion-card *ngFor="let item of productos">
+
+    <ion-card-header>
+
+      <ion-card-title>
+        {{ item.producto }}
+
+        <br>
+
+        <small>
+
+         Proveedor:
+        {{ item.proveedor }}
+
+        </small>
+        
+      </ion-card-title>
+
+    </ion-card-header>
+
+    <ion-card-content>
+
+      Cantidad:
+      {{ item.cantidad }}
+
+      <br>
+
+      Precio:
+      S/ {{ item.precio }}
+
+      <br>
+
+      Estado:
+      {{
+        item.estado === 'rechazado'
+          ? '🔴 Rechazado'
+          : item.estado === 'aceptado'
+          ? '🟢 Aceptado'
+          : item.estado === 'resuelto'
+          ? '🔵 Resuelto'
+          : '🟡 Pendiente'
+      }}
+
+      <div *ngIf="item.foto">
+
+        <img
+          [src]="item.foto"
+          style="
+            width: 100%;
+            margin-top: 10px;
+            border-radius: 12px;
+          ">
+
+      </div>
+
+      <ion-button
+        expand="block"
+        color="success"
+        (click)="resolverReclamo(item)">
+
+        Reclamo Resuelto
+
+      </ion-button>
+
+    </ion-card-content>
+
+  </ion-card>
+
+</ion-content>

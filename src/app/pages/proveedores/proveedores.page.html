@@ -1,0 +1,164 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+
+    <ion-title>
+      Proveedores
+    </ion-title>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- BUSCADOR -->
+
+  <ion-item>
+
+    <ion-input
+      placeholder="Buscar proveedor"
+      [(ngModel)]="busqueda">
+
+    </ion-input>
+
+    <ion-button
+      slot="end"
+      color="primary"
+      (click)="filtrarProveedores()">
+
+      Buscar
+
+    </ion-button>
+
+  </ion-item>
+
+  <ion-button
+    expand="block"
+    color="medium"
+    (click)="mostrarTodos()">
+
+    Mostrar Todos
+
+  </ion-button>
+
+  <!-- FORMULARIO -->
+
+  <ion-card>
+
+    <ion-card-header>
+
+      <ion-card-title>
+
+        {{ editando ? 'Editar proveedor' : 'Agregar proveedor' }}
+
+      </ion-card-title>
+
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <ion-item>
+
+        <ion-label position="floating">
+          Nombre
+        </ion-label>
+
+        <ion-input
+          [(ngModel)]="nombre">
+
+        </ion-input>
+
+      </ion-item>
+
+      <ion-item>
+
+        <ion-label position="floating">
+          Teléfono
+        </ion-label>
+
+        <ion-input
+          [(ngModel)]="telefono">
+
+        </ion-input>
+
+      </ion-item>
+
+      <ion-button
+        expand="block"
+        color="success"
+        (click)="agregarProveedor()">
+
+        {{ editando ? 'Actualizar' : 'Agregar' }}
+
+      </ion-button>
+
+    </ion-card-content>
+
+  </ion-card>
+
+  <!-- MENSAJE -->
+
+  <div
+    *ngIf="proveedoresFiltrados.length === 0"
+    class="empty">
+
+    No se encontraron proveedores.
+
+  </div>
+
+  <!-- LISTA -->
+
+  <ion-card
+    *ngFor="let proveedor of proveedoresFiltrados">
+
+    <ion-card-header>
+
+      <ion-card-title>
+
+        🏢 {{ proveedor.nombre }}
+
+      </ion-card-title>
+
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <strong>📞 Teléfono:</strong>
+      {{ proveedor.telefono }}
+
+      <br><br>
+
+      <strong>📦 Productos registrados:</strong>
+      {{ proveedor.productos }}
+
+      <br><br>
+
+      <strong>🔴 Reclamos:</strong>
+      {{ proveedor.reclamos }}
+
+      <br><br>
+
+      <ion-button
+        size="small"
+        color="warning"
+        (click)="editarProveedor(proveedor)">
+
+        ✏️ Editar
+
+      </ion-button>
+
+      <ion-button
+        size="small"
+        color="danger"
+        (click)="eliminarProveedor(proveedor.id)">
+
+        🗑 Eliminar
+
+      </ion-button>
+
+    </ion-card-content>
+
+  </ion-card>
+
+</ion-content>

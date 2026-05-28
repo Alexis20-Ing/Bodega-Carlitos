@@ -1,0 +1,35 @@
+.home-content {
+  --background: #f4f5f8;
+}
+
+.welcome {
+  text-align: center;
+  margin: 20px 0;
+  font-weight: bold;
+  color: #1e3c72;
+}
+
+ion-card {
+  margin: 20px;
+  border-radius: 20px;
+  text-align: center;
+  padding: 10px;
+}
+
+.card-icon {
+  font-size: 60px;
+  color: #3880ff;
+  margin-bottom: 10px;
+}
+
+h3 {
+  font-weight: bold;
+}
+
+ion-button {
+  margin: 20px;
+}
+
+.mi-alerta .alert-message {
+  white-space: pre-line;
+}
