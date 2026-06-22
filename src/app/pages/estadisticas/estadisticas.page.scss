@@ -1,0 +1,115 @@
+.dashboard-content {
+  --background: #f4f6f9;
+  padding: 0 10px;
+}
+
+/* TÍTULO */
+.dashboard-title {
+  text-align: center;
+  margin: 20px 10px;
+}
+
+.dashboard-title h2 {
+  color: #1e3a8a;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.dashboard-title p {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* CARDS GENERALES */
+ion-card {
+  margin: 12px 0;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* KPIs */
+.kpi-card {
+  text-align: center;
+}
+
+.kpi-card ion-card-content {
+  padding: 16px;
+}
+
+.kpi-card ion-icon {
+  font-size: 38px;
+  color: #2563eb;
+}
+
+.kpi-card h2 {
+  margin: 8px 0 2px;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.kpi-card span {
+  color: #6b7280;
+}
+
+/* ESTADOS (Aceptado / Pendiente / Rechazado) */
+.estado {
+  text-align: center;
+  margin: 6px;
+}
+
+.estado ion-card-content {
+  padding: 14px;
+}
+
+.estado h2 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.estado span {
+  font-size: 13px;
+}
+
+/* COLORES */
+.verde {
+  border-left: 6px solid #22c55e;
+}
+
+.amarillo {
+  border-left: 6px solid #f59e0b;
+}
+
+.rojo {
+  border-left: 6px solid #ef4444;
+}
+
+/* GRÁFICOS */
+canvas {
+  width: 100% !important;
+  max-height: 280px;
+}
+
+/* TITULOS DE CARD */
+ion-card-title {
+  color: #1e3a8a;
+  font-weight: bold;
+}
+
+/* LISTA */
+ion-item {
+  --background: transparent;
+}
+
+/* BADGE */
+ion-badge {
+  font-size: 13px;
+}
+
+/* CARDS DE ALERTA */
+ion-card[color="danger"],
+ion-card[color="success"] {
+  margin-bottom: 16px;
+  border-radius: 14px;
+}

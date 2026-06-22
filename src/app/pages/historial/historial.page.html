@@ -1,42 +1,65 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>Historial</ion-title>
+
+  <ion-toolbar>
+
+    <ion-title>
+      Historial
+    </ion-title>
+
   </ion-toolbar>
+
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="historial-content">
+
+  <div class="titulo">
+
+    <h2>Historial de Recepciones</h2>
+
+    <p>
+      Consulta y administra los productos registrados.
+    </p>
+
+  </div>
 
   <ion-searchbar
     [(ngModel)]="buscar"
     (ionInput)="filtrarProductos()"
     placeholder="Buscar producto">
+
   </ion-searchbar>
 
-  <div *ngIf="productos.length === 0" class="empty">
+  <div
+    *ngIf="productos.length==0"
+    class="empty">
+
     No hay productos registrados.
+
   </div>
 
-  <ion-card *ngFor="let item of productosFiltrados; let i = index">
+  <ion-card
+    *ngFor="let item of productosFiltrados; let i=index">
 
     <ion-card-header>
 
       <ion-card-title>
 
-        <div *ngIf="editandoIndex !== i">
+        <div *ngIf="editandoIndex!==i">
 
-          {{ item.producto }}
+          {{item.producto}}
 
-          <br>
+          <p class="proveedor">
 
-          <small>
-            Proveedor: {{ item.proveedor }}
-          </small>
+            {{item.proveedor}}
+
+          </p>
 
         </div>
 
         <ion-input
-          *ngIf="editandoIndex === i"
+          *ngIf="editandoIndex===i"
           [(ngModel)]="item.producto">
+
         </ion-input>
 
       </ion-card-title>
@@ -45,87 +68,77 @@
 
     <ion-card-content>
 
-      <!-- ========================= -->
-      <!-- VISUALIZACIÓN NORMAL -->
-      <!-- ========================= -->
+      <!-- MODO VISUAL -->
 
-      <div *ngIf="editandoIndex !== i">
+      <div *ngIf="editandoIndex!==i">
 
-        Cantidad: {{ item.cantidad }}
+        <div class="info">
 
-        <br>
+          <span>📦 Cantidad: {{item.cantidad}}</span>
 
-        Precio: S/ {{ item.precio }}
-
-        <br>
-
-        Total: S/ {{ item.cantidad * item.precio }}
-
-        <br>
-
-        Fecha:
-        {{
-          item.fecha?.toDate
-            ? (item.fecha.toDate() | date:'short')
-            : (item.fecha | date:'short')
-        }}
-
-        <br>
-
-        Estado:
-
-        <span
-          [style.color]="
-            item.estado === 'aceptado'
-              ? 'green'
-              : item.estado === 'rechazado'
-              ? 'red'
-              : item.estado === 'pendiente'
-              ? 'orange'
-              : 'blue'
-          ">
-
-          {{
-            item.estado === 'aceptado'
-              ? '🟢 Aceptado'
-              : item.estado === 'rechazado'
-              ? '🔴 Rechazado'
-              : item.estado === 'pendiente'
-              ? '🟡 Pendiente'
-              : item.estado
-          }}
-
-        </span>
-
-        <div *ngIf="item.foto">
-
-          <img
-            [src]="item.foto"
-            style="
-              width: 100%;
-              max-height: 250px;
-              object-fit: cover;
-              margin-top: 10px;
-              border-radius: 12px;
-            ">
+          <span>💰 S/ {{item.precio}}</span>
 
         </div>
 
+        <div class="info">
+
+          <span>
+
+            Total: S/ {{item.cantidad * item.precio}}
+
+          </span>
+
+        </div>
+
+        <div class="info">
+
+          {{
+            item.fecha?.toDate
+            ? (item.fecha.toDate() | date:'short')
+            : (item.fecha | date:'short')
+          }}
+
+        </div>
+
+        <div
+          class="estado"
+          [ngClass]="item.estado">
+
+          {{
+            item.estado=="aceptado"
+            ? "🟢 Aceptado"
+
+            : item.estado=="rechazado"
+
+            ? "🔴 Rechazado"
+
+            : "🟡 Pendiente"
+          }}
+
+        </div>
+
+        <img
+          *ngIf="item.foto"
+          [src]="item.foto"
+          class="foto">
+
       </div>
 
-      <!-- ========================= -->
       <!-- MODO EDICIÓN -->
-      <!-- ========================= -->
 
-      <div *ngIf="editandoIndex === i">
+      <div *ngIf="editandoIndex===i">
 
         <ion-item>
 
           <ion-label position="stacked">
+
             Proveedor
+
           </ion-label>
 
-          <ion-input [(ngModel)]="item.proveedor">
+          <ion-input
+            [(ngModel)]="item.proveedor">
+
           </ion-input>
 
         </ion-item>
@@ -133,12 +146,15 @@
         <ion-item>
 
           <ion-label position="stacked">
+
             Cantidad
+
           </ion-label>
 
           <ion-input
             type="number"
             [(ngModel)]="item.cantidad">
+
           </ion-input>
 
         </ion-item>
@@ -146,12 +162,15 @@
         <ion-item>
 
           <ion-label position="stacked">
+
             Precio
+
           </ion-label>
 
           <ion-input
             type="number"
             [(ngModel)]="item.precio">
+
           </ion-input>
 
         </ion-item>
@@ -159,21 +178,30 @@
         <ion-item>
 
           <ion-label>
+
             Estado
+
           </ion-label>
 
-          <ion-select [(ngModel)]="item.estado">
+          <ion-select
+            [(ngModel)]="item.estado">
 
             <ion-select-option value="pendiente">
+
               Pendiente
+
             </ion-select-option>
 
             <ion-select-option value="aceptado">
+
               Aceptado
+
             </ion-select-option>
 
             <ion-select-option value="rechazado">
+
               Rechazado
+
             </ion-select-option>
 
           </ion-select>
@@ -185,59 +213,71 @@
           color="secondary"
           (click)="actualizarFoto(item)">
 
+          <ion-icon
+            slot="start"
+            name="camera-outline">
+
+          </ion-icon>
+
           Actualizar Foto
 
         </ion-button>
 
-        <div *ngIf="item.foto">
-
-          <img
-            [src]="item.foto"
-            style="
-              width: 100%;
-              max-height: 250px;
-              object-fit: cover;
-              margin-top: 10px;
-              border-radius: 12px;
-            ">
-
-        </div>
-
       </div>
 
-      <!-- ========================= -->
       <!-- BOTONES -->
-      <!-- ========================= -->
 
-      <ion-button
-        *ngIf="editandoIndex !== i"
-        color="warning"
-        expand="block"
-        (click)="editar(i)">
+      <div class="botones">
 
-        Editar
+        <ion-button
+          *ngIf="editandoIndex!==i"
+          expand="block"
+          color="primary"
+          (click)="editar(i)">
 
-      </ion-button>
+          <ion-icon
+            slot="start"
+            name="create-outline">
 
-      <ion-button
-        *ngIf="editandoIndex === i"
-        color="success"
-        expand="block"
-        (click)="guardarEdicion(i)">
+          </ion-icon>
 
-        Guardar Cambios
+          Editar
 
-      </ion-button>
+        </ion-button>
 
-      <!-- 🔥 FIX ELIMINAR -->
-      <ion-button
-        color="danger"
-        expand="block"
-        (click)="eliminar(item)">
+        <ion-button
+          *ngIf="editandoIndex===i"
+          expand="block"
+          color="success"
+          (click)="guardarEdicion(i)">
 
-        Eliminar
+          <ion-icon
+            slot="start"
+            name="save-outline">
 
-      </ion-button>
+          </ion-icon>
+
+          Guardar Cambios
+
+        </ion-button>
+
+        <ion-button
+          expand="block"
+          fill="outline"
+          color="danger"
+          (click)="eliminar(item)">
+
+          <ion-icon
+            slot="start"
+            name="trash-outline">
+
+          </ion-icon>
+
+          Eliminar
+
+        </ion-button>
+
+      </div>
 
     </ion-card-content>
 

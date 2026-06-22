@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FirebaseService } from '../../services/firebase.service';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-proveedores',
@@ -24,7 +25,8 @@ export class ProveedoresPage {
   firebaseId = '';
 
   constructor(
-    private firebaseService: FirebaseService
+    private firebaseService: FirebaseService,
+    private alertController: AlertController
   ) {}
 
   async ionViewWillEnter() {
@@ -84,135 +86,233 @@ export class ProveedoresPage {
 
     this.proveedoresFiltrados = [...lista];
 
-    console.log('PROVEEDORES CARGADOS:', lista);
+  }
+
+// ======================================
+// AGREGAR / EDITAR
+// ======================================
+
+async agregarProveedor() {
+
+  this.nombre = this.nombre.trim();
+  this.telefono = this.telefono.trim();
+
+  if (!this.nombre || !this.telefono) {
+
+    alert('Completa todos los datos');
+
+    return;
 
   }
 
-  // ======================================
-  // AGREGAR / EDITAR
-  // ======================================
+  // Solo letras y espacios
+  const soloLetras =
+    /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
 
-  async agregarProveedor() {
+  if (!soloLetras.test(this.nombre)) {
 
-    if (
-      !this.nombre.trim() ||
-      !this.telefono.trim()
-    ) {
+    alert(
+      'El nombre del proveedor solo debe contener letras.'
+    );
 
-      alert('Completa los datos');
+    return;
 
-      return;
+  }
 
-    }
+  // Mínimo 3 letras
+  const letras =
+    this.nombre.replace(/\s/g, '');
 
-    try {
+  if (letras.length < 3) {
 
-      // ======================================
-      // EDITAR
-      // ======================================
+    alert(
+      'El nombre es demasiado corto.'
+    );
 
-      if (this.editando) {
+    return;
 
-        console.log(
-          'ID A ACTUALIZAR:',
-          this.firebaseId
+  }
+
+  // Evitar nombres tipo asdasd, qwerty, zxcvbn...
+  const palabrasInvalidas = [
+
+    'asd',
+    'asdf',
+    'asdasd',
+    'qwe',
+    'qwerty',
+    'zxc',
+    'zxcv',
+    'abc',
+    'abcd',
+    'prueba',
+    'test'
+
+  ];
+
+  if (
+
+    palabrasInvalidas.includes(
+
+      this.nombre.toLowerCase()
+
+    )
+
+  ) {
+
+    alert(
+      'Ingrese un nombre de proveedor válido.'
+    );
+
+    return;
+
+  }
+
+  // Evitar nombres repetidos
+
+  const repetido =
+
+    this.proveedores.find(
+
+      p =>
+
+        p.nombre.toLowerCase().trim() ==
+
+        this.nombre.toLowerCase().trim()
+
+        &&
+
+        String(p.id) != String(this.firebaseId)
+
+    );
+
+  if (repetido) {
+
+    alert(
+      'Ese proveedor ya existe.'
+    );
+
+    return;
+
+  }
+
+  // Validar teléfono peruano (9 dígitos)
+
+  if (!/^[0-9]{9}$/.test(this.telefono)) {
+
+    alert(
+      'Ingrese un teléfono válido de 9 dígitos.'
+    );
+
+    return;
+
+  }
+
+  try {
+
+    if (this.editando) {
+
+      await this.firebaseService.actualizarProveedor(
+
+        String(this.firebaseId),
+
+        {
+
+          nombre: this.nombre,
+
+          telefono: this.telefono
+
+        }
+
+      );
+
+      const productos =
+
+        await this.firebaseService.obtenerProductos();
+
+      const proveedorAnterior =
+
+        this.proveedores.find(
+
+          p =>
+
+            String(p.id) ==
+
+            String(this.firebaseId)
+
         );
 
-        await this.firebaseService.actualizarProveedor(
+      if (proveedorAnterior) {
 
-          String(this.firebaseId),
+        for (const prod of productos) {
 
-          {
-            nombre: this.nombre.trim(),
-            telefono: this.telefono.trim()
-          }
+          if (
 
-        );
+            prod.proveedor
 
-        // ======================================
-        // ACTUALIZAR HISTORIAL
-        // ======================================
+              ?.toLowerCase()
 
-        const productos =
-          await this.firebaseService.obtenerProductos();
+              .trim() ==
 
-        const proveedorAnterior =
-          this.proveedores.find(
+            proveedorAnterior.nombre
 
-            p => String(p.id) === String(this.firebaseId)
+              ?.toLowerCase()
 
-          );
+              .trim()
 
-        if (proveedorAnterior) {
+          ) {
 
-          const nombreAnterior =
-            proveedorAnterior.nombre;
+            await this.firebaseService.actualizarProducto(
 
-          for (const prod of productos) {
+              prod.id,
 
-            if (
+              {
 
-              prod.proveedor?.toLowerCase().trim() ===
-              nombreAnterior?.toLowerCase().trim()
+                proveedor: this.nombre
 
-            ) {
+              }
 
-              await this.firebaseService.actualizarProducto(
-
-                prod.id,
-
-                {
-                  proveedor: this.nombre.trim()
-                }
-
-              );
-
-            }
+            );
 
           }
 
         }
 
-        alert('Proveedor actualizado');
-
       }
 
-      // ======================================
-      // AGREGAR
-      // ======================================
-
-      else {
-
-        await this.firebaseService.agregarProveedor({
-
-          nombre: this.nombre.trim(),
-
-          telefono: this.telefono.trim()
-
-        });
-
-        alert('Proveedor agregado');
-
-      }
-
-      this.limpiarFormulario();
-
-      await this.cargarProveedores();
+      alert('Proveedor actualizado');
 
     }
 
-    catch (error) {
+    else {
 
-      console.error(
-        'ERROR ACTUALIZAR:',
-        error
-      );
+      await this.firebaseService.agregarProveedor({
 
-      alert('Error actualizando proveedor');
+        nombre: this.nombre,
+
+        telefono: this.telefono
+
+      });
+
+      alert('Proveedor agregado');
 
     }
+
+    this.limpiarFormulario();
+
+    await this.cargarProveedores();
 
   }
+
+  catch (error) {
+
+    console.error(error);
+
+    alert('Error al guardar proveedor');
+
+  }
+
+}
 
   // ======================================
   // EDITAR
@@ -220,18 +320,11 @@ export class ProveedoresPage {
 
   editarProveedor(p: any) {
 
-    console.log('PROVEEDOR EDITAR:', p);
-
     this.nombre = p.nombre;
 
     this.telefono = p.telefono;
 
     this.firebaseId = String(p.id);
-
-    console.log(
-      'FIREBASE ID:',
-      this.firebaseId
-    );
 
     this.editando = true;
 
@@ -254,6 +347,35 @@ export class ProveedoresPage {
     alert('Proveedor eliminado');
 
     await this.cargarProveedores();
+
+  }
+
+  // ======================================
+  // LLAMAR
+  // ======================================
+
+  llamarProveedor(telefono: string) {
+
+    window.open(
+      'tel:' + telefono,
+      '_system'
+    );
+
+  }
+
+  // ======================================
+  // WHATSAPP
+  // ======================================
+
+  abrirWhatsapp(telefono: string) {
+
+    const numero =
+      telefono.replace(/\s/g, '');
+
+    window.open(
+      `https://wa.me/51${numero}`,
+      '_blank'
+    );
 
   }
 
@@ -312,5 +434,7 @@ export class ProveedoresPage {
       [...this.proveedores];
 
   }
+
+  
 
 }

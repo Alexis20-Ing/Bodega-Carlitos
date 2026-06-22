@@ -1,0 +1,100 @@
+<ion-header>
+
+  <ion-toolbar>
+
+    <ion-title>
+      Ranking de Proveedores
+    </ion-title>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="ranking-content">
+
+  <div class="titulo">
+
+    <h2>Ranking de Desempeño</h2>
+
+    <p>
+      Evaluación de confiabilidad de los proveedores registrados.
+    </p>
+
+  </div>
+
+  <ion-card
+    *ngFor="let p of ranking; let i=index">
+
+    <ion-card-header>
+
+      <ion-card-title>
+
+        <span *ngIf="i==0">🥇</span>
+
+        <span *ngIf="i==1">🥈</span>
+
+        <span *ngIf="i==2">🥉</span>
+
+        {{p.nombre}}
+
+      </ion-card-title>
+
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <div class="fila">
+
+        <span>📦 Productos</span>
+
+        <strong>{{p.productos}}</strong>
+
+      </div>
+
+      <div class="fila">
+
+        <span>⚠ Reclamos</span>
+
+        <strong>{{p.reclamos}}</strong>
+
+      </div>
+
+      <div class="fila">
+
+        <span>Confiabilidad</span>
+
+        <strong>{{p.confiabilidad}}%</strong>
+
+      </div>
+
+      <div
+        class="estado"
+        [ngClass]="
+          p.confiabilidad>=90
+          ? 'excelente'
+          : p.confiabilidad>=70
+          ? 'regular'
+          : 'riesgo'
+        ">
+
+        {{
+
+          p.confiabilidad>=90
+
+          ? 'Excelente'
+
+          : p.confiabilidad>=70
+
+          ? 'Regular'
+
+          : 'Riesgoso'
+
+        }}
+
+      </div>
+
+    </ion-card-content>
+
+  </ion-card>
+
+</ion-content>

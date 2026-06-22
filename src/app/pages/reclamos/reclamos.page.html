@@ -1,6 +1,6 @@
 <ion-header>
 
-  <ion-toolbar color="danger">
+  <ion-toolbar>
 
     <ion-title>
       Reclamos
@@ -10,75 +10,106 @@
 
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="reclamos-content">
 
-  <div *ngIf="productos.length === 0">
+  <div class="titulo">
 
-    No hay productos dañados.
+    <h2>Gestión de Reclamos</h2>
+
+    <p>
+      Productos rechazados o pendientes de resolución.
+    </p>
 
   </div>
 
-  <ion-card *ngFor="let item of productos">
+  <div
+    *ngIf="productos.length==0"
+    class="empty">
+
+    No existen reclamos pendientes.
+
+  </div>
+
+  <ion-card
+    *ngFor="let item of productos">
 
     <ion-card-header>
 
       <ion-card-title>
-        {{ item.producto }}
 
-        <br>
+        {{item.producto}}
 
-        <small>
-
-         Proveedor:
-        {{ item.proveedor }}
-
-        </small>
-        
       </ion-card-title>
+
+      <ion-card-subtitle>
+
+        {{item.proveedor}}
+
+      </ion-card-subtitle>
 
     </ion-card-header>
 
     <ion-card-content>
 
-      Cantidad:
-      {{ item.cantidad }}
+      <div class="fila">
 
-      <br>
+        <span>Cantidad</span>
 
-      Precio:
-      S/ {{ item.precio }}
-
-      <br>
-
-      Estado:
-      {{
-        item.estado === 'rechazado'
-          ? '🔴 Rechazado'
-          : item.estado === 'aceptado'
-          ? '🟢 Aceptado'
-          : item.estado === 'resuelto'
-          ? '🔵 Resuelto'
-          : '🟡 Pendiente'
-      }}
-
-      <div *ngIf="item.foto">
-
-        <img
-          [src]="item.foto"
-          style="
-            width: 100%;
-            margin-top: 10px;
-            border-radius: 12px;
-          ">
+        <strong>{{item.cantidad}}</strong>
 
       </div>
 
+      <div class="fila">
+
+        <span>Precio</span>
+
+        <strong>S/ {{item.precio}}</strong>
+
+      </div>
+
+      <div
+        class="estado"
+
+        [ngClass]="item.estado">
+
+        {{
+
+          item.estado=="rechazado"
+
+          ? "Rechazado"
+
+          : item.estado=="aceptado"
+
+          ? "Aceptado"
+
+          : item.estado=="resuelto"
+
+          ? "Resuelto"
+
+          : "Pendiente"
+
+        }}
+
+      </div>
+
+      <img
+        *ngIf="item.foto"
+        [src]="item.foto"
+        class="foto">
+
       <ion-button
+        *ngIf="item.estado!='resuelto'"
         expand="block"
+        fill="outline"
         color="success"
         (click)="resolverReclamo(item)">
 
-        Reclamo Resuelto
+        <ion-icon
+          slot="start"
+          name="checkmark-circle-outline">
+        </ion-icon>
+
+        Marcar como Resuelto
 
       </ion-button>
 

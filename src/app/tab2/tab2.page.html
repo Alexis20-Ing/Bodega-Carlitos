@@ -3,21 +3,10 @@
   <ion-toolbar color="primary">
 
     <ion-title>
+
       Bodega Carlitos
+
     </ion-title>
-
-    <ion-buttons slot="end">
-
-      <ion-button (click)="abrirResumen()">
-
-        <ion-icon
-          name="notifications-outline">
-
-        </ion-icon>
-
-      </ion-button>
-
-    </ion-buttons>
 
   </ion-toolbar>
 
@@ -25,201 +14,141 @@
 
 <ion-content class="home-content">
 
-  <h2 class="welcome">
+  <div class="header-home">
 
-    Panel Principal
-
-  </h2>
-
-  <ion-modal [isOpen]="modalAbierto">
-
-    <ng-template>
-
-      <ion-header>
-
-        <ion-toolbar color="primary">
-
-          <ion-title>
-
-            Resumen del Sistema
-
-          </ion-title>
-
-          <ion-buttons slot="end">
-
-            <ion-button (click)="cerrarResumen()">
-
-              Cerrar
-
-            </ion-button>
-
-          </ion-buttons>
-
-        </ion-toolbar>
-
-      </ion-header>
-
-      <ion-content class="ion-padding">
-
-        <ion-list>
-
-          <ion-item>
-
-            <ion-label>
-              📦 Productos registrados:
-              {{ totalProductos }}
-            </ion-label>
-
-          </ion-item>
-
-          <ion-item>
-
-            <ion-label>
-              🔴 Reclamos pendientes:
-              {{ reclamos }}
-            </ion-label>
-
-          </ion-item>
-
-          <ion-item>
-
-            <ion-label>
-              ✅ Reclamos resueltos:
-              {{ resueltos }}
-            </ion-label>
-
-          </ion-item>
-
-          <ion-item>
-
-            <ion-label>
-              🏢 Proveedores:
-              {{ proveedores }}
-            </ion-label>
-
-          </ion-item>
-
-        </ion-list>
-
-      </ion-content>
-
-    </ng-template>
-
-  </ion-modal>
-
-  <ion-card
-    routerLink="/tabs/nueva-recepcion">
-
-    <ion-card-content>
-
-      <ion-icon
-        name="basket-outline"
-        class="card-icon">
-
-      </ion-icon>
-
-      <h3>Recepción</h3>
-
-      <p>
-        Registro de productos recibidos.
-      </p>
-
-    </ion-card-content>
-
-  </ion-card>
-
-  <ion-card
-    routerLink="/tabs/historial">
-
-    <ion-card-content>
-
-      <ion-icon
-        name="time-outline"
-        class="card-icon">
-
-      </ion-icon>
-
-      <h3>Historial</h3>
-
-      <p>
-        Visualización del historial de productos.
-      </p>
-
-    </ion-card-content>
-
-  </ion-card>
-
-  <ion-card
-    routerLink="/tabs/inventario">
-
-    <ion-card-content>
-
-      <ion-icon
-        name="cube-outline"
-        class="card-icon">
-
-      </ion-icon>
-
-      <h3>Inventario</h3>
-
-      <p>
-        Gestión del stock e inventario.
-      </p>
-
-    </ion-card-content>
-
-  </ion-card>
-
-  <ion-card
-    routerLink="/tabs/reclamos">
-
-    <ion-card-content>
-
-      <ion-icon
-        name="alert-circle-outline"
-        class="card-icon">
-
-      </ion-icon>
-
-      <h3>Reclamos</h3>
-
-      <p>
-        Productos dañados o pendientes.
-      </p>
-
-    </ion-card-content>
-
-  </ion-card>
-
-  <ion-card
-  routerLink="/tabs/proveedores">
-
-  <ion-card-content>
-
-    <ion-icon
-      name="people-outline"
-      class="card-icon">
-
-    </ion-icon>
-
-    <h3>Proveedores</h3>
+    <h2>Bienvenido 👋</h2>
 
     <p>
-      Control de proveedores e incidencias.
+      Sistema de Recepción y Control de Inventario
     </p>
 
-    </ion-card-content>
+  </div>
 
-  </ion-card>
+  <ion-grid>
+
+    <ion-row>
+
+      <ion-col size="6">
+
+        <ion-card routerLink="/tabs/nueva-recepcion">
+
+          <ion-card-content>
+
+            <ion-icon
+              name="basket-outline"
+              class="card-icon">
+
+            </ion-icon>
+
+            <h3>Recepción</h3>
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+
+      <ion-col size="6">
+
+        <ion-card routerLink="/tabs/historial">
+
+          <ion-card-content>
+
+            <ion-icon
+              name="time-outline"
+              class="card-icon">
+
+            </ion-icon>
+
+            <h3>Historial</h3>
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+
+    </ion-row>
+
+    <ion-row>
+
+      <ion-col size="6">
+
+        <ion-card routerLink="/tabs/inventario">
+
+          <ion-card-content>
+
+            <ion-icon
+              name="cube-outline"
+              class="card-icon">
+
+            </ion-icon>
+
+            <h3>Inventario</h3>
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+
+      <ion-col size="6">
+
+        <ion-card routerLink="/tabs/reclamos">
+
+          <ion-card-content>
+
+            <ion-icon
+              name="alert-circle-outline"
+              class="card-icon">
+
+            </ion-icon>
+
+            <h3>Reclamos</h3>
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+
+    </ion-row>
+
+    <ion-row>
+
+      <ion-col size="6">
+
+        <ion-card routerLink="/tabs/proveedores">
+
+          <ion-card-content>
+
+            <ion-icon
+              name="people-outline"
+              class="card-icon">
+
+            </ion-icon>
+
+            <h3>Proveedores</h3>
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+
+    </ion-row>
+
+  </ion-grid>
 
   <ion-button
     expand="block"
     color="danger"
+    class="logout"
     (click)="cerrarSesion()">
 
     <ion-icon
-      name="log-out-outline"
-      slot="start">
+      slot="start"
+      name="log-out-outline">
 
     </ion-icon>
 

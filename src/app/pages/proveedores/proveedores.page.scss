@@ -1,0 +1,105 @@
+.proveedores-content{
+
+  --background:#f4f6f9;
+
+}
+
+.titulo{
+
+  text-align:center;
+
+  margin:20px 0;
+
+}
+
+.titulo h2{
+
+  font-size:24px;
+
+  font-weight:700;
+
+  color:#1e3a8a;
+
+  margin-bottom:6px;
+
+}
+
+.titulo p{
+
+  color:#6b7280;
+
+  font-size:14px;
+
+}
+
+ion-searchbar{
+
+  margin:12px;
+
+  width:calc(100% - 24px);
+
+  --border-radius:12px;
+
+}
+
+.mostrar{
+
+  margin:12px;
+
+  width:calc(100% - 24px);
+
+  --border-radius:12px;
+
+}
+
+ion-card{
+
+  margin:12px;
+
+  border-radius:14px;
+
+}
+
+ion-card-title{
+
+  font-size:20px;
+
+  font-weight:700;
+
+}
+
+.empty{
+
+  text-align:center;
+
+  margin-top:40px;
+
+  color:#9ca3af;
+
+}
+
+.dato{
+
+  margin-bottom:10px;
+
+  font-size:15px;
+
+}
+
+.botones-proveedor{
+
+  display:grid;
+
+  grid-template-columns:1fr 1fr;
+
+  gap:10px;
+
+  margin-top:18px;
+
+}
+
+.botones-proveedor ion-button{
+
+  margin:0;
+
+}

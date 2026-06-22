@@ -61,6 +61,18 @@ const routes: Routes = [
   {
     path: 'proveedores',
     loadChildren: () => import('./pages/proveedores/proveedores.module').then( m => m.ProveedoresPageModule)
+  },
+  {
+    path: 'ranking-proveedores',
+    loadChildren: () => import('./pages/ranking-proveedores/ranking-proveedores.module').then( m => m.RankingProveedoresPageModule)
+  },
+  {
+    path: 'estadisticas',
+    loadChildren: () => import('./pages/estadisticas/estadisticas.module').then( m => m.EstadisticasPageModule)
+  },
+  {
+    path: 'reportes',
+    loadChildren: () => import('./pages/reportes/reportes.module').then( m => m.ReportesPageModule)
   }
   
 ];

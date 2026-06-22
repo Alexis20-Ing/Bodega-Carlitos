@@ -1,75 +1,196 @@
 <ion-header>
 
-  <ion-toolbar color="primary">
+  <ion-toolbar>
 
     <ion-title>
+
       Verificación de Calidad
+
     </ion-title>
 
   </ion-toolbar>
 
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="verificacion-content">
 
-  <!-- PRODUCTO SELECCIONADO -->
+  <div class="titulo">
+
+    <h2>Control de Calidad</h2>
+
+    <p>
+      Verifica el estado del producto recibido antes de aceptarlo.
+    </p>
+
+  </div>
+
   <ion-card *ngIf="producto">
 
     <ion-card-header>
 
       <ion-card-title>
-        {{ producto.producto }}
+
+        {{producto.producto}}
+
       </ion-card-title>
 
     </ion-card-header>
 
     <ion-card-content>
 
-      <p><b>Proveedor:</b> {{ producto.proveedor }}</p>
-      <p><b>Cantidad:</b> {{ producto.cantidad }}</p>
-      <p><b>Precio:</b> S/ {{ producto.precio }}</p>
+      <div class="dato">
+
+        🏢 {{producto.proveedor}}
+
+      </div>
+
+      <div class="dato">
+
+        📦 Cantidad:
+        {{producto.cantidad}}
+
+      </div>
+
+      <div class="dato">
+
+        💰 Precio:
+        S/ {{producto.precio}}
+
+      </div>
 
     </ion-card-content>
 
   </ion-card>
 
-  <!-- CHECKLIST -->
-  <ion-item>
-    <ion-label>Empaque en buen estado</ion-label>
-    <ion-checkbox [(ngModel)]="empaque"></ion-checkbox>
-  </ion-item>
+  <ion-card>
 
-  <ion-item>
-    <ion-label>Fecha vigente</ion-label>
-    <ion-checkbox [(ngModel)]="fecha"></ion-checkbox>
-  </ion-item>
+    <ion-card-header>
 
-  <ion-item>
-    <ion-label>Cantidad correcta</ion-label>
-    <ion-checkbox [(ngModel)]="cantidad"></ion-checkbox>
-  </ion-item>
+      <ion-card-title>
 
-  <ion-item>
-    <ion-label>Producto golpeado</ion-label>
-    <ion-checkbox [(ngModel)]="golpeado"></ion-checkbox>
-  </ion-item>
+        Lista de Verificación
 
-  <!-- BOTONES -->
+      </ion-card-title>
+
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <ion-item>
+
+        <ion-label>
+
+          Empaque en buen estado
+
+        </ion-label>
+
+        <ion-checkbox
+
+          slot="end"
+
+          [(ngModel)]="empaque">
+
+        </ion-checkbox>
+
+      </ion-item>
+
+      <ion-item>
+
+        <ion-label>
+
+          Fecha vigente
+
+        </ion-label>
+
+        <ion-checkbox
+
+          slot="end"
+
+          [(ngModel)]="fecha">
+
+        </ion-checkbox>
+
+      </ion-item>
+
+      <ion-item>
+
+        <ion-label>
+
+          Cantidad correcta
+
+        </ion-label>
+
+        <ion-checkbox
+
+          slot="end"
+
+          [(ngModel)]="cantidad">
+
+        </ion-checkbox>
+
+      </ion-item>
+
+      <ion-item>
+
+        <ion-label>
+
+          Producto golpeado
+
+        </ion-label>
+
+        <ion-checkbox
+
+          slot="end"
+
+          [(ngModel)]="golpeado">
+
+        </ion-checkbox>
+
+      </ion-item>
+
+    </ion-card-content>
+
+  </ion-card>
+
   <ion-button
+
     expand="block"
+
     color="success"
+
     (click)="aceptarProducto()">
 
-    Aceptar
+    <ion-icon
+
+      slot="start"
+
+      name="checkmark-circle-outline">
+
+    </ion-icon>
+
+    Aceptar Producto
 
   </ion-button>
 
   <ion-button
+
     expand="block"
+
+    fill="outline"
+
     color="danger"
+
     (click)="rechazarProducto()">
 
-    Rechazar
+    <ion-icon
+
+      slot="start"
+
+      name="close-circle-outline">
+
+    </ion-icon>
+
+    Rechazar Producto
 
   </ion-button>
 

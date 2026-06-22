@@ -1,132 +1,229 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>Nueva Recepción</ion-title>
+
+  <ion-toolbar>
+
+    <ion-title>
+
+      Nueva Recepción
+
+    </ion-title>
+
   </ion-toolbar>
+
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="recepcion-content">
 
-  <!-- TIPO DE PROVEEDOR -->
+  <div class="titulo">
 
-  <ion-item>
-    <ion-label>Tipo de proveedor</ion-label>
+    <h2>Nueva Recepción</h2>
 
-    <ion-select [(ngModel)]="esNuevoProveedor">
-
-      <ion-select-option [value]="false">
-        Existente
-      </ion-select-option>
-
-      <ion-select-option [value]="true">
-        Nuevo proveedor
-      </ion-select-option>
-
-    </ion-select>
-  </ion-item>
-
-  <!-- EXISTENTE -->
-
-  <ion-item *ngIf="!esNuevoProveedor">
-
-    <ion-label>Proveedor</ion-label>
-
-    <ion-select [(ngModel)]="proveedor">
-
-      <ion-select-option
-        *ngFor="let p of proveedores"
-        [value]="p.nombre">
-
-        {{ p.nombre }}
-
-      </ion-select-option>
-
-    </ion-select>
-
-  </ion-item>
-
-  <!-- NUEVO PROVEEDOR -->
-
-  <div *ngIf="esNuevoProveedor">
-
-    <ion-item>
-      <ion-label position="floating">
-        Nombre proveedor
-      </ion-label>
-
-      <ion-input [(ngModel)]="nuevoProveedor"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label position="floating">
-        Teléfono
-      </ion-label>
-
-      <ion-input [(ngModel)]="nuevoTelefono"></ion-input>
-    </ion-item>
+    <p>
+      Registra el ingreso de nuevos productos.
+    </p>
 
   </div>
 
-  <!-- PRODUCTO -->
+  <ion-card>
 
-  <ion-item>
-    <ion-label position="floating">Producto</ion-label>
+    <ion-card-content>
 
-    <ion-input [(ngModel)]="producto"></ion-input>
-  </ion-item>
+      <!-- TIPO PROVEEDOR -->
 
-  <!-- CANTIDAD -->
+      <ion-item>
 
-  <ion-item>
-    <ion-label position="floating">Cantidad</ion-label>
+        <ion-label position="stacked">
 
-    <ion-input type="number" [(ngModel)]="cantidad"></ion-input>
-  </ion-item>
+          Tipo de proveedor
 
-  <!-- PRECIO -->
+        </ion-label>
 
-  <ion-item>
-    <ion-label position="floating">Precio</ion-label>
+        <ion-select [(ngModel)]="esNuevoProveedor">
 
-    <ion-input type="number" [(ngModel)]="precio"></ion-input>
-  </ion-item>
+          <ion-select-option [value]="false">
 
-  <!-- ❌ ELIMINADO: ESTADO (IMPORTANTE) -->
-  <!-- Ya NO se usa porque el flujo es automático:
-       pendiente → verificación → aceptado/rechazado -->
+            Existente
 
-  <!-- BOTÓN FOTO -->
+          </ion-select-option>
 
-  <ion-button
-    expand="block"
-    color="secondary"
-    (click)="tomarFoto()">
+          <ion-select-option [value]="true">
 
-    Tomar Foto
+            Nuevo proveedor
 
-  </ion-button>
+          </ion-select-option>
 
-  <!-- FOTO -->
+        </ion-select>
 
-  <img
-    *ngIf="foto"
-    [src]="foto"
-    style="
-      width: 100%;
-      max-height: 250px;
-      object-fit: cover;
-      margin-top: 15px;
-      border-radius: 12px;
-    ">
+      </ion-item>
 
-  <!-- GUARDAR -->
+      <!-- EXISTENTE -->
 
-  <ion-button
-    expand="block"
-    color="primary"
-    (click)="guardarProducto()">
+      <ion-item *ngIf="!esNuevoProveedor">
 
-    Guardar
+        <ion-label position="stacked">
 
-  </ion-button>
+          Proveedor
+
+        </ion-label>
+
+        <ion-select [(ngModel)]="proveedor">
+
+          <ion-select-option
+
+            *ngFor="let p of proveedores"
+
+            [value]="p.nombre">
+
+            {{p.nombre}}
+
+          </ion-select-option>
+
+        </ion-select>
+
+      </ion-item>
+
+      <!-- NUEVO -->
+
+      <div *ngIf="esNuevoProveedor">
+
+        <ion-item>
+
+          <ion-label position="stacked">
+
+            Nombre del proveedor
+
+          </ion-label>
+
+          <ion-input
+
+            [(ngModel)]="nuevoProveedor">
+
+          </ion-input>
+
+        </ion-item>
+
+        <ion-item>
+
+          <ion-label position="stacked">
+
+            Teléfono
+
+          </ion-label>
+
+          <ion-input
+
+            [(ngModel)]="nuevoTelefono">
+
+          </ion-input>
+
+        </ion-item>
+
+      </div>
+
+      <ion-item>
+
+        <ion-label position="stacked">
+
+          Producto
+
+        </ion-label>
+
+        <ion-input
+
+          [(ngModel)]="producto">
+
+        </ion-input>
+
+      </ion-item>
+
+      <ion-item>
+
+        <ion-label position="stacked">
+
+          Cantidad
+
+        </ion-label>
+
+        <ion-input
+
+          type="number"
+
+          [(ngModel)]="cantidad">
+
+        </ion-input>
+
+      </ion-item>
+
+      <ion-item>
+
+        <ion-label position="stacked">
+
+          Precio
+
+        </ion-label>
+
+        <ion-input
+
+          type="number"
+
+          [(ngModel)]="precio">
+
+        </ion-input>
+
+      </ion-item>
+
+      <ion-button
+
+        expand="block"
+
+        fill="outline"
+
+        color="primary"
+
+        (click)="tomarFoto()">
+
+        <ion-icon
+
+          slot="start"
+
+          name="camera-outline">
+
+        </ion-icon>
+
+        Tomar Foto
+
+      </ion-button>
+
+      <img
+
+        *ngIf="foto"
+
+        [src]="foto"
+
+        class="foto">
+
+      <ion-button
+
+        expand="block"
+
+        color="success"
+
+        (click)="guardarProducto()">
+
+        <ion-icon
+
+          slot="start"
+
+          name="save-outline">
+
+        </ion-icon>
+
+        Registrar Recepción
+
+      </ion-button>
+
+    </ion-card-content>
+
+  </ion-card>
 
 </ion-content>

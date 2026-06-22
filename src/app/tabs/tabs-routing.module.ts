@@ -50,12 +50,32 @@ const routes: Routes = [
             .then(m => m.ReclamosPageModule)
       },
 
-      // 🔥 FIX IMPORTANTE: ahora recibe ID
+      {
+        path: 'ranking-proveedores',
+        loadChildren: () =>
+          import('../pages/ranking-proveedores/ranking-proveedores.module')
+            .then(m => m.RankingProveedoresPageModule)
+      },
+
       {
         path: 'verificacion/:id',
         loadChildren: () =>
           import('../pages/verificacion/verificacion.module')
             .then(m => m.VerificacionPageModule)
+      },
+
+      {
+        path: 'estadisticas',
+        loadChildren: () =>
+          import('../pages/estadisticas/estadisticas.module')
+            .then(m => m.EstadisticasPageModule)
+      },
+
+      {
+        path: 'reportes',
+        loadChildren: () =>
+          import('../pages/reportes/reportes.module')
+            .then(m => m.ReportesPageModule)
       },
 
       {

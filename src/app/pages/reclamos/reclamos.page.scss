@@ -1,0 +1,82 @@
+.reclamos-content{
+  --background:#f4f6f9;
+}
+
+.titulo{
+  text-align:center;
+  margin:20px;
+}
+
+.titulo h2{
+  color:#1e3a8a;
+  font-size:24px;
+  font-weight:bold;
+  margin-bottom:5px;
+}
+
+.titulo p{
+  color:#6b7280;
+  font-size:14px;
+}
+
+.empty{
+  text-align:center;
+  margin-top:50px;
+  color:#6b7280;
+}
+
+ion-card{
+  margin:18px;
+}
+
+ion-card-title{
+  font-size:20px;
+  font-weight:bold;
+}
+
+ion-card-subtitle{
+  color:#6b7280;
+}
+
+.fila{
+  display:flex;
+  justify-content:space-between;
+  margin:10px 0;
+}
+
+.estado{
+  margin:15px 0;
+  padding:8px;
+  border-radius:20px;
+  text-align:center;
+  font-weight:bold;
+}
+
+.rechazado{
+  background:#fee2e2;
+  color:#b91c1c;
+}
+
+.aceptado{
+  background:#dcfce7;
+  color:#15803d;
+}
+
+.pendiente{
+  background:#fef3c7;
+  color:#b45309;
+}
+
+.resuelto{
+  background:#dbeafe;
+  color:#1d4ed8;
+}
+
+.foto{
+  width:100%;
+  border-radius:14px;
+  margin-top:15px;
+  margin-bottom:15px;
+  max-height:250px;
+  object-fit:cover;
+}

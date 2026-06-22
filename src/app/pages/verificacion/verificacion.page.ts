@@ -32,50 +32,94 @@ export class VerificacionPage {
 
     this.producto =
       await this.firebaseService.obtenerProductoPorId(this.id);
+
   }
 
   // =====================================
-  // ✅ ACEPTAR PRODUCTO (LÓGICA CORRECTA)
+  // ✅ ACEPTAR PRODUCTO
   // =====================================
+
   async aceptarProducto() {
 
-    // ❌ SI ESTÁ GOLPEADO → RECHAZO AUTOMÁTICO
+    // ❌ No puede estar golpeado y aceptado a la vez
+    if (
+      this.empaque &&
+      this.fecha &&
+      this.cantidad &&
+      this.golpeado
+    ) {
+
+      alert(
+        'Un producto golpeado no puede ser aceptado. Desmarque "Golpeado" o rechace el producto.'
+      );
+
+      return;
+
+    }
+
+    // ❌ Golpeado = rechazo automático
     if (this.golpeado) {
-      alert('Producto rechazado automáticamente (golpeado)');
+
+      alert(
+        'Producto rechazado automáticamente por estar golpeado.'
+      );
+
       await this.rechazarProducto();
+
       return;
+
     }
 
-    // ❌ SI NO CUMPLE CONDICIONES BÁSICAS
-    if (!this.empaque || !this.fecha || !this.cantidad) {
-      alert('No cumple estándares de calidad');
+    // ❌ Si falta alguna condición básica
+    if (
+      !this.empaque ||
+      !this.fecha ||
+      !this.cantidad
+    ) {
+
+      alert(
+        'El producto no cumple los estándares de calidad.'
+      );
+
       await this.rechazarProducto();
+
       return;
+
     }
 
-    // ✅ TODO OK → ACEPTADO
-    await this.firebaseService.actualizarProducto(this.id, {
-      estado: 'aceptado'
-    });
+    // ✅ Todo correcto
+    await this.firebaseService.actualizarProducto(
+      this.id,
+      {
+        estado: 'aceptado'
+      }
+    );
 
     this.router.navigate(['/tabs/historial']);
+
   }
 
   // =====================================
   // ❌ RECHAZAR PRODUCTO
   // =====================================
+
   async rechazarProducto() {
 
-    await this.firebaseService.actualizarProducto(this.id, {
-      estado: 'rechazado',
-      motivo: {
-        empaque: this.empaque,
-        fecha: this.fecha,
-        cantidad: this.cantidad,
-        golpeado: this.golpeado
+    await this.firebaseService.actualizarProducto(
+      this.id,
+      {
+        estado: 'rechazado',
+        motivo: {
+          empaque: this.empaque,
+          fecha: this.fecha,
+          cantidad: this.cantidad,
+          golpeado: this.golpeado
+        }
       }
-    });
+    );
 
     this.router.navigate(['/tabs/reclamos']);
+
   }
+
 }

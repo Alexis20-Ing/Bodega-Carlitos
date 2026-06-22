@@ -1,0 +1,58 @@
+.ranking-content{
+  --background:#f4f6f9;
+}
+
+.titulo{
+  text-align:center;
+  margin:20px;
+}
+
+.titulo h2{
+  color:#1e3a8a;
+  font-size:24px;
+  font-weight:bold;
+  margin-bottom:5px;
+}
+
+.titulo p{
+  color:#6b7280;
+  font-size:14px;
+}
+
+ion-card{
+  margin:18px;
+}
+
+ion-card-title{
+  font-size:20px;
+  font-weight:bold;
+}
+
+.fila{
+  display:flex;
+  justify-content:space-between;
+  margin:10px 0;
+}
+
+.estado{
+  margin-top:15px;
+  text-align:center;
+  padding:8px;
+  border-radius:20px;
+  font-weight:bold;
+}
+
+.excelente{
+  background:#dcfce7;
+  color:#15803d;
+}
+
+.regular{
+  background:#fef3c7;
+  color:#b45309;
+}
+
+.riesgo{
+  background:#fee2e2;
+  color:#b91c1c;
+}

@@ -1,42 +1,62 @@
 <ion-header>
 
-  <ion-toolbar color="primary">
+  <ion-toolbar>
 
     <ion-title>
+
       Proveedores
+
     </ion-title>
 
   </ion-toolbar>
 
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="proveedores-content">
+
+  <div class="titulo">
+
+    <h2>Gestión de Proveedores</h2>
+
+    <p>
+      Administra los proveedores registrados de la bodega.
+    </p>
+
+  </div>
 
   <!-- BUSCADOR -->
 
-  <ion-item>
+  <ion-searchbar
 
-    <ion-input
-      placeholder="Buscar proveedor"
-      [(ngModel)]="busqueda">
+    [(ngModel)]="busqueda"
 
-    </ion-input>
+    placeholder="Buscar proveedor"
 
-    <ion-button
-      slot="end"
-      color="primary"
-      (click)="filtrarProveedores()">
+    (ionInput)="filtrarProveedores()">
 
-      Buscar
+  </ion-searchbar>
 
-    </ion-button>
-
-  </ion-item>
+  <!-- BOTÓN MOSTRAR TODOS -->
 
   <ion-button
+
+    class="mostrar"
+
     expand="block"
-    color="medium"
+
+    fill="outline"
+
+    color="primary"
+
     (click)="mostrarTodos()">
+
+    <ion-icon
+
+      slot="start"
+
+      name="list-outline">
+
+    </ion-icon>
 
     Mostrar Todos
 
@@ -50,7 +70,7 @@
 
       <ion-card-title>
 
-        {{ editando ? 'Editar proveedor' : 'Agregar proveedor' }}
+        {{ editando ? 'Editar proveedor' : 'Nuevo proveedor' }}
 
       </ion-card-title>
 
@@ -60,11 +80,14 @@
 
       <ion-item>
 
-        <ion-label position="floating">
+        <ion-label position="stacked">
+
           Nombre
+
         </ion-label>
 
         <ion-input
+
           [(ngModel)]="nombre">
 
         </ion-input>
@@ -73,11 +96,14 @@
 
       <ion-item>
 
-        <ion-label position="floating">
+        <ion-label position="stacked">
+
           Teléfono
+
         </ion-label>
 
         <ion-input
+
           [(ngModel)]="telefono">
 
         </ion-input>
@@ -85,11 +111,22 @@
       </ion-item>
 
       <ion-button
+
         expand="block"
+
         color="success"
+
         (click)="agregarProveedor()">
 
-        {{ editando ? 'Actualizar' : 'Agregar' }}
+        <ion-icon
+
+          slot="start"
+
+          [name]="editando ? 'create-outline' : 'add-outline'">
+
+        </ion-icon>
+
+        {{ editando ? 'Actualizar Proveedor' : 'Agregar Proveedor' }}
 
       </ion-button>
 
@@ -97,10 +134,10 @@
 
   </ion-card>
 
-  <!-- MENSAJE -->
-
   <div
-    *ngIf="proveedoresFiltrados.length === 0"
+
+    *ngIf="proveedoresFiltrados.length==0"
+
     class="empty">
 
     No se encontraron proveedores.
@@ -110,13 +147,14 @@
   <!-- LISTA -->
 
   <ion-card
+
     *ngFor="let proveedor of proveedoresFiltrados">
 
     <ion-card-header>
 
       <ion-card-title>
 
-        🏢 {{ proveedor.nombre }}
+        🏢 {{proveedor.nombre}}
 
       </ion-card-title>
 
@@ -124,38 +162,107 @@
 
     <ion-card-content>
 
-      <strong>📞 Teléfono:</strong>
-      {{ proveedor.telefono }}
+      <div class="dato">
 
-      <br><br>
+        📞 {{proveedor.telefono}}
 
-      <strong>📦 Productos registrados:</strong>
-      {{ proveedor.productos }}
+      </div>
 
-      <br><br>
+      <div class="dato">
 
-      <strong>🔴 Reclamos:</strong>
-      {{ proveedor.reclamos }}
+        📦 Productos registrados:
+        {{proveedor.productos}}
 
-      <br><br>
+      </div>
 
-      <ion-button
-        size="small"
-        color="warning"
-        (click)="editarProveedor(proveedor)">
+      <div class="dato">
 
-        ✏️ Editar
+        🔴 Reclamos:
+        {{proveedor.reclamos}}
 
-      </ion-button>
+      </div>
 
-      <ion-button
-        size="small"
-        color="danger"
-        (click)="eliminarProveedor(proveedor.id)">
+      <div class="botones-proveedor">
 
-        🗑 Eliminar
+        <ion-button
 
-      </ion-button>
+          color="primary"
+
+          fill="outline"
+
+          (click)="llamarProveedor(proveedor.telefono)">
+
+          <ion-icon
+
+            slot="start"
+
+            name="call-outline">
+
+          </ion-icon>
+
+          Llamar
+
+        </ion-button>
+
+        <ion-button
+
+          color="success"
+
+          fill="outline"
+
+          (click)="abrirWhatsapp(proveedor.telefono)">
+
+          <ion-icon
+
+            slot="start"
+
+            name="logo-whatsapp">
+
+          </ion-icon>
+
+          WhatsApp
+
+        </ion-button>
+
+        <ion-button
+
+          color="primary"
+
+          (click)="editarProveedor(proveedor)">
+
+          <ion-icon
+
+            slot="start"
+
+            name="create-outline">
+
+          </ion-icon>
+
+          Editar
+
+        </ion-button>
+
+        <ion-button
+
+          color="danger"
+
+          fill="outline"
+
+          (click)="eliminarProveedor(proveedor.id)">
+
+          <ion-icon
+
+            slot="start"
+
+            name="trash-outline">
+
+          </ion-icon>
+
+          Eliminar
+
+        </ion-button>
+
+      </div>
 
     </ion-card-content>
 

@@ -1,6 +1,6 @@
 <ion-header>
 
-  <ion-toolbar color="primary">
+  <ion-toolbar>
 
     <ion-title>
       Inventario
@@ -10,7 +10,17 @@
 
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="inventario-content">
+
+  <div class="titulo">
+
+    <h2>Inventario General</h2>
+
+    <p>
+      Consulta el stock disponible de todos los productos registrados.
+    </p>
+
+  </div>
 
   <ion-searchbar
     [(ngModel)]="buscar"
@@ -20,10 +30,10 @@
   </ion-searchbar>
 
   <div
-    *ngIf="productos.length === 0"
+    *ngIf="productos.length==0"
     class="empty">
 
-    No hay productos en inventario.
+    No hay productos registrados.
 
   </div>
 
@@ -34,31 +44,68 @@
 
       <ion-card-title>
 
-        {{ item.producto }}
+        {{item.producto}}
 
       </ion-card-title>
+
+      <ion-card-subtitle>
+
+        Inventario disponible
+
+      </ion-card-subtitle>
 
     </ion-card-header>
 
     <ion-card-content>
 
-      <ion-icon
-        name="cube-outline">
+      <div class="fila">
 
-      </ion-icon>
+        <span>📦 Stock</span>
 
-      Stock:
-      {{ item.cantidad }}
+        <strong>{{item.cantidad}}</strong>
 
-      <br>
+      </div>
 
-      Precio:
-      S/ {{ item.precio }}
+      <div class="fila">
 
-      <br>
+        <span>💰 Precio</span>
 
-      Valor Total:
-      S/ {{ item.cantidad * item.precio }}
+        <strong>S/ {{item.precio}}</strong>
+
+      </div>
+
+      <div class="fila">
+
+        <span>🧾 Valor Total</span>
+
+        <strong>
+          S/ {{item.cantidad*item.precio}}
+        </strong>
+
+      </div>
+
+      <div
+        class="estado"
+        [ngClass]="
+          item.cantidad>20
+          ? 'alto'
+          : item.cantidad>10
+          ? 'medio'
+          : 'bajo'
+        ">
+
+        {{
+          item.cantidad>20
+          ? 'Stock Alto'
+
+          : item.cantidad>10
+
+          ? 'Stock Medio'
+
+          : 'Stock Bajo'
+        }}
+
+      </div>
 
     </ion-card-content>
 

@@ -1,0 +1,274 @@
+<ion-header>
+
+  <ion-toolbar>
+
+    <ion-title>
+
+      Estadísticas
+
+    </ion-title>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="dashboard-content">
+
+  <div class="dashboard-title">
+
+    <h2>Resumen del Sistema</h2>
+
+    <p>Indicadores principales de la bodega</p>
+
+  </div>
+
+  <!-- KPIs -->
+
+  <ion-grid>
+
+    <ion-row>
+
+      <ion-col size="6">
+
+        <ion-card class="kpi-card">
+
+          <ion-card-content>
+
+            <ion-icon name="cube-outline"></ion-icon>
+
+            <h2>{{ total }}</h2>
+
+            <span>Productos</span>
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+
+      <ion-col size="6">
+
+        <ion-card class="kpi-card">
+
+          <ion-card-content>
+
+            <ion-icon name="business-outline"></ion-icon>
+
+            <h2>{{ proveedores }}</h2>
+
+            <span>Proveedores</span>
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+
+    </ion-row>
+
+    <ion-row>
+
+      <ion-col size="4">
+
+        <ion-card class="estado verde">
+
+          <ion-card-content>
+
+            <h2>{{ aceptados }}</h2>
+
+            <span>Aceptados</span>
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+
+      <ion-col size="4">
+
+        <ion-card class="estado amarillo">
+
+          <ion-card-content>
+
+            <h2>{{ pendientes }}</h2>
+
+            <span>Pendientes</span>
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+
+      <ion-col size="4">
+
+        <ion-card class="estado rojo">
+
+          <ion-card-content>
+
+            <h2>{{ rechazados }}</h2>
+
+            <span>Rechazados</span>
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+
+    </ion-row>
+
+  </ion-grid>
+
+  <!-- GRAFICO -->
+
+  <ion-card>
+
+    <ion-card-header>
+
+      <ion-card-title>
+
+        Estado de Productos
+
+      </ion-card-title>
+
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <canvas id="graficoEstados"></canvas>
+
+    </ion-card-content>
+
+  </ion-card>
+
+  <!-- PROVEEDORES -->
+
+  <ion-card>
+
+    <ion-card-header>
+
+      <ion-card-title>
+
+        Productos por Proveedor
+
+      </ion-card-title>
+
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <canvas id="graficoProveedores"></canvas>
+
+    </ion-card-content>
+
+  </ion-card>
+
+  <!-- RANKING -->
+
+  <ion-card>
+
+    <ion-card-header>
+
+      <ion-card-title>
+
+        Ranking de Proveedores
+
+      </ion-card-title>
+
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <ion-item
+        lines="none"
+        *ngFor="let p of ranking; let i=index">
+
+        <ion-label>
+
+          <b>
+
+            {{ i==0 ? '🥇' :
+               i==1 ? '🥈' :
+               i==2 ? '🥉' :
+               '🏅' }}
+
+            {{ p.nombre }}
+
+          </b>
+
+          <p>
+
+            {{ p.porcentaje }}% de confiabilidad
+
+          </p>
+
+        </ion-label>
+
+        <ion-badge color="success">
+
+          {{ p.aceptados }}
+
+        </ion-badge>
+
+      </ion-item>
+
+    </ion-card-content>
+
+  </ion-card>
+
+  <!-- PROVEEDOR CON MÁS RECLAMOS -->
+
+  <ion-card
+    color="danger"
+    *ngIf="peorProveedor">
+
+    <ion-card-content>
+
+      <h2>
+
+        ⚠ Proveedor con más reclamos
+
+      </h2>
+
+      <h3>
+
+        {{ peorProveedor.nombre }}
+
+      </h3>
+
+      <p>
+
+        {{ peorProveedor.rechazados }} reclamos
+
+      </p>
+
+    </ion-card-content>
+
+  </ion-card>
+
+  <!-- SIN RECLAMOS -->
+
+  <ion-card
+    color="success"
+    *ngIf="!peorProveedor">
+
+    <ion-card-content>
+
+      <h2>
+
+        🎉 Excelente
+
+      </h2>
+
+      <p>
+
+        No existen proveedores con reclamos registrados.
+
+      </p>
+
+    </ion-card-content>
+
+  </ion-card>
+
+</ion-content>

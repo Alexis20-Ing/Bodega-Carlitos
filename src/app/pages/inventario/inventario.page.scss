@@ -1,14 +1,91 @@
-ion-card {
-  border-radius: 15px;
-  margin-bottom: 20px;
+.inventario-content{
+  --background:#f4f6f9;
 }
 
-ion-card-title {
-  font-weight: bold;
+.titulo{
+  text-align:center;
+  margin:20px;
 }
 
-.empty {
-  text-align: center;
-  margin-top: 40px;
-  color: gray;
+.titulo h2{
+  font-size:24px;
+  font-weight:bold;
+  color:#1e3a8a;
+  margin-bottom:5px;
+}
+
+.titulo p{
+  color:#6b7280;
+  font-size:14px;
+}
+
+/* Buscador */
+
+.contenedor-buscador{
+  padding:0 16px;
+}
+
+.contenedor-buscador ion-searchbar{
+  margin:0;
+}
+
+/* Tarjetas */
+
+ion-card{
+  margin:16px;
+  border-radius:16px;
+}
+
+/* Títulos */
+
+ion-card-title{
+  font-size:20px;
+  font-weight:bold;
+  color:#1e3a8a;
+}
+
+ion-card-subtitle{
+  color:#6b7280;
+}
+
+/* Filas de información */
+
+.fila{
+  display:flex;
+  justify-content:space-between;
+  margin:10px 0;
+  font-size:15px;
+}
+
+/* Estados */
+
+.estado{
+  margin-top:15px;
+  padding:8px;
+  border-radius:20px;
+  text-align:center;
+  font-weight:bold;
+}
+
+.alto{
+  background:#dcfce7;
+  color:#15803d;
+}
+
+.medio{
+  background:#fef3c7;
+  color:#b45309;
+}
+
+.bajo{
+  background:#fee2e2;
+  color:#b91c1c;
+}
+
+/* Mensaje vacío */
+
+.empty{
+  text-align:center;
+  margin-top:40px;
+  color:#6b7280;
 }
