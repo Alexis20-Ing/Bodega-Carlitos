@@ -12,6 +12,8 @@ export class InventarioPage {
   productos: any[] = [];
   productosFiltrados: any[] = [];
   buscar = '';
+  categoriaSeleccionada = 'Todas';
+  categorias = ['Todas', 'Abarrotes', 'Bebidas', 'Limpieza', 'Lácteos', 'Embutidos', 'Snacks', 'Otros'];
 
   constructor(
     private firebaseService: FirebaseService
@@ -27,13 +29,12 @@ export class InventarioPage {
   }
 
   filtrarProductos() {
+    const texto = this.buscar.toLowerCase().trim();
 
-    const texto = this.buscar.toLowerCase();
-
-    this.productosFiltrados =
-      this.productos.filter(p =>
-        p.producto?.toLowerCase().includes(texto)
-      );
-
+    this.productosFiltrados = this.productos.filter(p => {
+      const coincideNombre = p.producto?.toLowerCase().includes(texto);
+      const coincideCategoria = this.categoriaSeleccionada === 'Todas' || p.categoria === this.categoriaSeleccionada;
+      return coincideNombre && coincideCategoria;
+    });
   }
 }

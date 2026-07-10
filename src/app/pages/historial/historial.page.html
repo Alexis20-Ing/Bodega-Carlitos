@@ -1,286 +1,147 @@
-<ion-header>
-
-  <ion-toolbar>
-
-    <ion-title>
-      Historial
-    </ion-title>
-
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab2"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Historial</ion-title>
   </ion-toolbar>
-
 </ion-header>
 
 <ion-content class="historial-content">
 
-  <div class="titulo">
-
-    <h2>Historial de Recepciones</h2>
-
-    <p>
-      Consulta y administra los productos registrados.
-    </p>
-
+  <div class="header-section">
+    <h2>Registro de Movimientos</h2>
+    <p>Consulta y administra las recepciones realizadas.</p>
   </div>
 
-  <ion-searchbar
-    [(ngModel)]="buscar"
-    (ionInput)="filtrarProductos()"
-    placeholder="Buscar producto">
-
-  </ion-searchbar>
-
-  <div
-    *ngIf="productos.length==0"
-    class="empty">
-
-    No hay productos registrados.
-
+  <div class="search-container">
+    <ion-searchbar
+      [(ngModel)]="buscar"
+      (ionInput)="filtrarProductos()"
+      placeholder="Buscar por producto..."
+      class="custom-searchbar">
+    </ion-searchbar>
   </div>
 
-  <ion-card
-    *ngFor="let item of productosFiltrados; let i=index">
+  <div *ngIf="productos.length == 0" class="empty-state">
+    <ion-icon name="time-outline"></ion-icon>
+    <p>No hay registros en el historial.</p>
+  </div>
 
-    <ion-card-header>
+  <div class="list-container">
+    <ion-card *ngFor="let item of productosFiltrados; let i=index" class="history-card" [ngClass]="{'editing': editandoIndex === i}">
+      <ion-card-header>
+        <div class="card-header-flex">
+          <div class="main-info" *ngIf="editandoIndex !== i">
+            <ion-card-title>{{item.producto}}</ion-card-title>
+            <div class="subtitle-info">
+              <span class="provider-tag">🏢 {{item.proveedor}}</span>
+              <span class="category-tag">📁 {{item.categoria || 'Sin categoría'}}</span>
+            </div>
+          </div>
+          <div class="edit-fields" *ngIf="editandoIndex === i">
+            <ion-item lines="none" class="inline-input">
+              <ion-input [(ngModel)]="item.producto" placeholder="Nombre del producto"></ion-input>
+            </ion-item>
+          </div>
+          <div class="status-badge" [ngClass]="item.estado" *ngIf="editandoIndex !== i">
+            {{ item.estado === 'aceptado' ? 'Aceptado' : item.estado === 'resuelto' ? 'Resuelto' : item.estado === 'rechazado' ? 'Rechazado' : 'Pendiente' }}
+          </div>
+        </div>
+      </ion-card-header>
 
-      <ion-card-title>
+      <ion-card-content>
+        <div class="view-mode" *ngIf="editandoIndex !== i">
+          <div class="info-grid">
+            <div class="info-box">
+              <span class="label">Cantidad</span>
+              <span class="value">{{item.cantidad}}</span>
+            </div>
+            <div class="info-box">
+              <span class="label">Precio</span>
+              <span class="value">S/ {{item.precio | number:'1.2-2'}}</span>
+            </div>
+            <div class="info-box total">
+              <span class="label">Total</span>
+              <span class="value highlight">S/ {{item.cantidad * item.precio | number:'1.2-2'}}</span>
+            </div>
+          </div>
 
-        <div *ngIf="editandoIndex!==i">
+          <div class="date-row">
+            <ion-icon name="calendar-outline"></ion-icon>
+            <span>
+              {{ item.fecha?.toDate ? (item.fecha.toDate() | date:'medium') : (item.fecha | date:'medium') }}
+            </span>
+          </div>
 
-          {{item.producto}}
+          <div class="image-container" *ngIf="item.foto">
+            <img [src]="item.foto">
+          </div>
 
-          <p class="proveedor">
-
-            {{item.proveedor}}
-
-          </p>
-
+          <div class="signature-display" *ngIf="item.firma">
+            <span class="label">✍️ Firma de conformidad:</span>
+            <img [src]="item.firma" class="signature-img">
+          </div>
         </div>
 
-        <ion-input
-          *ngIf="editandoIndex===i"
-          [(ngModel)]="item.producto">
+        <div class="edit-mode" *ngIf="editandoIndex === i">
+          <ion-item lines="none" class="custom-input">
+            <ion-label position="stacked">Categoría</ion-label>
+            <ion-select [(ngModel)]="item.categoria" interface="popover">
+              <ion-select-option *ngFor="let cat of categorias" [value]="cat">{{cat}}</ion-select-option>
+            </ion-select>
+          </ion-item>
 
-        </ion-input>
+          <ion-item lines="none" class="custom-input">
+            <ion-label position="stacked">Proveedor</ion-label>
+            <ion-input [(ngModel)]="item.proveedor"></ion-input>
+          </ion-item>
 
-      </ion-card-title>
+          <div class="row-inputs">
+            <ion-item lines="none" class="custom-input">
+              <ion-label position="stacked">Cantidad</ion-label>
+              <ion-input type="number" [(ngModel)]="item.cantidad"></ion-input>
+            </ion-item>
+            <ion-item lines="none" class="custom-input">
+              <ion-label position="stacked">Precio</ion-label>
+              <ion-input type="number" [(ngModel)]="item.precio"></ion-input>
+            </ion-item>
+          </div>
 
-    </ion-card-header>
+          <ion-item lines="none" class="custom-input">
+            <ion-label position="stacked">Estado</ion-label>
+            <ion-select [(ngModel)]="item.estado" interface="popover">
+              <ion-select-option value="pendiente">Pendiente</ion-select-option>
+              <ion-select-option value="aceptado">Aceptado</ion-select-option>
+              <ion-select-option value="rechazado">Rechazado</ion-select-option>
+              <ion-select-option value="resuelto">Resuelto</ion-select-option>
+            </ion-select>
+          </ion-item>
 
-    <ion-card-content>
-
-      <!-- MODO VISUAL -->
-
-      <div *ngIf="editandoIndex!==i">
-
-        <div class="info">
-
-          <span>📦 Cantidad: {{item.cantidad}}</span>
-
-          <span>💰 S/ {{item.precio}}</span>
-
+          <ion-button expand="block" fill="outline" size="small" (click)="actualizarFoto(item)" class="action-btn">
+            <ion-icon slot="start" name="camera-outline"></ion-icon>
+            Cambiar Foto
+          </ion-button>
         </div>
 
-        <div class="info">
+        <div class="card-actions">
+          <ion-button *ngIf="editandoIndex !== i" fill="clear" color="primary" (click)="editar(i)">
+            <ion-icon slot="start" name="create-outline"></ion-icon>
+            Editar
+          </ion-button>
 
-          <span>
+          <ion-button *ngIf="editandoIndex === i" fill="solid" color="success" (click)="guardarEdicion(i)">
+            <ion-icon slot="start" name="save-outline"></ion-icon>
+            Guardar
+          </ion-button>
 
-            Total: S/ {{item.cantidad * item.precio}}
-
-          </span>
-
+          <ion-button fill="clear" color="danger" (click)="eliminar(item)">
+            <ion-icon slot="start" name="trash-outline"></ion-icon>
+            Eliminar
+          </ion-button>
         </div>
-
-        <div class="info">
-
-          {{
-            item.fecha?.toDate
-            ? (item.fecha.toDate() | date:'short')
-            : (item.fecha | date:'short')
-          }}
-
-        </div>
-
-        <div
-          class="estado"
-          [ngClass]="item.estado">
-
-          {{
-            item.estado=="aceptado"
-            ? "🟢 Aceptado"
-
-            : item.estado=="rechazado"
-
-            ? "🔴 Rechazado"
-
-            : "🟡 Pendiente"
-          }}
-
-        </div>
-
-        <img
-          *ngIf="item.foto"
-          [src]="item.foto"
-          class="foto">
-
-      </div>
-
-      <!-- MODO EDICIÓN -->
-
-      <div *ngIf="editandoIndex===i">
-
-        <ion-item>
-
-          <ion-label position="stacked">
-
-            Proveedor
-
-          </ion-label>
-
-          <ion-input
-            [(ngModel)]="item.proveedor">
-
-          </ion-input>
-
-        </ion-item>
-
-        <ion-item>
-
-          <ion-label position="stacked">
-
-            Cantidad
-
-          </ion-label>
-
-          <ion-input
-            type="number"
-            [(ngModel)]="item.cantidad">
-
-          </ion-input>
-
-        </ion-item>
-
-        <ion-item>
-
-          <ion-label position="stacked">
-
-            Precio
-
-          </ion-label>
-
-          <ion-input
-            type="number"
-            [(ngModel)]="item.precio">
-
-          </ion-input>
-
-        </ion-item>
-
-        <ion-item>
-
-          <ion-label>
-
-            Estado
-
-          </ion-label>
-
-          <ion-select
-            [(ngModel)]="item.estado">
-
-            <ion-select-option value="pendiente">
-
-              Pendiente
-
-            </ion-select-option>
-
-            <ion-select-option value="aceptado">
-
-              Aceptado
-
-            </ion-select-option>
-
-            <ion-select-option value="rechazado">
-
-              Rechazado
-
-            </ion-select-option>
-
-          </ion-select>
-
-        </ion-item>
-
-        <ion-button
-          expand="block"
-          color="secondary"
-          (click)="actualizarFoto(item)">
-
-          <ion-icon
-            slot="start"
-            name="camera-outline">
-
-          </ion-icon>
-
-          Actualizar Foto
-
-        </ion-button>
-
-      </div>
-
-      <!-- BOTONES -->
-
-      <div class="botones">
-
-        <ion-button
-          *ngIf="editandoIndex!==i"
-          expand="block"
-          color="primary"
-          (click)="editar(i)">
-
-          <ion-icon
-            slot="start"
-            name="create-outline">
-
-          </ion-icon>
-
-          Editar
-
-        </ion-button>
-
-        <ion-button
-          *ngIf="editandoIndex===i"
-          expand="block"
-          color="success"
-          (click)="guardarEdicion(i)">
-
-          <ion-icon
-            slot="start"
-            name="save-outline">
-
-          </ion-icon>
-
-          Guardar Cambios
-
-        </ion-button>
-
-        <ion-button
-          expand="block"
-          fill="outline"
-          color="danger"
-          (click)="eliminar(item)">
-
-          <ion-icon
-            slot="start"
-            name="trash-outline">
-
-          </ion-icon>
-
-          Eliminar
-
-        </ion-button>
-
-      </div>
-
-    </ion-card-content>
-
-  </ion-card>
+      </ion-card-content>
+    </ion-card>
+  </div>
 
 </ion-content>

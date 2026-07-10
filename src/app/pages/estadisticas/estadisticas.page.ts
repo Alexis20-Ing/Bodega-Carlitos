@@ -46,6 +46,8 @@ export class EstadisticasPage {
 
   graficoProveedores: any;
 
+  graficoCategorias: any;
+
   ranking: any[] = [];
 
   peorProveedor: any = null;
@@ -92,6 +94,8 @@ export class EstadisticasPage {
       productos,
       listaProveedores
     );
+
+    this.crearGraficoCategorias(productos);
 
     this.calcularRanking(productos);
 
@@ -160,6 +164,51 @@ export class EstadisticasPage {
         }
 
       );
+
+  }
+
+  //==========================================
+  // GRAFICO CATEGORIAS
+  //==========================================
+
+  crearGraficoCategorias(productos: any[]) {
+
+    if (this.graficoCategorias) {
+      this.graficoCategorias.destroy();
+    }
+
+    const mapaCategorias: any = {};
+    productos.forEach(p => {
+      const cat = p.categoria || 'Sin categoría';
+      mapaCategorias[cat] = (mapaCategorias[cat] || 0) + 1;
+    });
+
+    const labels = Object.keys(mapaCategorias);
+    const data = Object.values(mapaCategorias);
+
+    this.graficoCategorias = new Chart(
+      "graficoCategorias",
+      {
+        type: "doughnut",
+        data: {
+          labels: labels,
+          datasets: [{
+            data: data,
+            backgroundColor: [
+              "#3b82f6", "#10b981", "#6366f1", "#f59e0b", "#ef4444", "#8b5cf6", "#ec4899"
+            ],
+            borderColor: "#ffffff",
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: "bottom" }
+          }
+        }
+      }
+    );
 
   }
 

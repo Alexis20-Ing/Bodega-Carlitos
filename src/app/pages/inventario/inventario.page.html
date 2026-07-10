@@ -1,114 +1,72 @@
-<ion-header>
-
-  <ion-toolbar>
-
-    <ion-title>
-      Inventario
-    </ion-title>
-
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab2"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Inventario</ion-title>
   </ion-toolbar>
-
 </ion-header>
 
 <ion-content class="inventario-content">
 
-  <div class="titulo">
-
+  <div class="header-section">
     <h2>Inventario General</h2>
-
-    <p>
-      Consulta el stock disponible de todos los productos registrados.
-    </p>
-
+    <p>Consulta el stock disponible de todos los productos registrados.</p>
   </div>
 
-  <ion-searchbar
-    [(ngModel)]="buscar"
-    (ionInput)="filtrarProductos()"
-    placeholder="Buscar producto">
+  <div class="search-container">
+    <ion-item lines="none" class="category-filter">
+      <ion-label>Filtrar por:</ion-label>
+      <ion-select [(ngModel)]="categoriaSeleccionada" (ionChange)="filtrarProductos()" interface="popover">
+        <ion-select-option *ngFor="let cat of categorias" [value]="cat">{{cat}}</ion-select-option>
+      </ion-select>
+    </ion-item>
 
-  </ion-searchbar>
-
-  <div
-    *ngIf="productos.length==0"
-    class="empty">
-
-    No hay productos registrados.
-
+    <ion-searchbar
+      [(ngModel)]="buscar"
+      (ionInput)="filtrarProductos()"
+      placeholder="Buscar por nombre de producto..."
+      class="custom-searchbar">
+    </ion-searchbar>
   </div>
 
-  <ion-card
-    *ngFor="let item of productosFiltrados">
+  <div *ngIf="productos.length == 0" class="empty-state">
+    <ion-icon name="cube-outline"></ion-icon>
+    <p>No hay productos registrados aún.</p>
+  </div>
 
-    <ion-card-header>
+  <div class="list-container">
+    <ion-card *ngFor="let item of productosFiltrados" class="product-card">
+      <ion-card-header>
+        <div class="card-top">
+          <div>
+            <ion-card-title>{{item.producto}}</ion-card-title>
+            <span class="category-tag">📁 {{item.categoria || 'Sin categoría'}}</span>
+          </div>
+          <div class="badge" [ngClass]="item.cantidad > 20 ? 'high' : item.cantidad > 10 ? 'medium' : 'low'">
+            {{ item.cantidad > 20 ? 'En Stock' : item.cantidad > 10 ? 'Stock Medio' : 'Stock Bajo' }}
+          </div>
+        </div>
+        <ion-card-subtitle>ID: {{item.id?.substring(0,8)}}</ion-card-subtitle>
+      </ion-card-header>
 
-      <ion-card-title>
-
-        {{item.producto}}
-
-      </ion-card-title>
-
-      <ion-card-subtitle>
-
-        Inventario disponible
-
-      </ion-card-subtitle>
-
-    </ion-card-header>
-
-    <ion-card-content>
-
-      <div class="fila">
-
-        <span>📦 Stock</span>
-
-        <strong>{{item.cantidad}}</strong>
-
-      </div>
-
-      <div class="fila">
-
-        <span>💰 Precio</span>
-
-        <strong>S/ {{item.precio}}</strong>
-
-      </div>
-
-      <div class="fila">
-
-        <span>🧾 Valor Total</span>
-
-        <strong>
-          S/ {{item.cantidad*item.precio}}
-        </strong>
-
-      </div>
-
-      <div
-        class="estado"
-        [ngClass]="
-          item.cantidad>20
-          ? 'alto'
-          : item.cantidad>10
-          ? 'medio'
-          : 'bajo'
-        ">
-
-        {{
-          item.cantidad>20
-          ? 'Stock Alto'
-
-          : item.cantidad>10
-
-          ? 'Stock Medio'
-
-          : 'Stock Bajo'
-        }}
-
-      </div>
-
-    </ion-card-content>
-
-  </ion-card>
+      <ion-card-content>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="label">📦 Cantidad</span>
+            <span class="value">{{item.cantidad}}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">💰 Precio Unit.</span>
+            <span class="value">S/ {{item.precio | number:'1.2-2'}}</span>
+          </div>
+          <div class="info-item total">
+            <span class="label">🧾 Valor Total</span>
+            <span class="value highlight">S/ {{item.cantidad * item.precio | number:'1.2-2'}}</span>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
 
 </ion-content>

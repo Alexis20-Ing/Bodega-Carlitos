@@ -19,8 +19,6 @@ export class ReclamosPage {
 
     const todos: any[] =
       await this.firebaseService.obtenerProductos();
-
-    // 🔥 SOLO RECHAZADOS
     this.productos = todos.filter(p =>
       p.estado === 'rechazado'
     );

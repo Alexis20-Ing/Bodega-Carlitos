@@ -1,59 +1,68 @@
-.verificacion-content{
-
-  --background:#f4f6f9;
-
+.verificacion-content {
+  --background: #f4f6f9;
 }
 
-.titulo{
+.titulo {
+  padding: 24px 20px;
+  background: white;
+  border-bottom-left-radius: 24px;
+  border-bottom-right-radius: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  margin-bottom: 20px;
+  text-align: left;
 
-  text-align:center;
-
-  margin:20px 0;
-
+  h2 { margin: 0; font-weight: 800; color: #1e3a8a; font-size: 1.6rem; }
+  p { margin: 8px 0 0 0; color: #64748b; font-size: 0.9rem; }
 }
 
-.titulo h2{
+ion-card {
+  margin: 15px 20px;
+  border-radius: 20px;
+  border: none;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.04);
 
-  font-size:24px;
-
-  color:#1e3a8a;
-
-  font-weight:700;
-
-  margin-bottom:5px;
-
+  ion-card-title {
+    font-weight: 700;
+    color: #1e2937;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
 }
 
-.titulo p{
-
-  color:#6b7280;
-
-  font-size:14px;
-
+.dato {
+  margin: 10px 0;
+  font-size: 0.95rem;
+  color: #4b5563;
+  font-weight: 500;
 }
 
-.dato{
+.signature-card {
+  .canvas-container {
+    width: 100%;
+    height: 200px;
+    background: #f8fafc;
+    border: 2px dashed #cbd5e1;
+    border-radius: 14px;
+    margin-bottom: 10px;
+    overflow: hidden;
 
-  margin-bottom:10px;
-
-  font-size:15px;
-
+    canvas {
+      width: 100%;
+      height: 100%;
+      touch-action: none; 
+    }
+  }
 }
 
-ion-card{
+ion-button {
+  margin: 10px 20px;
+  --border-radius: 14px;
+  height: 54px;
+  font-weight: 700;
 
-  margin-bottom:20px;
-
-}
-
-ion-item{
-
-  margin-bottom:8px;
-
-}
-
-ion-button{
-
-  margin-top:12px;
-
+  &[fill="outline"] {
+    margin-top: 0;
+  }
 }

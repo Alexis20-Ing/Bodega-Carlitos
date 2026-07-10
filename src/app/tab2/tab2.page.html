@@ -1,159 +1,101 @@
-<ion-header>
-
-  <ion-toolbar color="primary">
-
-    <ion-title>
-
-      Bodega Carlitos
-
-    </ion-title>
-
-  </ion-toolbar>
-
-</ion-header>
-
 <ion-content class="home-content">
+  <div class="custom-header">
+    <div class="header-top">
+      <div class="brand">
+        <div class="logo-icon">
+          <ion-icon name="storefront-outline"></ion-icon>
+        </div>
+        <div class="title-text">
+          <h2>Bodega Carlitos</h2>
+          <p>Control de Inventario</p>
+        </div>
+      </div>
+    </div>
 
-  <div class="header-home">
+    <div class="welcome-section">
+      <span>✨ BIENVENIDO</span>
+      <h1>Gestiona tu negocio<br>con eficiencia</h1>
+    </div>
+  </div>
 
-    <h2>Bienvenido 👋</h2>
-
-    <p>
-      Sistema de Recepción y Control de Inventario
-    </p>
-
+  <div class="stats-container">
+    <div class="stat-item">
+      <span class="value">{{totalProductos}}</span>
+      <span class="label">Productos</span>
+    </div>
+    <div class="stat-item">
+      <span class="value">{{reclamos}}</span>
+      <span class="label">Reclamos</span>
+    </div>
+    <div class="stat-item">
+      <span class="value">{{proveedores}}</span>
+      <span class="label">Proveedores</span>
+    </div>
   </div>
 
   <ion-grid>
-
     <ion-row>
-
       <ion-col size="6">
-
-        <ion-card routerLink="/tabs/nueva-recepcion">
-
+        <ion-card class="menu-card gradient-blue" routerLink="/tabs/nueva-recepcion">
           <ion-card-content>
-
-            <ion-icon
-              name="basket-outline"
-              class="card-icon">
-
-            </ion-icon>
-
+            <ion-icon name="basket-outline" class="card-icon"></ion-icon>
             <h3>Recepción</h3>
-
+            <p>Ingreso de mercadería</p>
           </ion-card-content>
-
         </ion-card>
-
       </ion-col>
 
       <ion-col size="6">
-
-        <ion-card routerLink="/tabs/historial">
-
+        <ion-card class="menu-card gradient-teal" routerLink="/tabs/historial">
           <ion-card-content>
-
-            <ion-icon
-              name="time-outline"
-              class="card-icon">
-
-            </ion-icon>
-
+            <ion-icon name="time-outline" class="card-icon"></ion-icon>
             <h3>Historial</h3>
-
+            <p>Ver movimientos</p>
           </ion-card-content>
-
         </ion-card>
-
       </ion-col>
-
     </ion-row>
 
     <ion-row>
-
       <ion-col size="6">
-
-        <ion-card routerLink="/tabs/inventario">
-
+        <ion-card class="menu-card gradient-purple" routerLink="/tabs/inventario">
           <ion-card-content>
-
-            <ion-icon
-              name="cube-outline"
-              class="card-icon">
-
-            </ion-icon>
-
+            <ion-icon name="cube-outline" class="card-icon"></ion-icon>
             <h3>Inventario</h3>
-
+            <p>Stock actual</p>
           </ion-card-content>
-
         </ion-card>
-
       </ion-col>
 
       <ion-col size="6">
-
-        <ion-card routerLink="/tabs/reclamos">
-
+        <ion-card class="menu-card plain-white" routerLink="/tabs/reclamos">
           <ion-card-content>
-
-            <ion-icon
-              name="alert-circle-outline"
-              class="card-icon">
-
-            </ion-icon>
-
+            <ion-icon name="alert-circle-outline" class="card-icon"></ion-icon>
             <h3>Reclamos</h3>
-
+            <p>Gestión de incidencias</p>
           </ion-card-content>
-
         </ion-card>
-
       </ion-col>
-
     </ion-row>
 
     <ion-row>
-
       <ion-col size="6">
-
-        <ion-card routerLink="/tabs/proveedores">
-
+        <ion-card class="menu-card plain-white" routerLink="/tabs/proveedores">
           <ion-card-content>
-
-            <ion-icon
-              name="people-outline"
-              class="card-icon">
-
-            </ion-icon>
-
+            <ion-icon name="people-outline" class="card-icon"></ion-icon>
             <h3>Proveedores</h3>
-
+            <p>Lista de contactos</p>
           </ion-card-content>
-
         </ion-card>
-
       </ion-col>
-
     </ion-row>
-
   </ion-grid>
 
-  <ion-button
-    expand="block"
-    color="danger"
-    class="logout"
-    (click)="cerrarSesion()">
-
-    <ion-icon
-      slot="start"
-      name="log-out-outline">
-
-    </ion-icon>
-
-    Cerrar Sesión
-
-  </ion-button>
+  <div class="logout-container">
+    <ion-button expand="block" color="light" (click)="cerrarSesion()">
+      <ion-icon slot="start" name="log-out-outline"></ion-icon>
+      Cerrar Sesión
+    </ion-button>
+  </div>
 
 </ion-content>

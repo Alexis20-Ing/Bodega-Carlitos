@@ -1,271 +1,105 @@
-<ion-header>
-
-  <ion-toolbar>
-
-    <ion-title>
-
-      Proveedores
-
-    </ion-title>
-
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab2"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Proveedores</ion-title>
   </ion-toolbar>
-
 </ion-header>
 
 <ion-content class="proveedores-content">
 
-  <div class="titulo">
-
+  <div class="header-section">
     <h2>Gestión de Proveedores</h2>
-
-    <p>
-      Administra los proveedores registrados de la bodega.
-    </p>
-
+    <p>Administra los proveedores registrados de la bodega.</p>
   </div>
 
-  <!-- BUSCADOR -->
+  <div class="search-container">
+    <ion-searchbar
+      [(ngModel)]="busqueda"
+      placeholder="Buscar por nombre..."
+      (ionInput)="filtrarProveedores()"
+      class="custom-searchbar">
+    </ion-searchbar>
+  </div>
 
-  <ion-searchbar
+  <div class="actions-bar">
+    <ion-button fill="clear" color="primary" (click)="mostrarTodos()">
+      <ion-icon slot="start" name="list-outline"></ion-icon>
+      Mostrar Todos
+    </ion-button>
+  </div>
 
-    [(ngModel)]="busqueda"
-
-    placeholder="Buscar proveedor"
-
-    (ionInput)="filtrarProveedores()">
-
-  </ion-searchbar>
-
-  <!-- BOTÓN MOSTRAR TODOS -->
-
-  <ion-button
-
-    class="mostrar"
-
-    expand="block"
-
-    fill="outline"
-
-    color="primary"
-
-    (click)="mostrarTodos()">
-
-    <ion-icon
-
-      slot="start"
-
-      name="list-outline">
-
-    </ion-icon>
-
-    Mostrar Todos
-
-  </ion-button>
-
-  <!-- FORMULARIO -->
-
-  <ion-card>
-
+  <ion-card class="form-card">
     <ion-card-header>
-
       <ion-card-title>
-
-        {{ editando ? 'Editar proveedor' : 'Nuevo proveedor' }}
-
+        <ion-icon [name]="editando ? 'create' : 'add-circle'" color="primary"></ion-icon>
+        {{ editando ? 'Editar Proveedor' : 'Nuevo Proveedor' }}
       </ion-card-title>
-
     </ion-card-header>
 
     <ion-card-content>
+      <div class="custom-form">
+        <ion-item lines="none" class="custom-input">
+          <ion-label position="stacked">Nombre Comercial</ion-label>
+          <ion-input [(ngModel)]="nombre" placeholder="Ej: Distribuidora Sol"></ion-input>
+        </ion-item>
 
-      <ion-item>
+        <ion-item lines="none" class="custom-input">
+          <ion-label position="stacked">Teléfono de Contacto</ion-label>
+          <ion-input type="tel" [(ngModel)]="telefono" placeholder="Ej: 987654321"></ion-input>
+        </ion-item>
 
-        <ion-label position="stacked">
-
-          Nombre
-
-        </ion-label>
-
-        <ion-input
-
-          [(ngModel)]="nombre">
-
-        </ion-input>
-
-      </ion-item>
-
-      <ion-item>
-
-        <ion-label position="stacked">
-
-          Teléfono
-
-        </ion-label>
-
-        <ion-input
-
-          [(ngModel)]="telefono">
-
-        </ion-input>
-
-      </ion-item>
-
-      <ion-button
-
-        expand="block"
-
-        color="success"
-
-        (click)="agregarProveedor()">
-
-        <ion-icon
-
-          slot="start"
-
-          [name]="editando ? 'create-outline' : 'add-outline'">
-
-        </ion-icon>
-
-        {{ editando ? 'Actualizar Proveedor' : 'Agregar Proveedor' }}
-
-      </ion-button>
-
+        <ion-button expand="block" [color]="editando ? 'primary' : 'success'" (click)="agregarProveedor()" class="submit-btn">
+          <ion-icon slot="start" [name]="editando ? 'save-outline' : 'add-outline'"></ion-icon>
+          {{ editando ? 'Actualizar Datos' : 'Registrar Proveedor' }}
+        </ion-button>
+      </div>
     </ion-card-content>
-
   </ion-card>
 
-  <div
-
-    *ngIf="proveedoresFiltrados.length==0"
-
-    class="empty">
-
-    No se encontraron proveedores.
-
+  <div *ngIf="proveedoresFiltrados.length == 0" class="empty-state">
+    <ion-icon name="people-outline"></ion-icon>
+    <p>No se encontraron proveedores.</p>
   </div>
 
-  <!-- LISTA -->
+  <div class="list-container">
+    <ion-card *ngFor="let proveedor of proveedoresFiltrados" class="provider-card">
+      <ion-card-header>
+        <div class="card-header-flex">
+          <div class="provider-info">
+            <ion-card-title>{{proveedor.nombre}}</ion-card-title>
+            <span class="phone">📞 {{proveedor.telefono}}</span>
+          </div>
+          <div class="stats-badges">
+            <div class="badge blue">📦 {{proveedor.productos}}</div>
+            <div class="badge red" *ngIf="proveedor.reclamos > 0">⚠️ {{proveedor.reclamos}}</div>
+          </div>
+        </div>
+      </ion-card-header>
 
-  <ion-card
+      <ion-card-content>
+        <div class="button-group">
+          <ion-button size="small" fill="outline" color="primary" (click)="llamarProveedor(proveedor.telefono)">
+            <ion-icon name="call-outline"></ion-icon>
+          </ion-button>
 
-    *ngFor="let proveedor of proveedoresFiltrados">
+          <ion-button size="small" fill="outline" color="success" (click)="abrirWhatsapp(proveedor.telefono)">
+            <ion-icon name="logo-whatsapp"></ion-icon>
+          </ion-button>
 
-    <ion-card-header>
+          <div class="flex-spacer"></div>
 
-      <ion-card-title>
+          <ion-button size="small" color="primary" fill="clear" (click)="editarProveedor(proveedor)">
+            <ion-icon name="create-outline"></ion-icon>
+          </ion-button>
 
-        🏢 {{proveedor.nombre}}
-
-      </ion-card-title>
-
-    </ion-card-header>
-
-    <ion-card-content>
-
-      <div class="dato">
-
-        📞 {{proveedor.telefono}}
-
-      </div>
-
-      <div class="dato">
-
-        📦 Productos registrados:
-        {{proveedor.productos}}
-
-      </div>
-
-      <div class="dato">
-
-        🔴 Reclamos:
-        {{proveedor.reclamos}}
-
-      </div>
-
-      <div class="botones-proveedor">
-
-        <ion-button
-
-          color="primary"
-
-          fill="outline"
-
-          (click)="llamarProveedor(proveedor.telefono)">
-
-          <ion-icon
-
-            slot="start"
-
-            name="call-outline">
-
-          </ion-icon>
-
-          Llamar
-
-        </ion-button>
-
-        <ion-button
-
-          color="success"
-
-          fill="outline"
-
-          (click)="abrirWhatsapp(proveedor.telefono)">
-
-          <ion-icon
-
-            slot="start"
-
-            name="logo-whatsapp">
-
-          </ion-icon>
-
-          WhatsApp
-
-        </ion-button>
-
-        <ion-button
-
-          color="primary"
-
-          (click)="editarProveedor(proveedor)">
-
-          <ion-icon
-
-            slot="start"
-
-            name="create-outline">
-
-          </ion-icon>
-
-          Editar
-
-        </ion-button>
-
-        <ion-button
-
-          color="danger"
-
-          fill="outline"
-
-          (click)="eliminarProveedor(proveedor.id)">
-
-          <ion-icon
-
-            slot="start"
-
-            name="trash-outline">
-
-          </ion-icon>
-
-          Eliminar
-
-        </ion-button>
-
-      </div>
-
-    </ion-card-content>
-
-  </ion-card>
+          <ion-button size="small" color="danger" fill="clear" (click)="eliminarProveedor(proveedor.id)">
+            <ion-icon name="trash-outline"></ion-icon>
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
 
 </ion-content>

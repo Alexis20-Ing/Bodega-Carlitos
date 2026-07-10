@@ -22,10 +22,6 @@ const db = getFirestore(app);
 })
 export class FirebaseService {
 
-  // =======================
-  // PRODUCTOS
-  // =======================
-
   async agregarProducto(data: any) {
 
     return await addDoc(
@@ -88,10 +84,6 @@ export class FirebaseService {
 
   }
 
-  // =======================
-  // PROVEEDORES
-  // =======================
-
   async agregarProveedor(data: any) {
 
     return await addDoc(
@@ -108,7 +100,6 @@ export class FirebaseService {
 
     return snap.docs.map(d => ({
 
-      // 🔥 ESTE ES EL ID REAL
       id: d.id,
 
       ...d.data()
@@ -133,10 +124,6 @@ export class FirebaseService {
     );
 
   }
-
-  // =======================
-  // LOGIN
-  // =======================
 
   async login(usuario: string, password: string) {
 

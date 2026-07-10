@@ -1,100 +1,58 @@
-<ion-header>
-
-  <ion-toolbar>
-
-    <ion-title>
-      Ranking de Proveedores
-    </ion-title>
-
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab2"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Ranking General</ion-title>
   </ion-toolbar>
-
 </ion-header>
 
 <ion-content class="ranking-content">
 
-  <div class="titulo">
-
+  <div class="header-section">
     <h2>Ranking de Desempeño</h2>
-
-    <p>
-      Evaluación de confiabilidad de los proveedores registrados.
-    </p>
-
+    <p>Evaluación de confiabilidad de los proveedores según su historial de entregas.</p>
   </div>
 
-  <ion-card
-    *ngFor="let p of ranking; let i=index">
+  <div class="list-container">
+    <ion-card *ngFor="let p of ranking; let i=index" class="ranking-card-pro">
+      <ion-card-header>
+        <div class="card-header-flex">
+          <div class="rank-medal-container">
+            <span class="medal" *ngIf="i==0">🥇</span>
+            <span class="medal" *ngIf="i==1">🥈</span>
+            <span class="medal" *ngIf="i==2">🥉</span>
+            <span class="rank-number" *ngIf="i > 2">#{{i + 1}}</span>
+          </div>
+          <div class="provider-info">
+            <ion-card-title>{{p.nombre}}</ion-card-title>
+            <p class="phone">📞 {{p.telefono}}</p>
+          </div>
+          <div class="score-badge">
+            <span class="percent">{{p.confiabilidad}}%</span>
+            <span class="label">Confianza</span>
+          </div>
+        </div>
+      </ion-card-header>
 
-    <ion-card-header>
-
-      <ion-card-title>
-
-        <span *ngIf="i==0">🥇</span>
-
-        <span *ngIf="i==1">🥈</span>
-
-        <span *ngIf="i==2">🥉</span>
-
-        {{p.nombre}}
-
-      </ion-card-title>
-
-    </ion-card-header>
-
-    <ion-card-content>
-
-      <div class="fila">
-
-        <span>📦 Productos</span>
-
-        <strong>{{p.productos}}</strong>
-
-      </div>
-
-      <div class="fila">
-
-        <span>⚠ Reclamos</span>
-
-        <strong>{{p.reclamos}}</strong>
-
-      </div>
-
-      <div class="fila">
-
-        <span>Confiabilidad</span>
-
-        <strong>{{p.confiabilidad}}%</strong>
-
-      </div>
-
-      <div
-        class="estado"
-        [ngClass]="
-          p.confiabilidad>=90
-          ? 'excelente'
-          : p.confiabilidad>=70
-          ? 'regular'
-          : 'riesgo'
-        ">
-
-        {{
-
-          p.confiabilidad>=90
-
-          ? 'Excelente'
-
-          : p.confiabilidad>=70
-
-          ? 'Regular'
-
-          : 'Riesgoso'
-
-        }}
-
-      </div>
-
-    </ion-card-content>
-
-  </ion-card>
+      <ion-card-content>
+        <div class="stats-row">
+          <div class="stat">
+            <span class="val">{{p.productos}}</span>
+            <span class="lab">Productos</span>
+          </div>
+          <div class="stat">
+            <span class="val">{{p.reclamos}}</span>
+            <span class="lab">Reclamos</span>
+          </div>
+          <div class="stat status">
+             <div class="status-indicator" [ngClass]="p.confiabilidad >= 90 ? 'excellent' : p.confiabilidad >= 70 ? 'regular' : 'risk'">
+               {{ p.confiabilidad >= 90 ? 'Excelente' : p.confiabilidad >= 70 ? 'Regular' : 'Riesgoso' }}
+             </div>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
 
 </ion-content>

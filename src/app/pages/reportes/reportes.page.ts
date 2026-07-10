@@ -20,10 +20,12 @@ export class ReportesPage {
   proveedores: any[] = [];
 
   proveedorSeleccionado = '';
+  categoriaSeleccionada = '';
   fechaInicio: any = '';
   fechaFin: any = '';
 
   historial: any[] = [];
+  categorias = ['Abarrotes', 'Bebidas', 'Limpieza', 'Lácteos', 'Embutidos', 'Snacks', 'Otros'];
 
   constructor(
     private firebaseService: FirebaseService
@@ -34,9 +36,6 @@ export class ReportesPage {
     this.proveedores = await this.firebaseService.obtenerProveedores();
   }
 
-  // =========================
-  // PDF GENERAL
-  // =========================
   generarPDF() {
     this.generarReporte("todos");
   }
@@ -49,15 +48,16 @@ export class ReportesPage {
     this.generarReporte("rechazados");
   }
 
-  // =========================
-  // MÉTODO PRINCIPAL
-  // =========================
   async generarReporte(tipo: string) {
 
     let lista = [...this.productos];
 
     if (this.proveedorSeleccionado) {
       lista = lista.filter(p => p.proveedor == this.proveedorSeleccionado);
+    }
+
+    if (this.categoriaSeleccionada) {
+      lista = lista.filter(p => p.categoria == this.categoriaSeleccionada);
     }
 
     if (this.fechaInicio) {
@@ -102,6 +102,7 @@ export class ReportesPage {
     doc.text('Fecha: ' + new Date().toLocaleString(), 14, 32);
 
     doc.text('Proveedor: ' + (this.proveedorSeleccionado || 'Todos'), 14, 39);
+    doc.text('Categoría: ' + (this.categoriaSeleccionada || 'Todas'), 70, 39);
     doc.text('Total registros: ' + lista.length, 14, 46);
 
     const filas = lista.map(p => {
@@ -111,15 +112,16 @@ export class ReportesPage {
         p.proveedor,
         p.producto,
         p.cantidad,
-        'S/ ' + p.precio,
+        'S/ ' + Number(p.precio).toFixed(2),
         p.estado,
-        f.toLocaleDateString()
+        f.toLocaleDateString(),
+        p.firma ? 'Firmado' : 'Sin Firma'
       ];
     });
 
     autoTable(doc, {
       startY: 55,
-      head: [['Proveedor', 'Producto', 'Cantidad', 'Precio', 'Estado', 'Fecha']],
+      head: [['Proveedor', 'Producto', 'Cant.', 'Precio', 'Estado', 'Fecha', 'Firma']],
       body: filas
     });
 
@@ -130,9 +132,6 @@ export class ReportesPage {
           ? 'Rechazados.pdf'
           : 'Reporte.pdf';
 
-    // =========================
-    // 📱 ANDROID
-    // =========================
     if (Capacitor.getPlatform() !== 'web') {
 
       const base64 = doc.output('datauristring').split(',')[1];
@@ -145,18 +144,12 @@ export class ReportesPage {
 
       const fileUri = file.uri;
 
-      // =========================
-      // 🧾 1. HISTORIAL LOCAL
-      // =========================
       this.historial.unshift({
         nombre: fileName,
         fecha: new Date().toLocaleString(),
         uri: fileUri
       });
 
-      // =========================
-      // 👀 2. COMPARTIR (WhatsApp / Apps)
-      // =========================
       await Share.share({
         title: 'Reporte Bodega',
         text: 'Te comparto el PDF generado',
@@ -166,24 +159,15 @@ export class ReportesPage {
 
       alert('PDF generado ✔');
 
-      // =========================
-      // 👁 3. ABRIR PDF (opcional)
-      // =========================
       window.open(fileUri, '_system');
 
     }
 
-    // =========================
-    // 🌐 WEB
-    // =========================
     else {
       doc.save(fileName);
     }
   }
 
-  // =========================
-  // VER HISTORIAL
-  // =========================
   verHistorial() {
     console.log('Historial:', this.historial);
   }

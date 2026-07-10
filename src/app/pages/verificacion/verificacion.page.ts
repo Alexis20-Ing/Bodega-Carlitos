@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FirebaseService } from '../../services/firebase.service';
 
@@ -10,6 +10,10 @@ import { FirebaseService } from '../../services/firebase.service';
 })
 export class VerificacionPage {
 
+  @ViewChild('canvas', { static: false }) canvas!: ElementRef;
+  private cx!: CanvasRenderingContext2D | null;
+  private drawing = false;
+
   id: string = '';
   producto: any;
 
@@ -17,6 +21,9 @@ export class VerificacionPage {
   fecha = false;
   cantidad = false;
   golpeado = false;
+
+  cargando = false;
+  firma: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -33,15 +40,67 @@ export class VerificacionPage {
     this.producto =
       await this.firebaseService.obtenerProductoPorId(this.id);
 
+    setTimeout(() => this.initCanvas(), 500);
+
   }
 
-  // =====================================
-  // ✅ ACEPTAR PRODUCTO
-  // =====================================
+  initCanvas() {
+    const el = this.canvas.nativeElement;
+    this.cx = el.getContext('2d');
+
+    el.width = el.offsetWidth;
+    el.height = el.offsetHeight;
+
+    if (this.cx) {
+      this.cx.lineWidth = 3;
+      this.cx.lineCap = 'round';
+      this.cx.strokeStyle = '#1e3a8a';
+    }
+  }
+
+  startDrawing(event: any) {
+    this.drawing = true;
+    this.draw(event);
+  }
+
+  stopDrawing() {
+    this.drawing = false;
+    if (this.cx) this.cx.beginPath();
+    this.captureSignature();
+  }
+
+  draw(event: any) {
+    if (!this.drawing || !this.cx) return;
+
+    const el = this.canvas.nativeElement;
+    const rect = el.getBoundingClientRect();
+
+    const x = (event.touches ? event.touches[0].clientX : event.clientX) - rect.left;
+    const y = (event.touches ? event.touches[0].clientY : event.clientY) - rect.top;
+
+    this.cx.lineTo(x, y);
+    this.cx.stroke();
+    this.cx.beginPath();
+    this.cx.moveTo(x, y);
+
+    event.preventDefault();
+  }
+
+  clearCanvas() {
+    if (this.cx) {
+      this.cx.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
+      this.firma = '';
+    }
+  }
+
+  captureSignature() {
+    this.firma = this.canvas.nativeElement.toDataURL('image/png');
+  }
 
   async aceptarProducto() {
 
-    // ❌ No puede estar golpeado y aceptado a la vez
+    if (this.cargando) return;
+
     if (
       this.empaque &&
       this.fecha &&
@@ -57,7 +116,6 @@ export class VerificacionPage {
 
     }
 
-    // ❌ Golpeado = rechazo automático
     if (this.golpeado) {
 
       alert(
@@ -70,7 +128,6 @@ export class VerificacionPage {
 
     }
 
-    // ❌ Si falta alguna condición básica
     if (
       !this.empaque ||
       !this.fecha ||
@@ -87,38 +144,53 @@ export class VerificacionPage {
 
     }
 
-    // ✅ Todo correcto
-    await this.firebaseService.actualizarProducto(
-      this.id,
-      {
-        estado: 'aceptado'
-      }
-    );
+    try {
+      this.cargando = true;
+      await this.firebaseService.actualizarProducto(
+        this.id,
+        {
+          estado: 'aceptado',
+          firma: this.firma
+        }
+      );
 
-    this.router.navigate(['/tabs/historial']);
+      this.router.navigate(['/tabs/historial']);
+    } catch (error) {
+      console.error(error);
+      alert('Error al actualizar el estado.');
+    } finally {
+      this.cargando = false;
+    }
 
   }
 
-  // =====================================
-  // ❌ RECHAZAR PRODUCTO
-  // =====================================
-
   async rechazarProducto() {
 
-    await this.firebaseService.actualizarProducto(
-      this.id,
-      {
-        estado: 'rechazado',
-        motivo: {
-          empaque: this.empaque,
-          fecha: this.fecha,
-          cantidad: this.cantidad,
-          golpeado: this.golpeado
-        }
-      }
-    );
+    if (this.cargando) return;
 
-    this.router.navigate(['/tabs/reclamos']);
+    try {
+      this.cargando = true;
+      await this.firebaseService.actualizarProducto(
+        this.id,
+        {
+          estado: 'rechazado',
+          firma: this.firma,
+          motivo: {
+            empaque: this.empaque,
+            fecha: this.fecha,
+            cantidad: this.cantidad,
+            golpeado: this.golpeado
+          }
+        }
+      );
+
+      this.router.navigate(['/tabs/reclamos']);
+    } catch (error) {
+      console.error(error);
+      alert('Error al registrar el rechazo.');
+    } finally {
+      this.cargando = false;
+    }
 
   }
 

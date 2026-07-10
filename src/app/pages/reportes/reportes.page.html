@@ -1,145 +1,78 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Reportes
-    </ion-title>
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-title>Reportes</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="reportes-content">
 
-  <div class="titulo">
+  <div class="header-section">
     <h2>Generación de Reportes</h2>
-    <p>Filtra la información antes de exportarla en PDF.</p>
+    <p>Personaliza y exporta la información de tu bodega en formato PDF.</p>
   </div>
 
-  <ion-card>
-
+  <ion-card class="filter-card">
     <ion-card-header>
-
       <ion-card-title>
-        <ion-icon name="options-outline"></ion-icon>
-        Filtros
+        <ion-icon name="filter-outline" color="primary"></ion-icon>
+        Configurar Filtros
       </ion-card-title>
-
     </ion-card-header>
 
     <ion-card-content>
+      <div class="custom-form">
+        <ion-item lines="none" class="custom-input">
+          <ion-label position="stacked">Proveedor</ion-label>
+          <ion-select [(ngModel)]="proveedorSeleccionado" interface="popover">
+            <ion-select-option value="">Todos los proveedores</ion-select-option>
+            <ion-select-option *ngFor="let p of proveedores" [value]="p.nombre">
+              {{p.nombre}}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
 
-      <ion-item>
+        <ion-item lines="none" class="custom-input">
+          <ion-label position="stacked">Categoría</ion-label>
+          <ion-select [(ngModel)]="categoriaSeleccionada" interface="popover">
+            <ion-select-option value="">Todas las categorías</ion-select-option>
+            <ion-select-option *ngFor="let cat of categorias" [value]="cat">
+              {{cat}}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
 
-        <ion-icon
-          slot="start"
-          name="business-outline">
-        </ion-icon>
+        <div class="date-row">
+          <ion-item lines="none" class="custom-input">
+            <ion-label position="stacked">Desde</ion-label>
+            <ion-input type="date" [(ngModel)]="fechaInicio"></ion-input>
+          </ion-item>
 
-        <ion-label position="stacked">
-          Proveedor
-        </ion-label>
-
-        <ion-select
-          [(ngModel)]="proveedorSeleccionado">
-
-          <ion-select-option value="">
-            Todos
-          </ion-select-option>
-
-          <ion-select-option
-            *ngFor="let p of proveedores"
-            [value]="p.nombre">
-
-            {{p.nombre}}
-
-          </ion-select-option>
-
-        </ion-select>
-
-      </ion-item>
-
-      <ion-item>
-
-        <ion-icon
-          slot="start"
-          name="calendar-outline">
-        </ion-icon>
-
-        <ion-label position="stacked">
-          Fecha Inicial
-        </ion-label>
-
-        <ion-input
-          type="date"
-          [(ngModel)]="fechaInicio">
-        </ion-input>
-
-      </ion-item>
-
-      <ion-item>
-
-        <ion-icon
-          slot="start"
-          name="calendar-clear-outline">
-        </ion-icon>
-
-        <ion-label position="stacked">
-          Fecha Final
-        </ion-label>
-
-        <ion-input
-          type="date"
-          [(ngModel)]="fechaFin">
-        </ion-input>
-
-      </ion-item>
-
+          <ion-item lines="none" class="custom-input">
+            <ion-label position="stacked">Hasta</ion-label>
+            <ion-input type="date" [(ngModel)]="fechaFin"></ion-input>
+          </ion-item>
+        </div>
+      </div>
     </ion-card-content>
-
   </ion-card>
 
-  <div class="botones">
+  <div class="report-actions">
+    <div class="section-label">Opciones de Exportación</div>
 
-    <ion-button
-      expand="block"
-      color="success"
-      (click)="generarPDF()">
-
-      <ion-icon
-        slot="start"
-        name="document-text-outline">
-      </ion-icon>
-
-      Reporte General
-
+    <ion-button expand="block" color="success" class="action-btn" (click)="generarPDF()">
+      <ion-icon slot="start" name="document-text-outline"></ion-icon>
+      Reporte de Movimientos
     </ion-button>
 
-    <ion-button
-      expand="block"
-      color="primary"
-      (click)="generarInventario()">
-
-      <ion-icon
-        slot="start"
-        name="cube-outline">
-      </ion-icon>
-
+    <ion-button expand="block" color="primary" class="action-btn" (click)="generarInventario()">
+      <ion-icon slot="start" name="cube-outline"></ion-icon>
       Inventario Actual
-
     </ion-button>
 
-    <ion-button
-      expand="block"
-      color="danger"
-      (click)="generarRechazados()">
-
-      <ion-icon
-        slot="start"
-        name="warning-outline">
-      </ion-icon>
-
+    <ion-button expand="block" color="danger" class="action-btn" (click)="generarRechazados()">
+      <ion-icon slot="start" name="warning-outline"></ion-icon>
       Productos Rechazados
-
     </ion-button>
-
   </div>
 
 </ion-content>

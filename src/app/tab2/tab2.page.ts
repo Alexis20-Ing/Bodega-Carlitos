@@ -87,11 +87,7 @@ export class Tab2Page {
 
     this.reclamos =
       productos.filter((p: any) =>
-
-        p.estado === 'danado' ||
-
-        p.estado === 'regular'
-
+        p.estado === 'rechazado'
       ).length;
 
   }

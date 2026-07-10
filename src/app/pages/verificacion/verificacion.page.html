@@ -54,7 +54,7 @@
       <div class="dato">
 
         💰 Precio:
-        S/ {{producto.precio}}
+        S/ {{producto.precio | number:'1.2-2'}}
 
       </div>
 
@@ -152,40 +152,56 @@
 
   </ion-card>
 
+  <ion-card class="signature-card">
+    <ion-card-header>
+      <ion-card-title>
+        <ion-icon name="create-outline"></ion-icon>
+        Firma de Conformidad
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="canvas-container">
+        <canvas #canvas
+          (mousedown)="startDrawing($event)"
+          (mousemove)="draw($event)"
+          (mouseup)="stopDrawing()"
+          (touchstart)="startDrawing($event)"
+          (touchmove)="draw($event)"
+          (touchend)="stopDrawing()">
+        </canvas>
+      </div>
+      <ion-button fill="clear" color="danger" size="small" (click)="clearCanvas()">
+        <ion-icon name="trash-outline" slot="start"></ion-icon>
+        Limpiar Firma
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
   <ion-button
-
     expand="block"
-
     color="success"
-
-    (click)="aceptarProducto()">
+    (click)="aceptarProducto()"
+    [disabled]="cargando">
 
     <ion-icon
-
       slot="start"
-
-      name="checkmark-circle-outline">
+      [name]="cargando ? 'refresh-outline' : 'checkmark-circle-outline'">
 
     </ion-icon>
 
-    Aceptar Producto
+    {{ cargando ? 'Procesando...' : 'Aceptar Producto' }}
 
   </ion-button>
 
   <ion-button
-
     expand="block"
-
     fill="outline"
-
     color="danger"
-
-    (click)="rechazarProducto()">
+    (click)="rechazarProducto()"
+    [disabled]="cargando">
 
     <ion-icon
-
       slot="start"
-
       name="close-circle-outline">
 
     </ion-icon>

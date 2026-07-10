@@ -8,10 +8,6 @@ export class RecepcionService {
 
   constructor(private firestore: Firestore) {}
 
-  // ================================
-  // PRODUCTOS
-  // ================================
-
   async agregarProducto(producto: any) {
     const ref = collection(this.firestore, 'productos');
     return await addDoc(ref, producto);

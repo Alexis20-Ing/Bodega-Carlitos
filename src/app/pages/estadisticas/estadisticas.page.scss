@@ -1,115 +1,122 @@
 .dashboard-content {
   --background: #f4f6f9;
-  padding: 0 10px;
 }
 
-/* TÍTULO */
-.dashboard-title {
-  text-align: center;
-  margin: 20px 10px;
+.header-section {
+  padding: 24px 20px;
+  background: white;
+  border-bottom-left-radius: 24px;
+  border-bottom-right-radius: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  margin-bottom: 10px;
+
+  h2 { margin: 0; font-weight: 800; color: #1e3a8a; font-size: 1.6rem; }
+  p { margin: 8px 0 0 0; color: #64748b; font-size: 0.9rem; }
 }
 
-.dashboard-title h2 {
-  color: #1e3a8a;
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 5px;
+.kpi-grid {
+  padding: 10px;
 }
 
-.dashboard-title p {
-  color: #6b7280;
-  font-size: 14px;
-}
-
-/* CARDS GENERALES */
-ion-card {
-  margin: 12px 0;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-
-/* KPIs */
 .kpi-card {
+  margin: 5px;
+  border-radius: 20px;
   text-align: center;
+  color: white;
+  border: none;
+
+  &.gradient-blue { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); }
+  &.gradient-purple { background: linear-gradient(135deg, #6d28d9 0%, #a855f7 100%); }
+
+  .kpi-icon {
+    font-size: 24px;
+    background: rgba(255, 255, 255, 0.2);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    margin: 0 auto 10px auto;
+  }
+
+  h3 { margin: 0; font-size: 1.8rem; font-weight: 800; }
+  span { font-size: 0.8rem; opacity: 0.9; font-weight: 500; }
 }
 
-.kpi-card ion-card-content {
-  padding: 16px;
+.status-row {
+  margin-top: 10px;
 }
 
-.kpi-card ion-icon {
-  font-size: 38px;
-  color: #2563eb;
-}
-
-.kpi-card h2 {
-  margin: 8px 0 2px;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.kpi-card span {
-  color: #6b7280;
-}
-
-/* ESTADOS (Aceptado / Pendiente / Rechazado) */
-.estado {
+.status-mini-card {
+  background: white;
+  padding: 12px 8px;
+  border-radius: 16px;
   text-align: center;
-  margin: 6px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+
+  .val { font-size: 1.2rem; font-weight: 800; }
+  .lab { font-size: 0.65rem; color: #64748b; text-transform: uppercase; font-weight: 700; margin-top: 2px; }
+
+  &.green .val { color: #10b981; }
+  &.orange .val { color: #f59e0b; }
+  &.red .val { color: #ef4444; }
 }
 
-.estado ion-card-content {
-  padding: 14px;
-}
-
-.estado h2 {
-  margin: 0;
-  font-size: 26px;
-  font-weight: bold;
-}
-
-.estado span {
-  font-size: 13px;
-}
-
-/* COLORES */
-.verde {
-  border-left: 6px solid #22c55e;
-}
-
-.amarillo {
-  border-left: 6px solid #f59e0b;
-}
-
-.rojo {
-  border-left: 6px solid #ef4444;
-}
-
-/* GRÁFICOS */
-canvas {
-  width: 100% !important;
-  max-height: 280px;
-}
-
-/* TITULOS DE CARD */
-ion-card-title {
+.section-label {
+  font-size: 0.85rem;
+  font-weight: 800;
   color: #1e3a8a;
-  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 20px 20px 10px 20px;
 }
 
-/* LISTA */
-ion-item {
-  --background: transparent;
+.chart-card {
+  margin: 12px 20px;
+  border-radius: 20px;
+  border: none;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.04);
+
+  ion-card-title { font-size: 1rem; font-weight: 700; color: #1e2937; }
+  .chart-container { padding: 10px 0; }
 }
 
-/* BADGE */
-ion-badge {
-  font-size: 13px;
+.ranking-card {
+  margin: 12px 20px;
+  border-radius: 20px;
+  border: none;
+  overflow: hidden;
+
+  ion-list { padding: 0; }
+  .ranking-item {
+    --padding-start: 16px;
+    --padding-end: 16px;
+    --inner-padding-end: 0;
+
+    .rank-medal { font-size: 1.5rem; margin-right: 15px; }
+    h3 { margin: 0; font-weight: 700; color: #1e2937; font-size: 1rem; }
+    p { margin: 2px 0 0 0; font-size: 0.8rem; color: #64748b; }
+    ion-badge { --padding-start: 8px; --padding-end: 8px; font-weight: 700; border-radius: 8px; }
+  }
 }
 
-/* CARDS DE ALERTA */
-ion-card[color="danger"],
-ion-card[color="success"] {
-  margin-bottom: 16px;
-  border-radius: 14px;
+.status-banner {
+  margin: 20px;
+  padding: 16px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  &.danger { background: #fee2e2; color: #991b1b; }
+  &.success { background: #dcfce7; color: #166534; }
+
+  .banner-icon { font-size: 32px; }
+  .banner-text {
+    h4 { margin: 0; font-size: 1rem; font-weight: 800; }
+    p { margin: 4px 0 0 0; font-size: 0.85rem; line-height: 1.4; }
+  }
 }

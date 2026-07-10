@@ -37,10 +37,6 @@ export class ProveedoresPage {
 
   }
 
-  // ======================================
-  // CARGAR PROVEEDORES
-  // ======================================
-
   async cargarProveedores() {
 
     const proveedoresFirebase =
@@ -88,10 +84,6 @@ export class ProveedoresPage {
 
   }
 
-// ======================================
-// AGREGAR / EDITAR
-// ======================================
-
 async agregarProveedor() {
 
   this.nombre = this.nombre.trim();
@@ -105,7 +97,6 @@ async agregarProveedor() {
 
   }
 
-  // Solo letras y espacios
   const soloLetras =
     /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
 
@@ -119,7 +110,6 @@ async agregarProveedor() {
 
   }
 
-  // Mínimo 3 letras
   const letras =
     this.nombre.replace(/\s/g, '');
 
@@ -133,7 +123,6 @@ async agregarProveedor() {
 
   }
 
-  // Evitar nombres tipo asdasd, qwerty, zxcvbn...
   const palabrasInvalidas = [
 
     'asd',
@@ -168,8 +157,6 @@ async agregarProveedor() {
 
   }
 
-  // Evitar nombres repetidos
-
   const repetido =
 
     this.proveedores.find(
@@ -195,8 +182,6 @@ async agregarProveedor() {
     return;
 
   }
-
-  // Validar teléfono peruano (9 dígitos)
 
   if (!/^[0-9]{9}$/.test(this.telefono)) {
 
@@ -314,10 +299,6 @@ async agregarProveedor() {
 
 }
 
-  // ======================================
-  // EDITAR
-  // ======================================
-
   editarProveedor(p: any) {
 
     this.nombre = p.nombre;
@@ -329,10 +310,6 @@ async agregarProveedor() {
     this.editando = true;
 
   }
-
-  // ======================================
-  // ELIMINAR
-  // ======================================
 
   async eliminarProveedor(id: any) {
 
@@ -350,10 +327,6 @@ async agregarProveedor() {
 
   }
 
-  // ======================================
-  // LLAMAR
-  // ======================================
-
   llamarProveedor(telefono: string) {
 
     window.open(
@@ -362,10 +335,6 @@ async agregarProveedor() {
     );
 
   }
-
-  // ======================================
-  // WHATSAPP
-  // ======================================
 
   abrirWhatsapp(telefono: string) {
 
@@ -379,10 +348,6 @@ async agregarProveedor() {
 
   }
 
-  // ======================================
-  // LIMPIAR
-  // ======================================
-
   limpiarFormulario() {
 
     this.nombre = '';
@@ -394,10 +359,6 @@ async agregarProveedor() {
     this.firebaseId = '';
 
   }
-
-  // ======================================
-  // FILTRAR
-  // ======================================
 
   filtrarProveedores() {
 
@@ -421,10 +382,6 @@ async agregarProveedor() {
       );
 
   }
-
-  // ======================================
-  // MOSTRAR TODOS
-  // ======================================
 
   mostrarTodos() {
 

@@ -1,120 +1,66 @@
-<ion-header>
-
-  <ion-toolbar>
-
-    <ion-title>
-      Reclamos
-    </ion-title>
-
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab2"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Reclamos</ion-title>
   </ion-toolbar>
-
 </ion-header>
 
 <ion-content class="reclamos-content">
 
-  <div class="titulo">
-
-    <h2>Gestión de Reclamos</h2>
-
-    <p>
-      Productos rechazados o pendientes de resolución.
-    </p>
-
+  <div class="header-section">
+    <h2>Control de Incidencias</h2>
+    <p>Seguimiento de productos con inconvenientes o pendientes de resolución.</p>
   </div>
 
-  <div
-    *ngIf="productos.length==0"
-    class="empty">
-
-    No existen reclamos pendientes.
-
+  <div *ngIf="productos.length == 0" class="empty-state">
+    <ion-icon name="checkmark-done-circle-outline"></ion-icon>
+    <p>No existen reclamos pendientes actualmente.</p>
   </div>
 
-  <ion-card
-    *ngFor="let item of productos">
+  <div class="list-container">
+    <ion-card *ngFor="let item of productos" class="claim-card" [ngClass]="item.estado">
+      <ion-card-header>
+        <div class="card-header-flex">
+          <div class="main-info">
+            <ion-card-title>{{item.producto}}</ion-card-title>
+            <span class="provider-info">🏢 {{item.proveedor}}</span>
+          </div>
+          <div class="status-badge" [ngClass]="item.estado">
+            {{ item.estado === 'rechazado' ? 'Rechazado' : item.estado === 'resuelto' ? 'Resuelto' : 'Pendiente' }}
+          </div>
+        </div>
+      </ion-card-header>
 
-    <ion-card-header>
+      <ion-card-content>
+        <div class="details-box">
+          <div class="detail-item">
+            <span class="label">Cantidad</span>
+            <span class="value">{{item.cantidad}}</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Importe</span>
+            <span class="value">S/ {{item.precio | number:'1.2-2'}}</span>
+          </div>
+          <div class="detail-item total">
+            <span class="label">Total Afectado</span>
+            <span class="value">S/ {{item.cantidad * item.precio | number:'1.2-2'}}</span>
+          </div>
+        </div>
 
-      <ion-card-title>
+        <div class="image-preview" *ngIf="item.foto">
+          <img [src]="item.foto">
+        </div>
 
-        {{item.producto}}
-
-      </ion-card-title>
-
-      <ion-card-subtitle>
-
-        {{item.proveedor}}
-
-      </ion-card-subtitle>
-
-    </ion-card-header>
-
-    <ion-card-content>
-
-      <div class="fila">
-
-        <span>Cantidad</span>
-
-        <strong>{{item.cantidad}}</strong>
-
-      </div>
-
-      <div class="fila">
-
-        <span>Precio</span>
-
-        <strong>S/ {{item.precio}}</strong>
-
-      </div>
-
-      <div
-        class="estado"
-
-        [ngClass]="item.estado">
-
-        {{
-
-          item.estado=="rechazado"
-
-          ? "Rechazado"
-
-          : item.estado=="aceptado"
-
-          ? "Aceptado"
-
-          : item.estado=="resuelto"
-
-          ? "Resuelto"
-
-          : "Pendiente"
-
-        }}
-
-      </div>
-
-      <img
-        *ngIf="item.foto"
-        [src]="item.foto"
-        class="foto">
-
-      <ion-button
-        *ngIf="item.estado!='resuelto'"
-        expand="block"
-        fill="outline"
-        color="success"
-        (click)="resolverReclamo(item)">
-
-        <ion-icon
-          slot="start"
-          name="checkmark-circle-outline">
-        </ion-icon>
-
-        Marcar como Resuelto
-
-      </ion-button>
-
-    </ion-card-content>
-
-  </ion-card>
+        <div class="card-actions" *ngIf="item.estado != 'resuelto'">
+          <ion-button expand="block" color="success" class="resolve-btn" (click)="resolverReclamo(item)">
+            <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
+            Resolver Incidencia
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
 
 </ion-content>

@@ -15,6 +15,7 @@ export class HistorialPage {
   productosFiltrados: any[] = [];
   buscar = '';
   editandoIndex: number | null = null;
+  categorias = ['Abarrotes', 'Bebidas', 'Limpieza', 'Lácteos', 'Embutidos', 'Snacks', 'Otros'];
 
   constructor(
     private firebaseService: FirebaseService,
@@ -27,8 +28,8 @@ export class HistorialPage {
 
   async cargarProductos() {
     const data = await this.firebaseService.obtenerProductos();
-    this.productos = data;
-    this.productosFiltrados = [...data];
+    this.productos = data.filter((p: any) => p.estado === 'aceptado' || p.estado === 'resuelto');
+    this.productosFiltrados = [...this.productos];
   }
 
   async eliminar(item: any) {
@@ -62,6 +63,7 @@ export class HistorialPage {
     await this.firebaseService.actualizarProducto(item.id, {
       producto: item.producto,
       proveedor: item.proveedor,
+      categoria: item.categoria,
       cantidad: item.cantidad,
       precio: item.precio,
       estado: item.estado,

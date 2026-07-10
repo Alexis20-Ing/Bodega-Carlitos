@@ -17,8 +17,11 @@ export class NuevaRecepcionPage {
 
   producto = '';
   proveedor = '';
+  categoria = 'Abarrotes';
   cantidad = 0;
   precio = 0;
+
+  categorias = ['Abarrotes', 'Bebidas', 'Limpieza', 'Lácteos', 'Embutidos', 'Snacks', 'Otros'];
 
   foto: string = '';
 
@@ -29,6 +32,8 @@ export class NuevaRecepcionPage {
   esNuevoProveedor = false;
   nuevoProveedor = '';
   nuevoTelefono = '';
+
+  cargando = false;
 
   constructor(
     private firebaseService: FirebaseService,
@@ -51,6 +56,7 @@ export class NuevaRecepcionPage {
 
     this.producto = '';
     this.proveedor = '';
+    this.categoria = 'Abarrotes';
     this.cantidad = 0;
     this.precio = 0;
 
@@ -62,10 +68,6 @@ export class NuevaRecepcionPage {
     this.nuevoTelefono = '';
 
   }
-
-  // ======================================
-  // VALIDAR NOMBRES
-  // ======================================
 
   validarNombre(texto: string): boolean {
 
@@ -131,10 +133,6 @@ export class NuevaRecepcionPage {
 
   }
 
-  // ======================================
-  // FOTO
-  // ======================================
-
   async tomarFoto() {
 
     try {
@@ -174,13 +172,13 @@ export class NuevaRecepcionPage {
 
   }
 
-  // ======================================
-  // GUARDAR
-  // ======================================
-
   async guardarProducto() {
 
+    if (this.cargando) return;
+
     try {
+
+      this.cargando = true;
 
       if (
         this.esNuevoProveedor
@@ -226,10 +224,6 @@ export class NuevaRecepcionPage {
 
       }
 
-      //============================
-      // VALIDAR PRODUCTO
-      //============================
-
       if (
 
         !this.validarNombre(
@@ -245,10 +239,6 @@ export class NuevaRecepcionPage {
         return;
 
       }
-
-      //============================
-      // VALIDAR PROVEEDOR
-      //============================
 
       if (
         this.esNuevoProveedor
@@ -271,10 +261,6 @@ export class NuevaRecepcionPage {
         }
 
       }
-
-      //============================
-      // EVITAR PROVEEDOR REPETIDO
-      //============================
 
       if (
         this.esNuevoProveedor
@@ -331,10 +317,6 @@ export class NuevaRecepcionPage {
 
       }
 
-      //============================
-      // EVITAR PRODUCTO REPETIDO
-      //============================
-
       const existeProducto =
 
         this.productos.find(
@@ -385,6 +367,9 @@ export class NuevaRecepcionPage {
         producto:
           this.producto.trim(),
 
+        categoria:
+          this.categoria,
+
         cantidad:
           this.cantidad,
 
@@ -428,6 +413,8 @@ export class NuevaRecepcionPage {
         'Error al guardar el producto.'
       );
 
+    } finally {
+      this.cargando = false;
     }
 
   }
