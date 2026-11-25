@@ -1,0 +1,904 @@
+/* =====================================================
+   BODEGA EXPRESS - ADMINISTRACIÓN DE PEDIDOS
+   ===================================================== */
+
+/* =====================================================
+   ENCABEZADO AZUL MARINO
+   ===================================================== */
+
+ion-header,
+ion-header.main-header {
+  background: #17365D !important;
+  color: #ffffff !important;
+  box-shadow: none;
+}
+
+ion-header ion-toolbar,
+ion-header.main-header ion-toolbar {
+  --background: #17365D !important;
+  --ion-toolbar-background: #17365D !important;
+  --color: #ffffff !important;
+  --border-color: transparent !important;
+
+  background: #17365D !important;
+  color: #ffffff !important;
+}
+
+ion-header ion-title,
+ion-header.main-header ion-title {
+  color: #ffffff !important;
+  font-size: 18px;
+  font-weight: 700;
+  opacity: 1 !important;
+}
+
+/* BOTONES NORMALES DEL ENCABEZADO */
+
+ion-header ion-button,
+ion-header.main-header ion-button {
+  --color: #ffffff !important;
+  --background: transparent;
+  --background-hover: rgba(255, 255, 255, 0.12);
+  --background-activated: rgba(255, 255, 255, 0.18);
+
+  color: #ffffff !important;
+}
+
+/* FLECHA PARA REGRESAR */
+
+ion-header ion-back-button,
+ion-header.main-header ion-back-button {
+  --color: #ffffff !important;
+  --icon-font-size: 26px;
+  --icon-font-weight: 700;
+
+  color: #ffffff !important;
+  opacity: 1 !important;
+}
+
+ion-header ion-back-button::part(icon) {
+  color: #ffffff !important;
+  opacity: 1 !important;
+}
+
+ion-header ion-back-button::part(text) {
+  color: #ffffff !important;
+}
+
+/* ICONOS NORMALES DEL ENCABEZADO */
+
+ion-header ion-icon,
+ion-header.main-header ion-icon {
+  color: #ffffff !important;
+  opacity: 1 !important;
+}
+
+/* =====================================================
+   BOTÓN PRODUCTOS: FONDO BLANCO
+   ===================================================== */
+
+ion-header ion-button.productos-button {
+  --background: #ffffff !important;
+  --background-hover: #e2e8f0 !important;
+  --background-activated: #cbd5e1 !important;
+  --color: #17365D !important;
+  --border-color: #ffffff !important;
+  --border-radius: 8px !important;
+  --box-shadow: none !important;
+
+  background: #ffffff !important;
+  color: #17365D !important;
+  font-weight: 700;
+  opacity: 1 !important;
+}
+
+ion-header ion-button.productos-button::part(native) {
+  background: #ffffff !important;
+  color: #17365D !important;
+  border: 1px solid #ffffff !important;
+  border-radius: 8px !important;
+  font-weight: 700;
+}
+
+ion-header ion-button.productos-button ion-icon {
+  color: #17365D !important;
+}
+
+ion-header ion-button.productos-button::part(native):hover {
+  background: #e2e8f0 !important;
+}
+
+/* =====================================================
+   BOTÓN SALIR: SOLO TEXTO E ICONO ROJOS
+   SIN FONDO NI REBORDE ROJO
+   ===================================================== */
+
+ion-header ion-button.salir-button {
+  --background: transparent !important;
+  --background-hover: rgba(220, 38, 38, 0.08) !important;
+  --background-activated: rgba(220, 38, 38, 0.12) !important;
+  --background-focused: transparent !important;
+  --color: #dc2626 !important;
+  --border-color: transparent !important;
+  --border-style: none !important;
+  --border-width: 0 !important;
+  --border-radius: 8px !important;
+  --box-shadow: none !important;
+
+  background: transparent !important;
+  color: #dc2626 !important;
+  border: none !important;
+  box-shadow: none !important;
+  font-weight: 700 !important;
+  opacity: 1 !important;
+}
+
+ion-header ion-button.salir-button::part(native) {
+  background: transparent !important;
+  color: #dc2626 !important;
+  border: none !important;
+  box-shadow: none !important;
+  font-weight: 700 !important;
+}
+
+ion-header ion-button.salir-button ion-icon {
+  color: #dc2626 !important;
+  opacity: 1 !important;
+}
+
+ion-header ion-button.salir-button::part(native):hover {
+  background: rgba(220, 38, 38, 0.08) !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* =====================================================
+   CONTENEDOR PRINCIPAL
+   ===================================================== */
+
+.admin-pedidos-content {
+  --background: var(--app-background, #f5f7fa);
+  --color: var(--app-text, #1e293b);
+}
+
+/* =====================================================
+   ESTADÍSTICAS
+   ===================================================== */
+
+.estadisticas-container {
+  max-width: 1000px;
+  margin: 20px auto 10px;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.estadisticas-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+
+  h2 {
+    margin: 0;
+    color: var(--app-primary, #17365D);
+    font-size: 22px;
+    font-weight: 800;
+  }
+
+  p {
+    margin: 5px 0 0;
+    color: var(--app-text-muted, #64748b);
+    font-size: 14px;
+  }
+
+  > ion-icon {
+    flex-shrink: 0;
+    color: var(--app-primary, #17365D);
+    font-size: 32px;
+  }
+}
+
+/* TARJETAS DE ESTADÍSTICAS */
+
+.estadisticas-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.estadistica-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  min-height: 90px;
+  padding: 15px;
+  background: var(--app-surface, #ffffff);
+  border: 1px solid var(--app-border, #e2e8f0);
+  border-left: 4px solid transparent;
+  border-radius: var(--app-border-radius-small, 10px);
+  box-shadow: var(--app-shadow, 0 2px 8px rgba(15, 23, 42, 0.06));
+  box-sizing: border-box;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  strong {
+    display: block;
+    color: var(--app-text, #1e293b);
+    font-size: 25px;
+    font-weight: 800;
+    line-height: 1.1;
+  }
+
+  span {
+    display: block;
+    margin-top: 4px;
+    color: var(--app-text-muted, #64748b);
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--app-shadow-hover, 0 5px 14px rgba(15, 23, 42, 0.1));
+  }
+}
+
+.estadistica-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  min-width: 46px;
+  border-radius: 12px;
+
+  ion-icon {
+    font-size: 24px;
+  }
+}
+
+/* ESTADO PENDIENTE */
+
+.estadistica-card.pendiente {
+  border-left-color: #d97706;
+
+  .estadistica-icon {
+    background: #fef3c7;
+  }
+
+  ion-icon {
+    color: #b45309;
+  }
+}
+
+/* ESTADO CONFIRMADO */
+
+.estadistica-card.confirmado {
+  border-left-color: #2563eb;
+
+  .estadistica-icon {
+    background: #dbeafe;
+  }
+
+  ion-icon {
+    color: #1d4ed8;
+  }
+}
+
+/* ESTADO PREPARANDO */
+
+.estadistica-card.preparando {
+  border-left-color: #7c3aed;
+
+  .estadistica-icon {
+    background: #ede9fe;
+  }
+
+  ion-icon {
+    color: #6d28d9;
+  }
+}
+
+/* ESTADO LISTO */
+
+.estadistica-card.listo {
+  border-left-color: var(--app-success, #238636);
+
+  .estadistica-icon {
+    background: #dcfce7;
+  }
+
+  ion-icon {
+    color: var(--app-success, #238636);
+  }
+}
+
+/* ESTADO ENTREGADO */
+
+.estadistica-card.entregado {
+  border-left-color: #0f766e;
+
+  .estadistica-icon {
+    background: #ccfbf1;
+  }
+
+  ion-icon {
+    color: #0f766e;
+  }
+}
+
+/* ESTADO CANCELADO */
+
+.estadistica-card.cancelado {
+  border-left-color: #dc2626;
+
+  .estadistica-icon {
+    background: #fee2e2;
+  }
+
+  ion-icon {
+    color: #b91c1c;
+  }
+}
+
+/* =====================================================
+   RESUMEN DE VENTAS
+   ===================================================== */
+
+.ventas-resumen {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 16px;
+  padding: 17px 20px;
+  background: var(--app-surface, #ffffff);
+  border: 1px solid var(--app-border, #e2e8f0);
+  border-left: 4px solid var(--app-success, #238636);
+  border-radius: var(--app-border-radius-small, 10px);
+  box-shadow: var(--app-shadow, 0 2px 8px rgba(15, 23, 42, 0.06));
+  box-sizing: border-box;
+
+  > div:first-child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    background: #dcfce7;
+    border-radius: 12px;
+  }
+
+  ion-icon {
+    color: var(--app-success, #238636);
+    font-size: 26px;
+  }
+
+  span {
+    display: block;
+    color: var(--app-text-muted, #64748b);
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  strong {
+    display: block;
+    margin-top: 3px;
+    color: var(--app-success, #238636);
+    font-size: 24px;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* =====================================================
+   BÚSQUEDA Y FILTROS
+   ===================================================== */
+
+.filtros-pedidos {
+  max-width: 1000px;
+  margin: 20px auto 0;
+  padding: 18px 16px;
+  background: var(--app-surface, #ffffff);
+  border: 1px solid var(--app-border, #e2e8f0);
+  border-radius: var(--app-border-radius, 14px);
+  box-shadow: var(--app-shadow, 0 2px 8px rgba(15, 23, 42, 0.06));
+  box-sizing: border-box;
+
+  ion-searchbar {
+    padding: 0;
+    --background: #f8fafc;
+    --border-radius: var(--app-border-radius-small, 10px);
+    --box-shadow: none;
+    --color: var(--app-text, #1e293b);
+    --placeholder-color: #94a3b8;
+    --icon-color: var(--app-primary, #17365D);
+    --clear-button-color: var(--app-text-muted, #64748b);
+  }
+}
+
+.filtro-estado {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+
+  ion-label {
+    color: var(--app-text, #1e293b);
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  ion-select {
+    width: 100%;
+    min-height: 44px;
+    padding: 0 12px;
+    color: var(--app-text, #1e293b);
+    background: #f8fafc;
+    border: 1px solid var(--app-border, #e2e8f0);
+    border-radius: var(--app-border-radius-small, 10px);
+    --placeholder-color: var(--app-text-muted, #64748b);
+  }
+}
+
+.resultado-busqueda {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--app-border, #e2e8f0);
+
+  span {
+    color: var(--app-text-muted, #64748b);
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  ion-button {
+    margin: 0;
+    --color: var(--app-primary, #17365D);
+    font-size: 13px;
+    text-transform: none;
+  }
+}
+
+/* =====================================================
+   CARGA Y ESTADOS VACÍOS
+   ===================================================== */
+
+.loading-container,
+.empty-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  padding: 30px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.loading-container {
+  ion-spinner {
+    width: 42px;
+    height: 42px;
+    margin-bottom: 15px;
+    color: var(--app-primary, #17365D);
+  }
+
+  p {
+    margin: 0;
+    color: var(--app-text-muted, #64748b);
+    font-size: 15px;
+  }
+}
+
+.empty-container {
+  ion-icon {
+    margin-bottom: 15px;
+    color: #94a3b8;
+    font-size: 70px;
+  }
+
+  h2 {
+    margin: 0 0 8px;
+    color: var(--app-primary, #17365D);
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  p {
+    margin: 0 0 15px;
+    color: var(--app-text-muted, #64748b);
+    font-size: 15px;
+  }
+
+  ion-button {
+    --border-radius: var(--app-border-radius-small, 10px);
+    --background: var(--app-primary, #17365D);
+    --color: #ffffff;
+    text-transform: none;
+  }
+}
+
+/* =====================================================
+   LISTA Y TARJETAS DE PEDIDOS
+   ===================================================== */
+
+.pedidos-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.pedido-card {
+  overflow: hidden;
+  margin: 0 0 18px;
+  background: var(--app-surface, #ffffff);
+  border: 1px solid var(--app-border, #e2e8f0);
+  border-radius: var(--app-border-radius, 14px);
+  box-shadow: var(--app-shadow, 0 2px 8px rgba(15, 23, 42, 0.06));
+}
+
+.pedido-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+ion-card-title {
+  color: var(--app-primary, #17365D);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+ion-card-subtitle {
+  margin-top: 6px;
+  color: var(--app-text-muted, #64748b);
+  font-size: 14px;
+}
+
+/* =====================================================
+   ETIQUETAS DE ESTADO
+   ===================================================== */
+
+.estado {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 12px;
+  border: 1px solid transparent;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.estado-pendiente {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.estado-confirmado {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.estado-preparando {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+
+.estado-listo {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.estado-entregado {
+  background: #ccfbf1;
+  color: #115e59;
+}
+
+.estado-cancelado {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* =====================================================
+   INFORMACIÓN DEL PEDIDO
+   ===================================================== */
+
+.pedido-info {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+    padding: 12px;
+    background: #f8fafc;
+    border: 1px solid var(--app-border, #e2e8f0);
+    border-radius: var(--app-border-radius-small, 10px);
+  }
+
+  strong {
+    color: var(--app-text-muted, #64748b);
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  span {
+    color: var(--app-text, #1e293b);
+    font-size: 15px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* =====================================================
+   PRODUCTOS DEL PEDIDO
+   ===================================================== */
+
+.productos-section {
+  margin-top: 10px;
+
+  h3 {
+    margin: 0 0 12px;
+    color: var(--app-primary, #17365D);
+    font-size: 16px;
+    font-weight: 700;
+  }
+}
+
+.producto-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--app-border, #e2e8f0);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.producto-nombre {
+  min-width: 0;
+  color: var(--app-text, #1e293b);
+  font-size: 14px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+
+  small {
+    margin-left: 8px;
+    color: var(--app-text-muted, #64748b);
+    font-size: 13px;
+    font-weight: 500;
+  }
+}
+
+.producto-precio {
+  color: var(--app-primary, #17365D);
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* =====================================================
+   CAMBIO DE ESTADO
+   ===================================================== */
+
+.estado-section {
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--app-border, #e2e8f0);
+
+  ion-label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--app-text, #1e293b);
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  ion-select {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+    background: #ffffff;
+    color: var(--app-text, #1e293b);
+    border: 1px solid var(--app-border, #e2e8f0);
+    border-radius: var(--app-border-radius-small, 10px);
+    --padding-start: 12px;
+    --padding-end: 12px;
+  }
+}
+
+/* =====================================================
+   TABLETS
+   ===================================================== */
+
+@media (max-width: 850px) {
+  .estadisticas-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .estadisticas-container {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .filtros-pedidos {
+    margin-right: 16px;
+    margin-left: 16px;
+  }
+}
+
+/* =====================================================
+   CELULARES
+   ===================================================== */
+
+@media (max-width: 600px) {
+  .estadisticas-container {
+    margin-top: 15px;
+    padding: 0 12px;
+  }
+
+  .estadisticas-header {
+    h2 {
+      font-size: 19px;
+    }
+
+    p {
+      font-size: 13px;
+    }
+
+    > ion-icon {
+      font-size: 28px;
+    }
+  }
+
+  .estadisticas-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .estadistica-card {
+    gap: 9px;
+    min-height: 82px;
+    padding: 11px;
+
+    strong {
+      font-size: 21px;
+    }
+
+    span {
+      font-size: 11px;
+    }
+  }
+
+  .estadistica-icon {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+
+    ion-icon {
+      font-size: 21px;
+    }
+  }
+
+  .ventas-resumen {
+    gap: 12px;
+    padding: 14px;
+
+    > div:first-child {
+      width: 42px;
+      height: 42px;
+      min-width: 42px;
+    }
+
+    strong {
+      font-size: 21px;
+    }
+  }
+
+  .filtros-pedidos {
+    margin: 16px 12px 0;
+    padding: 14px;
+  }
+
+  .resultado-busqueda {
+    align-items: flex-start;
+  }
+
+  .pedidos-container {
+    padding: 12px;
+  }
+
+  .pedido-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .pedido-info {
+    grid-template-columns: 1fr;
+  }
+
+  .pedido-card {
+    margin-bottom: 14px;
+  }
+
+  ion-card-title {
+    font-size: 17px;
+    overflow-wrap: anywhere;
+  }
+
+  .producto-item {
+    align-items: flex-start;
+  }
+
+  .producto-nombre {
+    max-width: 65%;
+  }
+}
+
+/* =====================================================
+   PANTALLAS MUY ESTRECHAS
+   ===================================================== */
+
+@media (max-width: 360px) {
+  .estadisticas-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .estadistica-card {
+    min-height: 75px;
+  }
+
+  .ventas-resumen {
+    padding: 12px;
+  }
+
+  .pedido-header {
+    flex-wrap: wrap;
+  }
+
+  .pedido-card {
+    padding: 12px;
+  }
+
+  .producto-item {
+    gap: 6px;
+  }
+
+  .producto-precio {
+    font-size: 12px;
+  }
+}
+
+/* =====================================================
+   ACCESIBILIDAD
+   ===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .estadistica-card {
+    transition: none;
+  }
+
+  .estadistica-card:hover {
+    transform: none;
+  }
+}

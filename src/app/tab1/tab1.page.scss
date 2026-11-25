@@ -1,89 +1,276 @@
+
+/* =====================================================
+   BODEGA EXPRESS - INICIO DE SESIÓN Y REGISTRO
+   Usa las variables definidas en global.scss
+   ===================================================== */
+
 .login-content {
-  --background: #ffffff;
+  --background: var(--app-background);
+  --color: var(--app-text);
 }
 
 .login-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 100%;
-  padding: 30px;
-  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+
+  width: 100%;
+  max-width: 480px;
+  min-height: 100%;
+  margin: 0 auto;
+  padding: 28px var(--app-page-padding);
+
+  box-sizing: border-box;
 }
+
+/* =====================================================
+   LOGOTIPO Y PRESENTACIÓN
+   ===================================================== */
 
 .logo-section {
+  margin-bottom: 30px;
   text-align: center;
-  margin-bottom: 40px;
-
-  .logo-wrapper {
-    background: #f0f4ff;
-    width: 100px;
-    height: 100px;
-    border-radius: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 20px auto;
-    box-shadow: 0 10px 20px rgba(30, 58, 138, 0.1);
-
-    ion-icon {
-      font-size: 50px;
-      color: #1e3a8a;
-    }
-  }
-
-  h1 {
-    margin: 0;
-    font-size: 2rem;
-    font-weight: 800;
-    color: #1e3a8a;
-    letter-spacing: -1px;
-  }
-
-  p {
-    margin: 8px 0 0 0;
-    color: #64748b;
-    font-size: 0.9rem;
-  }
 }
+
+.logo-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 20px;
+  overflow: hidden;
+
+  border: 1px solid var(--app-border);
+  border-radius: 24px;
+  background: var(--app-surface);
+  box-shadow: var(--app-shadow);
+}
+
+.logo-imagen {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.logo-section h1 {
+  margin: 0;
+
+  color: var(--app-primary);
+  font-size: 1.9rem;
+  font-weight: 800;
+  letter-spacing: -0.7px;
+}
+
+.logo-section p {
+  margin: 8px 0 0;
+
+  color: var(--app-text-muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* =====================================================
+   FORMULARIO
+   ===================================================== */
 
 .form-section {
-  ion-item {
-    --background: #f1f5f9;
-    --border-radius: 16px;
-    --padding-start: 16px;
-    --inner-padding-end: 16px;
-    margin-bottom: 18px;
-    --border-width: 0;
-    --highlight-height: 0;
+  width: 100%;
+}
 
-    ion-label {
-      color: #64748b;
-      font-weight: 500;
-    }
+.form-section h2 {
+  margin: 0 0 22px;
 
-    ion-input {
-      font-weight: 600;
-      --padding-top: 10px;
-      --padding-bottom: 10px;
-    }
+  color: var(--app-primary);
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Campos de texto */
+
+.form-section ion-item {
+  --background: #ffffff;
+  --color: var(--app-text);
+  --border-color: var(--app-border);
+  --border-radius: var(--app-border-radius-small);
+  --border-width: 1px;
+  --border-style: solid;
+  --highlight-height: 2px;
+  --highlight-color-focused: var(--app-primary);
+  --padding-start: 14px;
+  --inner-padding-end: 14px;
+
+  margin: 0 0 16px;
+  border-radius: var(--app-border-radius-small);
+}
+
+.form-section ion-label {
+  color: var(--app-text-muted);
+  font-weight: 500;
+}
+
+.form-section ion-input {
+  --color: var(--app-text);
+  --placeholder-color: #94a3b8;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+
+  font-size: 0.95rem;
+}
+
+/* =====================================================
+   BOTÓN PRINCIPAL
+   ===================================================== */
+
+.login-btn {
+  height: 50px;
+  margin: 18px 0 0;
+
+  --background: var(--app-primary);
+  --background-hover: var(--ion-color-primary-shade);
+  --background-activated: var(--ion-color-primary-shade);
+  --color: #ffffff;
+  --border-radius: var(--app-border-radius-small);
+  --box-shadow: 0 4px 12px rgba(23, 54, 93, 0.16);
+
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* =====================================================
+   SEPARADOR
+   ===================================================== */
+
+.separador {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  margin: 24px 0;
+
+  color: var(--app-text-muted);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.separador::before,
+.separador::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--app-border);
+}
+
+/* =====================================================
+   BOTÓN DE GOOGLE
+   ===================================================== */
+
+.google-btn {
+  height: 48px;
+  margin: 0;
+
+  --background: #ffffff;
+  --background-hover: #f8fafc;
+  --background-activated: #f1f5f9;
+  --color: var(--app-text);
+  --border-color: #cbd5e1;
+  --border-style: solid;
+  --border-width: 1px;
+  --border-radius: var(--app-border-radius-small);
+  --box-shadow: none;
+
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-transform: none;
+}
+
+/* =====================================================
+   CAMBIAR ENTRE LOGIN Y REGISTRO
+   ===================================================== */
+
+.cambiar-modo {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.cambiar-modo p {
+  margin: 0;
+
+  color: var(--app-text-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.cambiar-modo ion-button {
+  margin-top: 4px;
+
+  --color: var(--app-primary);
+
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: none;
+}
+
+/* =====================================================
+   PANTALLAS PEQUEÑAS
+   ===================================================== */
+
+@media (max-width: 360px) {
+  .login-container {
+    padding: 20px 16px;
+  }
+
+  .logo-section {
+    margin-bottom: 24px;
+  }
+
+  .logo-wrapper {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 16px;
+    border-radius: 20px;
+  }
+
+  .logo-section h1 {
+    font-size: 1.65rem;
+  }
+
+  .form-section h2 {
+    font-size: 1.25rem;
   }
 }
 
-.login-btn {
-  margin-top: 30px;
-  height: 56px;
-  --box-shadow: 0 10px 20px rgba(30, 58, 138, 0.2);
-  font-size: 1.1rem;
-}
+/* =====================================================
+   PANTALLAS ALTAS Y BAJAS
+   ===================================================== */
 
-.footer-text {
-  text-align: center;
-  margin-top: 40px;
-  color: #94a3b8;
-  font-size: 0.85rem;
+@media (max-height: 700px) {
+  .login-container {
+    justify-content: flex-start;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
 
-  strong {
-    color: #1e3a8a;
+  .logo-section {
+    margin-bottom: 20px;
+  }
+
+  .logo-wrapper {
+    width: 110px;
+    height: 110px;
+    margin-bottom: 12px;
+  }
+
+  .separador {
+    margin: 16px 0;
+  }
+
+  .cambiar-modo {
+    margin-top: 18px;
   }
 }

@@ -1,0 +1,48 @@
+/* ENCABEZADO AZUL OSCURO */
+ion-header,
+ion-header ion-toolbar {
+  --background: #17365D !important;
+  background: #17365D !important;
+  color: #ffffff !important;
+}
+
+/* TÍTULO DEL ENCABEZADO */
+ion-header ion-title {
+  --color: #ffffff !important;
+  color: #ffffff !important;
+  font-weight: 700;
+}
+
+/* BOTONES E ÍCONOS DEL ENCABEZADO */
+ion-header ion-button {
+  --color: #ffffff !important;
+  color: #ffffff !important;
+}
+
+ion-header ion-button ion-icon {
+  color: #ffffff !important;
+}
+
+/* BOTÓN PARA REGRESAR */
+ion-header ion-back-button {
+  --color: #ffffff !important;
+  color: #ffffff !important;
+}
+
+/* ALINEACIÓN DEL TEXTO */
+.titulo-derecha {
+  text-align: right;
+}
+
+/* ACCIONES DE PRODUCTOS */
+.acciones-producto {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* BOTONES DE ACCIONES */
+.acciones-producto ion-button {
+  margin: 0;
+  --border-radius: var(--app-border-radius-small);
+}

@@ -1,102 +1,375 @@
+
 /*
- * App Global CSS
- * ----------------------------------------------------------------------------
- * Put style rules here that you want to apply globally. These styles are for
- * the entire app and not just one component. Additionally, this file can be
- * used as an entry point to import other CSS/Sass files to be included in the
- * output CSS.
- * For more information on global stylesheets, visit the documentation:
- * https://ionicframework.com/docs/layout/global-stylesheets
+ * BODEGA EXPRESS
+ * Estilos globales de Ionic
+ * Diseño: tienda moderna, profesional y consistente
  */
 
-/* Core CSS required for Ionic components to work properly */
-@import "@ionic/angular/css/core.css";
+/* =====================================================
+   1. CSS OBLIGATORIO DE IONIC
+   ===================================================== */
 
-/* Basic CSS for apps built with Ionic */
+@import "@ionic/angular/css/core.css";
 @import "@ionic/angular/css/normalize.css";
 @import "@ionic/angular/css/structure.css";
 @import "@ionic/angular/css/typography.css";
 @import "@ionic/angular/css/display.css";
 
-/* Optional CSS utils that can be commented out */
+/* Utilidades de Ionic */
+
 @import "@ionic/angular/css/padding.css";
 @import "@ionic/angular/css/float-elements.css";
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
+/*
+ * Se conserva el modo oscuro automático de Ionic.
+ * Si deseas que la aplicación sea siempre clara,
+ * puedes descomentar la siguiente línea y eliminar
+ * la importación dark.system.css.
  */
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import "@ionic/angular/css/palettes/dark.system.css";
 
+/* =====================================================
+   2. TEMA GENERAL
+   ===================================================== */
 
 :root {
-  --ion-color-primary: #1e3a8a;
-  --ion-color-secondary: #10b981;
-  --ion-color-danger: #ef4444;
+  /* Azul marino: identidad y confianza */
+  --ion-color-primary: #17365d;
+  --ion-color-primary-rgb: 23, 54, 93;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #143052;
+  --ion-color-primary-tint: #2e4a6e;
 
-  --ion-background-color: #f4f6f9;
-  --ion-text-color: #111827;
+  /* Verde: compras y acciones positivas */
+  --ion-color-secondary: #238636;
+  --ion-color-secondary-rgb: 35, 134, 54;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #1f7630;
+  --ion-color-secondary-tint: #399248;
+
+  /* Gris azulado para elementos secundarios */
+  --ion-color-tertiary: #64748b;
+  --ion-color-tertiary-rgb: 100, 116, 139;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #586579;
+  --ion-color-tertiary-tint: #748195;
+
+  /* Color de error */
+  --ion-color-danger: #dc2626;
+  --ion-color-danger-rgb: 220, 38, 38;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #b91c1c;
+  --ion-color-danger-tint: #ef4444;
+
+  /* Fondos y textos */
+  --ion-background-color: #f5f7fa;
+  --ion-background-color-rgb: 245, 247, 250;
+  --ion-text-color: #1e293b;
+  --ion-text-color-rgb: 30, 41, 59;
 
   --ion-card-background: #ffffff;
+  --ion-border-color: #e2e8f0;
+
+  /* Variables reutilizables de la aplicación */
+  --app-primary: #17365d;
+  --app-success: #238636;
+  --app-background: #f5f7fa;
+  --app-surface: #ffffff;
+  --app-text: #1e293b;
+  --app-text-muted: #64748b;
+  --app-border: #e2e8f0;
+
+  /* Diseño */
+  --app-border-radius: 16px;
+  --app-border-radius-small: 10px;
+  --app-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+  --app-shadow-hover: 0 8px 24px rgba(15, 23, 42, 0.10);
+  --app-page-padding: 16px;
+}
+
+/* =====================================================
+   3. COLORES PERSONALIZADOS DE IONIC
+   ===================================================== */
+
+.ion-color-primary {
+  --ion-color-base: var(--ion-color-primary);
+  --ion-color-base-rgb: var(--ion-color-primary-rgb);
+  --ion-color-contrast: var(--ion-color-primary-contrast);
+  --ion-color-shade: var(--ion-color-primary-shade);
+  --ion-color-tint: var(--ion-color-primary-tint);
+}
+
+.ion-color-secondary {
+  --ion-color-base: var(--ion-color-secondary);
+  --ion-color-base-rgb: var(--ion-color-secondary-rgb);
+  --ion-color-contrast: var(--ion-color-secondary-contrast);
+  --ion-color-shade: var(--ion-color-secondary-shade);
+  --ion-color-tint: var(--ion-color-secondary-tint);
+}
+
+.ion-color-tertiary {
+  --ion-color-base: var(--ion-color-tertiary);
+  --ion-color-base-rgb: var(--ion-color-tertiary-rgb);
+  --ion-color-contrast: var(--ion-color-tertiary-contrast);
+  --ion-color-shade: var(--ion-color-tertiary-shade);
+  --ion-color-tint: var(--ion-color-tertiary-tint);
+}
+
+.ion-color-danger {
+  --ion-color-base: var(--ion-color-danger);
+  --ion-color-base-rgb: var(--ion-color-danger-rgb);
+  --ion-color-contrast: var(--ion-color-danger-contrast);
+  --ion-color-shade: var(--ion-color-danger-shade);
+  --ion-color-tint: var(--ion-color-danger-tint);
+}
+
+/* =====================================================
+   4. ESTRUCTURA GENERAL
+   ===================================================== */
+
+html,
+body,
+ion-app {
+  background: var(--app-background);
+  color: var(--app-text);
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 ion-content {
-  --background: #f4f6f9;
+  --background: var(--app-background);
+  --color: var(--app-text);
 }
 
+/* =====================================================
+   5. ENCABEZADOS Y BARRAS
+   ===================================================== */
+
 ion-toolbar {
-  --background: #1e3a8a;
-  --color: #ffffff;
+  --background: #ffffff;
+  --color: var(--app-primary);
+  --border-color: var(--app-border);
 }
 
 ion-title {
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
 }
 
+ion-header {
+  box-shadow: none;
+}
+
+ion-footer {
+  background: #ffffff;
+}
+
+/* =====================================================
+   6. TARJETAS
+   ===================================================== */
+
 ion-card {
-  border-radius: 18px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  margin: 12px;
+  margin: 12px 0;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: var(--app-border-radius);
+  background: var(--app-surface);
+  box-shadow: var(--app-shadow);
+}
+
+ion-card-header {
+  padding: 16px;
+}
+
+ion-card-content {
+  padding: 0 16px 16px;
+  color: var(--app-text);
 }
 
 ion-card-title {
-  font-size: 18px;
+  color: var(--app-primary);
+  font-size: 17px;
   font-weight: 700;
 }
 
 ion-card-subtitle {
-  color: #6b7280;
+  color: var(--app-text-muted);
+  font-size: 13px;
 }
 
+/* =====================================================
+   7. BOTONES
+   ===================================================== */
+
 ion-button {
+  --border-radius: 10px;
+  --box-shadow: none;
+
   font-weight: 600;
+  letter-spacing: 0;
   text-transform: none;
+}
+
+ion-button::part(native) {
+  transition: opacity 0.2s ease;
+}
+
+ion-button:active::part(native) {
+  opacity: 0.85;
+}
+
+/* =====================================================
+   8. CAMPOS DE FORMULARIO
+   ===================================================== */
+
+ion-input,
+ion-textarea,
+ion-select,
+ion-searchbar {
+  --color: var(--app-text);
+  --placeholder-color: #94a3b8;
+  --highlight-color-focused: var(--app-primary);
+}
+
+ion-searchbar {
+  --background: #ffffff;
+  --border-radius: var(--app-border-radius-small);
+  --box-shadow: none;
+  --color: var(--app-text);
+  --placeholder-color: #94a3b8;
+
+  padding-inline: 0;
+}
+
+ion-checkbox,
+ion-radio {
+  --checkbox-background-checked: var(--app-primary);
+  --border-color-checked: var(--app-primary);
+}
+
+/* =====================================================
+   9. LISTAS Y ELEMENTOS
+   ===================================================== */
+
+ion-list {
+  background: transparent;
 }
 
 ion-item {
   --background: #ffffff;
-  --border-radius: 12px;
-  margin-bottom: 12px;
+  --color: var(--app-text);
+  --border-color: var(--app-border);
 }
 
 ion-label {
-  font-weight: 500;
+  color: var(--app-text);
 }
 
-img {
-  border-radius: 12px;
+/* =====================================================
+   10. NAVEGACIÓN INFERIOR
+   ===================================================== */
+
+ion-tab-bar {
+  --background: #ffffff;
+  --border: 1px solid var(--app-border);
 }
 
+ion-tab-button {
+  --color: #64748b;
+  --color-selected: var(--app-primary);
+
+  font-weight: 600;
+}
+
+/* =====================================================
+   11. IMÁGENES
+   ===================================================== */
+
+/*
+ * No se aplica border-radius a todas las imágenes,
+ * porque algunos iconos y logotipos deben conservar
+ * su forma original.
+ */
+
+.product-image {
+  width: 100%;
+  object-fit: cover;
+  border-radius: var(--app-border-radius-small);
+}
+
+/* =====================================================
+   12. CLASES REUTILIZABLES
+   ===================================================== */
+
+/* Contenedor de página */
+.app-page {
+  padding: var(--app-page-padding);
+}
+
+/* Tarjeta o superficie blanca */
+.app-surface {
+  padding: 16px;
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-border-radius);
+  background: var(--app-surface);
+  box-shadow: var(--app-shadow);
+}
+
+/* Título de sección */
+.app-section-title {
+  margin: 20px 0 12px;
+  color: var(--app-primary);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* Texto secundario */
+.app-muted {
+  color: var(--app-text-muted);
+  font-size: 14px;
+}
+
+/* Estado positivo */
+.app-success {
+  color: var(--app-success);
+}
+
+/* Mensaje cuando no hay resultados */
 .empty {
-  text-align: center;
   margin-top: 40px;
-  color: #6b7280;
+  color: var(--app-text-muted);
+  text-align: center;
+}
+
+/* =====================================================
+   13. ALERTAS Y VENTANAS
+   ===================================================== */
+
+ion-alert,
+ion-action-sheet,
+ion-modal {
+  --background: #ffffff;
+  --color: var(--app-text);
+}
+
+/* =====================================================
+   14. ACCESIBILIDAD
+   ===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

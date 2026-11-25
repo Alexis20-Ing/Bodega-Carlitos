@@ -1,0 +1,298 @@
+
+<ion-header class="carrito-header">
+  <ion-toolbar>
+
+    <ion-buttons slot="start">
+      <ion-button (click)="volver()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title>Mi carrito</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button
+        (click)="actualizarStockCarrito()"
+        [disabled]="actualizandoStock || procesandoPedido"
+        aria-label="Actualizar stock">
+
+        <ion-icon
+          name="refresh-outline"
+          slot="icon-only">
+        </ion-icon>
+
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="carrito-content">
+
+  <!-- Indicador de actualización -->
+  <div
+    class="stock-actualizando"
+    *ngIf="actualizandoStock">
+
+    <ion-spinner name="crescent"></ion-spinner>
+
+    <span>Actualizando disponibilidad...</span>
+
+  </div>
+
+  <!-- Carrito con productos -->
+  <div
+    class="carrito-container"
+    *ngIf="carrito.length > 0">
+
+    <div class="carrito-title">
+
+      <div>
+        <h2>Mis productos</h2>
+
+        <p>
+          {{ carrito.length }}
+          {{ carrito.length === 1 ? 'producto' : 'productos' }}
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Lista de productos -->
+    <div
+      class="carrito-producto"
+      *ngFor="let producto of carrito">
+
+      <!-- Imagen -->
+      <div class="producto-imagen">
+
+        <img
+          *ngIf="producto.foto"
+          [src]="producto.foto"
+          [alt]="producto.producto">
+
+        <ion-icon
+          *ngIf="!producto.foto"
+          name="image-outline">
+        </ion-icon>
+
+      </div>
+
+      <!-- Información del producto -->
+      <div class="producto-info">
+
+        <span class="producto-categoria">
+          {{ producto.categoria || 'Producto' }}
+        </span>
+
+        <h3>{{ producto.producto }}</h3>
+
+        <strong class="producto-precio">
+          S/ {{ producto.precio | number:'1.2-2' }}
+        </strong>
+
+        <!-- Stock disponible -->
+        <div
+          class="stock-disponible"
+          [class.stock-agotado]="producto.cantidad <= 0">
+
+          <ion-icon
+            [name]="producto.cantidad > 0
+              ? 'checkmark-circle-outline'
+              : 'close-circle-outline'">
+          </ion-icon>
+
+          <span>
+            <ng-container *ngIf="producto.cantidad > 0">
+              Disponible: {{ producto.cantidad }} unidad(es)
+            </ng-container>
+
+            <ng-container *ngIf="producto.cantidad <= 0">
+              Agotado
+            </ng-container>
+          </span>
+
+        </div>
+
+        <!-- Aviso de cantidad -->
+        <p
+          class="aviso-stock"
+          *ngIf="
+            producto.cantidad > 0 &&
+            producto.cantidadCarrito >= producto.cantidad
+          ">
+
+          Has seleccionado todas las unidades disponibles.
+
+        </p>
+
+        <!-- Controles de cantidad -->
+        <div class="cantidad-container">
+
+          <button
+            type="button"
+            aria-label="Disminuir cantidad"
+            (click)="disminuirCantidad(producto)"
+            [disabled]="procesandoPedido || actualizandoStock">
+
+            <ion-icon name="remove-outline"></ion-icon>
+
+          </button>
+
+          <span>{{ producto.cantidadCarrito }}</span>
+
+          <button
+            type="button"
+            aria-label="Aumentar cantidad"
+            (click)="aumentarCantidad(producto)"
+            [disabled]="
+              procesandoPedido ||
+              actualizandoStock ||
+              producto.cantidad <= 0 ||
+              producto.cantidadCarrito >= producto.cantidad
+            ">
+
+            <ion-icon name="add-outline"></ion-icon>
+
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- Subtotal y eliminar -->
+      <div class="producto-total">
+
+        <strong>
+          S/ {{ obtenerSubtotal(producto) | number:'1.2-2' }}
+        </strong>
+
+        <button
+          type="button"
+          class="eliminar-button"
+          aria-label="Eliminar producto"
+          (click)="eliminarProducto(producto)"
+          [disabled]="procesandoPedido">
+
+          <ion-icon name="trash-outline"></ion-icon>
+
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- Resumen de compra -->
+    <div class="resumen-carrito">
+
+      <div class="resumen-linea">
+
+        <span>Subtotal</span>
+
+        <strong>
+          S/ {{ obtenerTotal() | number:'1.2-2' }}
+        </strong>
+
+      </div>
+
+      <div class="resumen-linea">
+
+        <span>Delivery</span>
+
+        <strong>Gratis</strong>
+
+      </div>
+
+      <div class="resumen-total">
+
+        <span>Total</span>
+
+        <strong>
+          S/ {{ obtenerTotal() | number:'1.2-2' }}
+        </strong>
+
+      </div>
+
+      <!-- Aviso de stock -->
+      <div
+        class="aviso-compra"
+        *ngIf="hayProblemasStock()">
+
+        <ion-icon name="alert-circle-outline"></ion-icon>
+
+        <span>
+          Hay productos agotados o cantidades que superan el stock disponible. Actualiza el stock o elimina esos productos antes de comprar.
+        </span>
+
+      </div>
+
+      <!-- Botón de compra -->
+      <ion-button
+        expand="block"
+        class="pedido-button"
+        (click)="realizarPedido()"
+        [disabled]="
+          procesandoPedido ||
+          actualizandoStock ||
+          carrito.length === 0 ||
+          hayProblemasStock()
+        ">
+
+        <ion-icon
+          name="bag-check-outline"
+          slot="start">
+        </ion-icon>
+
+        {{
+          actualizandoStock
+            ? 'Actualizando stock...'
+            : procesandoPedido
+              ? 'Registrando pedido...'
+              : 'Realizar pedido'
+        }}
+
+      </ion-button>
+
+      <!-- Actualizar disponibilidad -->
+      <ion-button
+        expand="block"
+        fill="outline"
+        (click)="actualizarStockCarrito()"
+        [disabled]="actualizandoStock || procesandoPedido">
+
+        <ion-icon
+          name="refresh-outline"
+          slot="start">
+        </ion-icon>
+
+        Actualizar disponibilidad
+
+      </ion-button>
+
+    </div>
+
+  </div>
+
+  <!-- Carrito vacío -->
+  <div
+    class="carrito-vacio"
+    *ngIf="carrito.length === 0 && !actualizandoStock">
+
+    <ion-icon name="cart-outline"></ion-icon>
+
+    <h2>Tu carrito está vacío</h2>
+
+    <p>
+      Agrega productos desde el catálogo
+      para realizar tu pedido.
+    </p>
+
+    <ion-button (click)="volver()">
+
+      Ver productos
+
+    </ion-button>
+
+  </div>
+
+</ion-content>

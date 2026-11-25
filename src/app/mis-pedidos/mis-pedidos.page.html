@@ -1,0 +1,227 @@
+<ion-header class="main-header">
+  <ion-toolbar>
+<ion-buttons slot="start">
+
+  <ion-button (click)="volver()">
+
+    <ion-icon
+      name="arrow-back-outline">
+    </ion-icon>
+
+  </ion-button>
+
+</ion-buttons>
+
+
+<ion-title>
+  Mis pedidos
+</ion-title>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="pedidos-content">
+
+  <!-- Cargando -->
+
+  <div
+    class="loading-container"
+    *ngIf="cargando">
+
+<ion-spinner></ion-spinner>
+
+<p>
+  Cargando tus pedidos...
+</p>
+
+  </div>
+
+  <!-- Cuando no existen pedidos -->
+
+  <div
+    class="empty-pedidos"
+    *ngIf="!cargando && pedidos.length === 0">
+
+<ion-icon
+  name="receipt-outline">
+</ion-icon>
+
+<h2>No tienes pedidos</h2>
+
+<p>
+  Cuando realices una compra,
+  podrás consultar aquí su estado.
+</p>
+
+<ion-button
+  expand="block"
+  (click)="volver()">
+
+  <ion-icon
+    name="storefront-outline"
+    slot="start">
+  </ion-icon>
+
+  Ver productos
+
+</ion-button>
+
+  </div>
+
+  <!-- Lista de pedidos -->
+
+  <div
+    class="pedidos-container"
+    *ngIf="!cargando && pedidos.length > 0">
+
+<div
+  class="pedido-card"
+  *ngFor="let pedido of pedidos">
+
+
+  <!-- Cabecera del pedido -->
+
+  <div class="pedido-header">
+
+    <div>
+
+      <span class="pedido-label">
+        PEDIDO
+      </span>
+
+      <h3>
+        #{{ pedido.id | slice:0:8 }}
+      </h3>
+
+    </div>
+
+
+    <span
+      class="estado"
+      [ngClass]="obtenerClaseEstado(pedido.estado)">
+
+      {{ obtenerTextoEstado(pedido.estado) }}
+
+    </span>
+
+  </div>
+
+
+  <!-- Información -->
+
+  <div class="pedido-info">
+
+    <div class="info-item">
+
+      <ion-icon
+        name="calendar-outline">
+      </ion-icon>
+
+      <div>
+
+        <span>Fecha</span>
+
+        <strong>
+
+          {{
+            pedido.fecha?.toDate
+              ? (pedido.fecha.toDate() | date:'dd/MM/yyyy HH:mm')
+              : (pedido.fecha | date:'dd/MM/yyyy HH:mm')
+          }}
+
+        </strong>
+
+      </div>
+
+    </div>
+
+
+    <div class="info-item">
+
+      <ion-icon
+        name="bag-handle-outline">
+      </ion-icon>
+
+      <div>
+
+        <span>Productos</span>
+
+        <strong>
+
+          {{ obtenerCantidadProductos(pedido) }}
+
+        </strong>
+      </div>
+    </div>
+
+
+    <div class="info-item">
+
+      <ion-icon
+        name="cash-outline">
+      </ion-icon>
+
+      <div>
+
+        <span>Total</span>
+
+        <strong>
+
+          S/
+          {{ pedido.total | number:'1.2-2' }}
+
+        </strong>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Productos -->
+
+  <div class="productos-pedido">
+
+    <h4>
+      Productos
+    </h4>
+
+
+    <div
+      class="producto-pedido"
+      *ngFor="let producto of pedido.productos">
+
+      <div class="producto-detalle">
+
+        <strong>
+          {{ producto.producto }}
+        </strong>
+
+        <span>
+          {{ producto.cantidad }} x
+          S/ {{ producto.precio | number:'1.2-2' }}
+        </span>
+
+      </div>
+      <strong class="producto-subtotal">
+        S/
+        {{ producto.subtotal | number:'1.2-2' }}
+      </strong>
+
+    </div>
+
+  </div>
+
+
+  <!-- Total -->
+
+  <div class="pedido-total">
+    <span>
+      Total del pedido
+    </span>
+    <strong>
+      S/ {{ pedido.total | number:'1.2-2' }}
+    </strong>
+  </div>
+</div>
+  </div>
+</ion-content>

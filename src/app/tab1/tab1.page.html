@@ -1,33 +1,105 @@
+
 <ion-content class="login-content">
 
   <div class="login-container">
 
     <div class="logo-section">
       <div class="logo-wrapper">
-        <ion-icon name="storefront-outline"></ion-icon>
+        <img
+          src="assets/img/logo-bodega.jpeg"
+          alt="Logo de Bodega Express"
+          class="logo-imagen">
       </div>
-      <h1>Bodega Carlitos</h1>
-      <p>Gestión de Inventario Inteligente</p>
+
+      <p>Tus productos favoritos, en un solo lugar</p>
     </div>
 
     <div class="form-section">
+
+      <h2>
+        {{ modoRegistro ? 'Crear cuenta' : 'Iniciar sesión' }}
+      </h2>
+
+      <ion-item lines="none" *ngIf="modoRegistro">
+        <ion-label position="floating">Nombre completo</ion-label>
+        <ion-input
+          type="text"
+          autocomplete="name"
+          [(ngModel)]="nombre">
+        </ion-input>
+      </ion-item>
+
       <ion-item lines="none">
-        <ion-label position="floating">Usuario</ion-label>
-        <ion-input type="text" [(ngModel)]="usuario"></ion-input>
+        <ion-label position="floating">Correo electrónico o usuario</ion-label>
+        <ion-input
+          type="text"
+          autocomplete="username"
+          [(ngModel)]="usuario">
+        </ion-input>
       </ion-item>
 
       <ion-item lines="none">
         <ion-label position="floating">Contraseña</ion-label>
-        <ion-input type="password" [(ngModel)]="password"></ion-input>
+        <ion-input
+          type="password"
+          [attr.autocomplete]="modoRegistro ? 'new-password' : 'current-password'"
+          [(ngModel)]="password">
+        </ion-input>
       </ion-item>
 
-      <ion-button expand="block" class="login-btn" (click)="ingresar()">
-        Ingresar
-        <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
+      <ion-button
+        expand="block"
+        class="login-btn"
+        (click)="modoRegistro ? registrar() : ingresar()">
+
+        {{ modoRegistro ? 'Crear cuenta' : 'Ingresar' }}
+
+        <ion-icon
+          name="arrow-forward-outline"
+          slot="end">
+        </ion-icon>
       </ion-button>
+
+      <div class="separador">
+        <span>O continúa con</span>
+      </div>
+
+      <ion-button
+        expand="block"
+        fill="outline"
+        class="google-btn"
+        (click)="ingresarConGoogle()">
+
+        <ion-icon
+          name="logo-google"
+          slot="start">
+        </ion-icon>
+
+        Continuar con Google
+      </ion-button>
+
+      <div class="cambiar-modo">
+
+        <p *ngIf="!modoRegistro">
+          ¿No tienes una cuenta?
+        </p>
+
+        <p *ngIf="modoRegistro">
+          ¿Ya tienes una cuenta?
+        </p>
+
+        <ion-button
+          fill="clear"
+          size="small"
+          (click)="cambiarModo()">
+
+          {{ modoRegistro ? 'Iniciar sesión' : 'Registrarme' }}
+
+        </ion-button>
+
+      </div>
+
     </div>
-
-
 
   </div>
 

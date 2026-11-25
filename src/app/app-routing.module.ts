@@ -73,7 +73,24 @@ const routes: Routes = [
   {
     path: 'reportes',
     loadChildren: () => import('./pages/reportes/reportes.module').then( m => m.ReportesPageModule)
+  },
+  {
+    path: 'carrito',
+    loadChildren: () => import('./carrito/carrito.module').then( m => m.CarritoPageModule)
+  },
+  {
+    path: 'mis-pedidos',
+    loadChildren: () => import('./mis-pedidos/mis-pedidos.module').then( m => m.MisPedidosPageModule)
+  },
+  {
+    path: 'admin-pedidos',
+    loadChildren: () => import('./pages/admin-pedidos/admin-pedidos.module').then( m => m.AdminPedidosPageModule)
+  },
+  {
+    path: 'productos',
+    loadChildren: () => import('./pages/productos/productos.module').then(m => m.ProductosPageModule)
   }
+
   
 ];
 @NgModule({

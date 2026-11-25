@@ -1,0 +1,344 @@
+.main-header {
+  --background: var(--app-primary);
+  --color: #ffffff;
+
+  ion-toolbar {
+    --background: var(--app-primary);
+    --color: #ffffff;
+  }
+
+  ion-title {
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  ion-button {
+    --color: #ffffff;
+    --background: transparent;
+    --background-hover: rgba(255, 255, 255, 0.12);
+    --background-activated: rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+  }
+
+  ion-back-button {
+    --color: #ffffff;
+    --icon-font-size: 24px;
+    --icon-font-weight: 700;
+  }
+
+  ion-back-button::part(icon) {
+    color: #ffffff;
+    opacity: 1;
+  }
+
+  ion-button ion-icon {
+    color: #ffffff;
+  }
+}
+
+.pedidos-content {
+  --background: var(--app-background);
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 60vh;
+  color: var(--app-text-muted);
+
+  ion-spinner {
+    width: 40px;
+    height: 40px;
+    color: var(--app-primary);
+  }
+
+  p {
+    margin: 0;
+    font-size: 14px;
+  }
+}
+
+.empty-pedidos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  padding: 30px 25px;
+  color: var(--app-text-muted);
+  text-align: center;
+  box-sizing: border-box;
+
+  ion-icon {
+    margin-bottom: 15px;
+    color: var(--app-text-muted);
+    font-size: 75px;
+  }
+
+  h2 {
+    margin: 0 0 8px;
+    color: var(--app-text);
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  p {
+    max-width: 350px;
+    margin: 0 0 25px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  ion-button {
+    width: 100%;
+    max-width: 320px;
+    --background: var(--app-primary);
+    --border-radius: var(--app-border-radius-small);
+    font-weight: 600;
+  }
+}
+
+.pedidos-container {
+  width: 100%;
+  max-width: 850px;
+  margin: 0 auto;
+  padding: var(--app-page-padding);
+  box-sizing: border-box;
+}
+
+.pedido-card {
+  padding: 17px;
+  margin-bottom: 18px;
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-border-radius);
+  box-shadow: var(--app-shadow);
+  box-sizing: border-box;
+}
+
+.pedido-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--app-border);
+}
+
+.pedido-label {
+  display: block;
+  color: var(--app-text-muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.pedido-header h3 {
+  margin: 3px 0 0;
+  color: var(--app-text);
+  font-size: 16px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.estado {
+  flex-shrink: 0;
+  padding: 7px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Estados de los pedidos */
+.estado-pendiente {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.estado-confirmado {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.estado-preparando {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+
+.estado-listo {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.estado-entregado {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.estado-cancelado {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* Información general del pedido */
+.pedido-info {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  padding: 16px 0;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.info-item ion-icon {
+  flex-shrink: 0;
+  color: var(--app-primary);
+  font-size: 21px;
+}
+
+.info-item span {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--app-text-muted);
+  font-size: 10px;
+}
+
+.info-item strong {
+  display: block;
+  color: var(--app-text);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+/* Productos incluidos en el pedido */
+.productos-pedido {
+  padding-top: 14px;
+  border-top: 1px solid var(--app-border);
+}
+
+.productos-pedido h4 {
+  margin: 0 0 10px;
+  color: var(--app-text);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.producto-pedido {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--app-border);
+}
+
+.producto-detalle {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.producto-detalle strong {
+  overflow: hidden;
+  color: var(--app-text);
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.producto-detalle span {
+  color: var(--app-text-muted);
+  font-size: 11px;
+}
+
+.producto-subtotal {
+  flex-shrink: 0;
+  color: var(--app-text);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+/* Total del pedido */
+.pedido-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 2px solid var(--app-border);
+}
+
+.pedido-total span {
+  color: var(--app-text-muted);
+  font-size: 13px;
+}
+
+.pedido-total strong {
+  color: var(--app-success);
+  font-size: 18px;
+  text-align: right;
+}
+
+/* Adaptación para celulares */
+@media (max-width: 600px) {
+  .pedidos-container {
+    padding: 15px 10px 25px;
+  }
+
+  .pedido-card {
+    padding: 14px;
+  }
+
+  .pedido-info {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .info-item {
+    justify-content: flex-start;
+  }
+
+  .pedido-header {
+    align-items: flex-start;
+  }
+
+  .estado {
+    padding: 6px 8px;
+    font-size: 10px;
+  }
+
+  .pedido-total strong {
+    font-size: 17px;
+  }
+}
+
+/* Pantallas muy estrechas */
+@media (max-width: 360px) {
+  .pedido-header {
+    flex-wrap: wrap;
+  }
+
+  .pedido-card {
+    padding: 12px;
+  }
+
+  .producto-pedido {
+    gap: 6px;
+  }
+
+  .producto-subtotal {
+    font-size: 12px;
+  }
+}

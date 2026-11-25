@@ -1,101 +1,252 @@
+<ion-header class="main-header">
+  <ion-toolbar>
+    <ion-title class="titulo-bodega">
+      <div class="header-content">
+        <div class="header-text">
+          <h1>Bodega Express</h1>
+          <p>Todo lo que necesitas, más cerca</p>
+        </div>
+      </div>
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="cerrarSesion()" color="danger">
+        <ion-icon name="log-out-outline" slot="start"></ion-icon>
+        Salir
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content class="home-content">
-  <div class="custom-header">
-    <div class="header-top">
-      <div class="brand">
-        <div class="logo-icon">
-          <ion-icon name="storefront-outline"></ion-icon>
-        </div>
-        <div class="title-text">
-          <h2>Bodega Carlitos</h2>
-          <p>Control de Inventario</p>
-        </div>
+
+  <!-- BIENVENIDA -->
+  <div class="welcome-section">
+  <h2>¡Hola, {{ nombreUsuario }}!</h2>
+  <p>Bienvenido a Bodega Express</p>
+   </div>
+
+  <!-- BUSCADOR -->
+  <ion-searchbar
+    placeholder="Buscar productos..."
+    (ionInput)="buscarProductos($event)"
+    class="search-bar">
+  </ion-searchbar>
+
+  <!-- ACCESOS RÁPIDOS -->
+  <div class="quick-actions">
+
+    <div class="action-card" (click)="abrirCarrito()">
+      <ion-icon name="cart-outline"></ion-icon>
+      <div>
+        <h3>Mi carrito</h3>
+        <p>
+          {{ obtenerCantidadCarrito() }}
+          {{ obtenerCantidadCarrito() === 1 ? 'producto' : 'productos' }}
+        </p>
       </div>
     </div>
 
-    <div class="welcome-section">
-      <span>✨ BIENVENIDO</span>
-      <h1>Gestiona tu negocio<br>con eficiencia</h1>
+    <div class="action-card" (click)="abrirMisPedidos()">
+      <ion-icon name="receipt-outline"></ion-icon>
+      <div>
+        <h3>Mis pedidos</h3>
+        <p>Consulta tus pedidos</p>
+      </div>
     </div>
+
   </div>
 
-  <div class="stats-container">
-    <div class="stat-item">
-      <span class="value">{{totalProductos}}</span>
-      <span class="label">Productos</span>
+  <!-- CATEGORÍAS -->
+  <section class="section-container">
+
+    <div class="section-title">
+      <h2>Categorías</h2>
     </div>
-    <div class="stat-item">
-      <span class="value">{{reclamos}}</span>
-      <span class="label">Reclamos</span>
+
+    <div class="categories">
+
+      <button
+        class="category-button"
+        [class.active]="categoriaSeleccionada === 'Todas'"
+        (click)="seleccionarCategoria('Todas')">
+        <ion-icon name="apps-outline"></ion-icon>
+        <span>Todas</span>
+      </button>
+
+      <button
+        class="category-button"
+        [class.active]="categoriaSeleccionada === 'Abarrotes'"
+        (click)="seleccionarCategoria('Abarrotes')">
+        <ion-icon name="basket-outline"></ion-icon>
+        <span>Abarrotes</span>
+      </button>
+
+      <button
+        class="category-button"
+        [class.active]="categoriaSeleccionada === 'Bebidas'"
+        (click)="seleccionarCategoria('Bebidas')">
+        <ion-icon name="water-outline"></ion-icon>
+        <span>Bebidas</span>
+      </button>
+
+      <button
+        class="category-button"
+        [class.active]="categoriaSeleccionada === 'Limpieza'"
+        (click)="seleccionarCategoria('Limpieza')">
+        <ion-icon name="sparkles-outline"></ion-icon>
+        <span>Limpieza</span>
+      </button>
+
+      <button
+        class="category-button"
+        [class.active]="categoriaSeleccionada === 'Lácteos'"
+        (click)="seleccionarCategoria('Lácteos')">
+        <ion-icon name="nutrition-outline"></ion-icon>
+        <span>Lácteos</span>
+      </button>
+
     </div>
-    <div class="stat-item">
-      <span class="value">{{proveedores}}</span>
-      <span class="label">Proveedores</span>
+  </section>
+
+  <!-- PRODUCTOS -->
+  <section class="section-container">
+
+    <div class="section-title">
+      <h2>Productos disponibles</h2>
+
+      <div class="acciones-catalogo">
+        <span>{{ productosFiltrados.length }}</span>
+
+        <button
+          class="boton-actualizar"
+          (click)="actualizarCatalogo()"
+          [disabled]="actualizando || cargando">
+
+          <ion-spinner
+            *ngIf="actualizando || cargando"
+            name="crescent">
+          </ion-spinner>
+
+          <ion-icon
+            *ngIf="!actualizando && !cargando"
+            name="refresh-outline">
+          </ion-icon>
+
+          {{ actualizando || cargando ? 'Actualizando...' : 'Actualizar' }}
+        </button>
+      </div>
     </div>
-  </div>
 
-  <ion-grid>
-    <ion-row>
-      <ion-col size="6">
-        <ion-card class="menu-card gradient-blue" routerLink="/tabs/nueva-recepcion">
-          <ion-card-content>
-            <ion-icon name="basket-outline" class="card-icon"></ion-icon>
-            <h3>Recepción</h3>
-            <p>Ingreso de mercadería</p>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
+    <!-- CARGANDO -->
+    <div
+      class="empty-products"
+      *ngIf="cargando && productosFiltrados.length === 0">
 
-      <ion-col size="6">
-        <ion-card class="menu-card gradient-teal" routerLink="/tabs/historial">
-          <ion-card-content>
-            <ion-icon name="time-outline" class="card-icon"></ion-icon>
-            <h3>Historial</h3>
-            <p>Ver movimientos</p>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
+      <ion-spinner name="crescent"></ion-spinner>
+      <p>Cargando productos...</p>
+    </div>
 
-    <ion-row>
-      <ion-col size="6">
-        <ion-card class="menu-card gradient-purple" routerLink="/tabs/inventario">
-          <ion-card-content>
-            <ion-icon name="cube-outline" class="card-icon"></ion-icon>
-            <h3>Inventario</h3>
-            <p>Stock actual</p>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
+    <!-- LISTA DE PRODUCTOS -->
+    <div
+      class="products-grid"
+      *ngIf="productosFiltrados.length > 0">
 
-      <ion-col size="6">
-        <ion-card class="menu-card plain-white" routerLink="/tabs/reclamos">
-          <ion-card-content>
-            <ion-icon name="alert-circle-outline" class="card-icon"></ion-icon>
-            <h3>Reclamos</h3>
-            <p>Gestión de incidencias</p>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
+      <div
+        class="product-card"
+        *ngFor="let producto of productosFiltrados">
 
-    <ion-row>
-      <ion-col size="6">
-        <ion-card class="menu-card plain-white" routerLink="/tabs/proveedores">
-          <ion-card-content>
-            <ion-icon name="people-outline" class="card-icon"></ion-icon>
-            <h3>Proveedores</h3>
-            <p>Lista de contactos</p>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+        <div class="product-image">
 
-  <div class="logout-container">
-    <ion-button expand="block" color="light" (click)="cerrarSesion()">
-      <ion-icon slot="start" name="log-out-outline"></ion-icon>
-      Cerrar Sesión
-    </ion-button>
-  </div>
+          <img
+            *ngIf="producto.imagen"
+            [src]="producto.imagen"
+            [alt]="producto.nombre || producto.producto"
+            loading="lazy">
+
+          <ion-icon
+            *ngIf="!producto.imagen"
+            name="image-outline">
+          </ion-icon>
+
+        </div>
+
+        <div class="product-info">
+
+          <span class="product-category">
+            {{ producto.categoria || 'General' }}
+          </span>
+
+          <h3>
+            {{ producto.nombre || producto.producto }}
+          </h3>
+
+          <p *ngIf="producto.descripcion">
+            {{ producto.descripcion }}
+          </p>
+
+          <p class="product-price">
+            S/ {{ producto.precio | number:'1.2-2' }}
+          </p>
+
+          <p
+            class="product-stock"
+            [class.out-of-stock]="producto.cantidad <= 0">
+
+            <ion-icon
+              [name]="producto.cantidad > 0
+                ? 'checkmark-circle-outline'
+                : 'close-circle-outline'">
+            </ion-icon>
+
+            {{
+              producto.cantidad > 0
+                ? 'Disponible: ' + producto.cantidad
+                : 'Agotado'
+            }}
+
+          </p>
+
+          <button
+            class="add-cart-button"
+            [disabled]="producto.cantidad <= 0"
+            (click)="agregarAlCarrito(producto)">
+
+            <ion-icon name="cart-outline"></ion-icon>
+
+            {{
+              producto.cantidad > 0
+                ? 'Agregar al carrito'
+                : 'Agotado'
+            }}
+
+          </button>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SIN PRODUCTOS -->
+    <div
+      class="empty-products"
+      *ngIf="!cargando && productosFiltrados.length === 0">
+
+      <ion-icon name="cube-outline"></ion-icon>
+      <h3>No encontramos productos</h3>
+      <p>Intenta buscar otro producto o seleccionar otra categoría.</p>
+
+      <button
+        class="boton-actualizar"
+        (click)="actualizarCatalogo()"
+        [disabled]="actualizando || cargando">
+
+        <ion-icon name="refresh-outline"></ion-icon>
+        Volver a cargar
+      </button>
+
+    </div>
+
+  </section>
 
 </ion-content>

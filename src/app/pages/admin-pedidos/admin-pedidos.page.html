@@ -1,0 +1,407 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Panel del dueño</ion-title>
+
+    <ion-buttons slot="end">
+
+      <!-- BOTÓN PRODUCTOS -->
+      <ion-button
+        class="productos-button"
+        (click)="irAProductos()"
+        aria-label="Administrar productos"
+        fill="solid">
+
+        <ion-icon name="cube-outline" slot="start"></ion-icon>
+        Productos
+
+      </ion-button>
+
+      <!-- BOTÓN ACTUALIZAR -->
+      <ion-button
+        (click)="refrescarPedidos()"
+        [disabled]="cargando"
+        aria-label="Actualizar pedidos">
+
+        <ion-icon name="refresh-outline" slot="icon-only"></ion-icon>
+
+      </ion-button>
+
+      <!-- BOTÓN CERRAR SESIÓN -->
+      <ion-button
+        class="salir-button"
+        (click)="cerrarSesion()"
+        fill="clear"
+        aria-label="Cerrar sesión">
+
+        <ion-icon name="log-out-outline" slot="start"></ion-icon>
+        Salir
+
+      </ion-button>
+
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="admin-pedidos-content">
+
+  <!-- RESUMEN DEL DASHBOARD -->
+  <div class="estadisticas-container">
+
+    <div class="estadisticas-header">
+      <div>
+        <h2>Resumen del negocio</h2>
+        <p>Estadísticas generales de la bodega</p>
+      </div>
+
+      <ion-icon name="stats-chart-outline"></ion-icon>
+    </div>
+
+    <!-- ESTADÍSTICAS -->
+    <div class="estadisticas-grid">
+
+      <div class="estadistica-card total-pedidos">
+        <div class="estadistica-icon">
+          <ion-icon name="receipt-outline"></ion-icon>
+        </div>
+        <div>
+          <strong>{{ totalPedidos }}</strong>
+          <span>Total de pedidos</span>
+        </div>
+      </div>
+
+      <div class="estadistica-card pedidos-hoy">
+        <div class="estadistica-icon">
+          <ion-icon name="calendar-outline"></ion-icon>
+        </div>
+        <div>
+          <strong>{{ pedidosHoy }}</strong>
+          <span>Pedidos de hoy</span>
+        </div>
+      </div>
+
+      <div class="estadistica-card productos-agotados">
+        <div class="estadistica-icon">
+          <ion-icon name="alert-circle-outline"></ion-icon>
+        </div>
+        <div>
+          <strong>{{ productosAgotados }}</strong>
+          <span>Productos agotados</span>
+        </div>
+      </div>
+
+      <div class="estadistica-card pendiente">
+        <div class="estadistica-icon">
+          <ion-icon name="time-outline"></ion-icon>
+        </div>
+        <div>
+          <strong>{{ pendientes }}</strong>
+          <span>Pendientes</span>
+        </div>
+      </div>
+
+      <div class="estadistica-card confirmado">
+        <div class="estadistica-icon">
+          <ion-icon name="checkmark-circle-outline"></ion-icon>
+        </div>
+        <div>
+          <strong>{{ confirmados }}</strong>
+          <span>Confirmados</span>
+        </div>
+      </div>
+
+      <div class="estadistica-card preparando">
+        <div class="estadistica-icon">
+          <ion-icon name="construct-outline"></ion-icon>
+        </div>
+        <div>
+          <strong>{{ preparando }}</strong>
+          <span>Preparando</span>
+        </div>
+      </div>
+
+      <div class="estadistica-card listo">
+        <div class="estadistica-icon">
+          <ion-icon name="bag-check-outline"></ion-icon>
+        </div>
+        <div>
+          <strong>{{ listos }}</strong>
+          <span>Listos</span>
+        </div>
+      </div>
+
+      <div class="estadistica-card entregado">
+        <div class="estadistica-icon">
+          <ion-icon name="checkmark-done-outline"></ion-icon>
+        </div>
+        <div>
+          <strong>{{ entregados }}</strong>
+          <span>Entregados</span>
+        </div>
+      </div>
+
+      <div class="estadistica-card cancelado">
+        <div class="estadistica-icon">
+          <ion-icon name="close-circle-outline"></ion-icon>
+        </div>
+        <div>
+          <strong>{{ cancelados }}</strong>
+          <span>Cancelados</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- VENTAS DE PEDIDOS ENTREGADOS -->
+    <div class="ventas-resumen">
+      <div>
+        <ion-icon name="cash-outline"></ion-icon>
+      </div>
+
+      <div>
+        <span>Ventas de pedidos entregados</span>
+        <strong>S/ {{ ventasEntregadas | number:'1.2-2' }}</strong>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- INDICADOR DE CARGA -->
+  <div *ngIf="cargando" class="loading-container">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Cargando pedidos...</p>
+  </div>
+
+  <ng-container *ngIf="!cargando">
+
+    <!-- BÚSQUEDA Y FILTRO -->
+    <div class="filtros-pedidos" *ngIf="pedidos.length > 0">
+
+      <ion-searchbar
+        [(ngModel)]="busqueda"
+        placeholder="Buscar por cliente, pedido o producto"
+        search-icon="search-outline"
+        clear-icon="close-circle-outline"
+        animated="true">
+      </ion-searchbar>
+
+      <div class="filtro-estado">
+        <ion-label>Filtrar por estado</ion-label>
+
+        <ion-select
+          [(ngModel)]="filtroEstado"
+          interface="popover"
+          placeholder="Todos los estados">
+
+          <ion-select-option value="todos">
+            Todos los estados
+          </ion-select-option>
+
+          <ion-select-option value="pendiente">
+            Pendientes
+          </ion-select-option>
+
+          <ion-select-option value="confirmado">
+            Confirmados
+          </ion-select-option>
+
+          <ion-select-option value="preparando">
+            Preparando
+          </ion-select-option>
+
+          <ion-select-option value="listo">
+            Listos para recoger
+          </ion-select-option>
+
+          <ion-select-option value="entregado">
+            Entregados
+          </ion-select-option>
+
+          <ion-select-option value="cancelado">
+            Cancelados
+          </ion-select-option>
+
+        </ion-select>
+      </div>
+
+      <div class="resultado-busqueda">
+        <span>
+          {{ pedidosFiltrados.length }}
+          {{ pedidosFiltrados.length === 1 ? 'pedido encontrado' : 'pedidos encontrados' }}
+        </span>
+
+        <ion-button
+          fill="clear"
+          size="small"
+          (click)="busqueda = ''; filtroEstado = 'todos'">
+
+          Limpiar filtros
+
+        </ion-button>
+      </div>
+
+    </div>
+
+    <!-- SIN PEDIDOS -->
+    <div *ngIf="pedidos.length === 0" class="empty-container">
+      <ion-icon name="receipt-outline"></ion-icon>
+      <h2>No hay pedidos</h2>
+      <p>Todavía no se han registrado pedidos.</p>
+
+      <ion-button
+        fill="outline"
+        (click)="refrescarPedidos()">
+
+        <ion-icon name="refresh-outline" slot="start"></ion-icon>
+        Actualizar
+
+      </ion-button>
+    </div>
+
+    <!-- SIN RESULTADOS DE BÚSQUEDA -->
+    <div
+      *ngIf="pedidos.length > 0 && pedidosFiltrados.length === 0"
+      class="empty-container">
+
+      <ion-icon name="search-outline"></ion-icon>
+      <h2>No se encontraron pedidos</h2>
+      <p>Prueba con otro nombre, producto o estado.</p>
+
+      <ion-button
+        fill="outline"
+        (click)="busqueda = ''; filtroEstado = 'todos'">
+
+        Limpiar búsqueda
+
+      </ion-button>
+
+    </div>
+
+    <!-- LISTA DE PEDIDOS -->
+    <div
+      *ngIf="pedidosFiltrados.length > 0"
+      class="pedidos-container">
+
+      <ion-card
+        *ngFor="let pedido of pedidosFiltrados"
+        class="pedido-card">
+
+        <ion-card-header>
+
+          <div class="pedido-header">
+
+            <div>
+              <ion-card-title>
+                Pedido #{{ pedido.id | slice:0:8 }}
+              </ion-card-title>
+
+              <ion-card-subtitle>
+                Cliente: {{ pedido.usuario || 'Cliente' }}
+              </ion-card-subtitle>
+            </div>
+
+            <div
+              class="estado"
+              [ngClass]="obtenerClaseEstado(pedido.estado)">
+
+              {{ obtenerTextoEstado(pedido.estado) }}
+
+            </div>
+
+          </div>
+
+        </ion-card-header>
+
+        <ion-card-content>
+
+          <!-- INFORMACIÓN DEL PEDIDO -->
+          <div class="pedido-info">
+
+            <div>
+              <strong>Productos</strong>
+              <span>{{ obtenerCantidadProductos(pedido) }}</span>
+            </div>
+
+            <div>
+              <strong>Total</strong>
+              <span>S/ {{ pedido.total | number:'1.2-2' }}</span>
+            </div>
+
+            <div>
+              <strong>Fecha</strong>
+              <span>
+                {{
+                  pedido.fecha?.toDate
+                    ? (pedido.fecha.toDate() | date:'dd/MM/yyyy HH:mm')
+                    : (pedido.fecha | date:'dd/MM/yyyy HH:mm')
+                }}
+              </span>
+            </div>
+
+          </div>
+
+          <!-- PRODUCTOS DEL PEDIDO -->
+          <div class="productos-section">
+            <h3>Productos del pedido</h3>
+
+            <div
+              class="producto-item"
+              *ngFor="let producto of pedido.productos">
+
+              <div class="producto-nombre">
+                {{ producto.producto }}
+                <small>x{{ producto.cantidad }}</small>
+              </div>
+
+              <div class="producto-precio">
+                S/ {{ producto.subtotal | number:'1.2-2' }}
+              </div>
+
+            </div>
+          </div>
+
+          <!-- CAMBIAR ESTADO -->
+          <div class="estado-section">
+            <ion-label>Cambiar estado del pedido</ion-label>
+
+            <ion-select
+              interface="popover"
+              [(ngModel)]="pedido.estado"
+              (ionChange)="cambiarEstado(pedido)"
+              [disabled]="actualizandoEstado"
+              placeholder="Seleccionar estado">
+
+              <ion-select-option value="pendiente">
+                Pendiente
+              </ion-select-option>
+
+              <ion-select-option value="confirmado">
+                Confirmado
+              </ion-select-option>
+
+              <ion-select-option value="preparando">
+                Preparando
+              </ion-select-option>
+
+              <ion-select-option value="listo">
+                Listo para recoger
+              </ion-select-option>
+
+              <ion-select-option value="entregado">
+                Entregado
+              </ion-select-option>
+
+              <ion-select-option value="cancelado">
+                Cancelado
+              </ion-select-option>
+
+            </ion-select>
+          </div>
+
+        </ion-card-content>
+      </ion-card>
+
+    </div>
+
+  </ng-container>
+
+</ion-content>

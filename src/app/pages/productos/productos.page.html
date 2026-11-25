@@ -1,41 +1,318 @@
 <ion-header>
-  <ion-toolbar color="primary">
-
+  <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/tabs/tab2"></ion-back-button>
+      <ion-button (click)="volver()">
+        <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
+        Volver
+      </ion-button>
     </ion-buttons>
 
-    <ion-title>
-      Productos
+    <ion-title class="titulo-derecha">
+      Productos del catálogo
     </ion-title>
-
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
 
+  <!-- FORMULARIO PARA REGISTRAR O EDITAR -->
   <ion-card>
-
     <ion-card-header>
-      <ion-card-title>Arroz</ion-card-title>
+      <ion-card-title>
+        {{ productoEditandoId ? 'Editar producto' : 'Registrar producto' }}
+      </ion-card-title>
+
+      <ion-card-subtitle>
+        {{
+          productoEditandoId
+            ? 'Modifica los datos y guarda los cambios'
+            : 'Completa los datos del producto'
+        }}
+      </ion-card-subtitle>
     </ion-card-header>
 
     <ion-card-content>
-      Precio: S/ 4.50
-    </ion-card-content>
 
+      <ion-item>
+        <ion-label position="stacked">Nombre del producto</ion-label>
+        <ion-input
+          [(ngModel)]="nuevoProducto.nombre"
+          placeholder="Ej. Detergente"
+          type="text">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Descripción</ion-label>
+        <ion-textarea
+          [(ngModel)]="nuevoProducto.descripcion"
+          placeholder="Descripción del producto"
+          rows="3"
+          autoGrow="true">
+        </ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Categoría</ion-label>
+        <ion-select
+          [(ngModel)]="nuevoProducto.categoria"
+          interface="popover"
+          placeholder="Seleccionar categoría">
+
+          <ion-select-option
+            *ngFor="let categoria of categorias"
+            [value]="categoria">
+            {{ categoria }}
+          </ion-select-option>
+
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Precio (S/)</ion-label>
+        <ion-input
+          type="number"
+          min="0.01"
+          step="0.01"
+          [(ngModel)]="nuevoProducto.precio"
+          placeholder="0.00">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">
+          {{ productoEditandoId ? 'Stock total' : 'Cantidad disponible' }}
+        </ion-label>
+
+        <ion-input
+          type="number"
+          min="0"
+          step="1"
+          [(ngModel)]="nuevoProducto.cantidad"
+          placeholder="0">
+        </ion-input>
+      </ion-item>
+
+      <p class="texto-ayuda" *ngIf="!productoEditandoId">
+        Si el producto ya existe, la cantidad ingresada se sumará a su stock actual.
+      </p>
+
+      <p class="texto-ayuda" *ngIf="productoEditandoId">
+        Al editar, la cantidad indicada reemplazará el stock actual.
+      </p>
+
+      <!-- IMAGEN DEL PRODUCTO -->
+      <div class="ion-padding-top">
+        <ion-label>Imagen del producto</ion-label>
+
+        <p class="texto-ayuda">
+          Selecciona una imagen de tu computadora o dispositivo.
+        </p>
+
+        <input
+          #selectorImagen
+          type="file"
+          accept="image/*"
+          hidden
+          (change)="seleccionarImagen($event)"
+          [disabled]="subiendoImagen || guardando">
+
+        <ion-button
+          expand="block"
+          fill="outline"
+          (click)="selectorImagen.click()"
+          [disabled]="subiendoImagen || guardando">
+
+          <ion-icon name="image-outline" slot="start"></ion-icon>
+
+          {{
+            subiendoImagen
+              ? 'Procesando imagen...'
+              : 'Elegir imagen'
+          }}
+        </ion-button>
+
+        <div
+          *ngIf="subiendoImagen"
+          class="ion-text-center ion-padding">
+
+          <ion-spinner name="crescent"></ion-spinner>
+          <p>Procesando imagen...</p>
+        </div>
+
+        <div *ngIf="nuevoProducto.imagen" class="vista-previa">
+          <img
+            [src]="nuevoProducto.imagen"
+            alt="Vista previa del producto">
+
+          <p class="texto-ayuda">
+            Imagen seleccionada correctamente.
+          </p>
+
+          <ion-button
+            expand="block"
+            fill="outline"
+            color="danger"
+            (click)="quitarImagen()"
+            [disabled]="guardando || subiendoImagen">
+
+            <ion-icon name="trash-outline" slot="start"></ion-icon>
+            Quitar imagen
+          </ion-button>
+        </div>
+
+        <div
+          *ngIf="!nuevoProducto.imagen && !subiendoImagen"
+          class="sin-imagen">
+
+          <ion-icon name="image-outline"></ion-icon>
+          <p>No se ha seleccionado ninguna imagen.</p>
+        </div>
+      </div>
+
+      <!-- REGISTRAR O GUARDAR CAMBIOS -->
+      <ion-button
+        expand="block"
+        class="ion-margin-top"
+        (click)="agregarProducto()"
+        [disabled]="guardando || subiendoImagen">
+
+        <ion-spinner
+          *ngIf="guardando"
+          name="crescent">
+        </ion-spinner>
+
+        <ion-icon
+          *ngIf="!guardando"
+          [name]="productoEditandoId ? 'create-outline' : 'save-outline'"
+          slot="start">
+        </ion-icon>
+
+        {{
+          guardando
+            ? 'Guardando...'
+            : productoEditandoId
+              ? 'Guardar cambios'
+              : 'Registrar producto'
+        }}
+      </ion-button>
+
+      <!-- CANCELAR EDICIÓN -->
+      <ion-button
+        *ngIf="productoEditandoId"
+        expand="block"
+        fill="outline"
+        color="medium"
+        (click)="cancelarEdicion()"
+        [disabled]="guardando">
+
+        <ion-icon name="close-outline" slot="start"></ion-icon>
+        Cancelar edición
+      </ion-button>
+
+    </ion-card-content>
   </ion-card>
 
+  <!-- LISTA DEL CATÁLOGO -->
   <ion-card>
-
     <ion-card-header>
-      <ion-card-title>Azúcar</ion-card-title>
+      <ion-card-title>Productos registrados</ion-card-title>
+      <ion-card-subtitle>Catálogo de productos</ion-card-subtitle>
     </ion-card-header>
 
     <ion-card-content>
-      Precio: S/ 5.00
-    </ion-card-content>
 
+      <div
+        *ngIf="cargando"
+        class="ion-text-center ion-padding">
+
+        <ion-spinner name="crescent"></ion-spinner>
+        <p>Cargando productos...</p>
+      </div>
+
+      <ion-list *ngIf="!cargando && productos.length > 0">
+
+        <ion-item *ngFor="let producto of productos">
+
+          <ion-thumbnail slot="start">
+            <img
+              *ngIf="producto.imagen || producto.foto"
+              [src]="producto.imagen || producto.foto"
+              [alt]="producto.nombre || producto.producto">
+
+            <ion-icon
+              *ngIf="!producto.imagen && !producto.foto"
+              name="image-outline">
+            </ion-icon>
+          </ion-thumbnail>
+
+          <ion-label class="ion-text-wrap">
+            <h2>{{ producto.nombre || producto.producto }}</h2>
+
+            <p *ngIf="producto.descripcion">
+              {{ producto.descripcion }}
+            </p>
+
+            <p>
+              Categoría: {{ producto.categoria || 'Otros' }}
+            </p>
+
+            <p>
+              Precio: S/ {{ producto.precio | number:'1.2-2' }}
+            </p>
+
+            <p>
+              Stock: {{ producto.cantidad ?? 0 }}
+            </p>
+
+            <p>
+              Estado: {{ producto.estado || 'Sin estado' }}
+            </p>
+          </ion-label>
+
+          <!-- BOTONES DE ACCIÓN -->
+          <div slot="end" class="acciones-producto">
+
+            <ion-button
+              fill="outline"
+              size="small"
+              (click)="editarProducto(producto)"
+              [disabled]="guardando || subiendoImagen">
+
+              <ion-icon name="create-outline" slot="start"></ion-icon>
+              Editar
+            </ion-button>
+
+            <ion-button
+              fill="outline"
+              color="danger"
+              size="small"
+              (click)="eliminarProducto(producto)"
+              [disabled]="guardando || subiendoImagen">
+
+              <ion-icon name="trash-outline" slot="start"></ion-icon>
+              Eliminar
+            </ion-button>
+
+          </div>
+
+        </ion-item>
+
+      </ion-list>
+
+      <div
+        *ngIf="!cargando && productos.length === 0"
+        class="ion-text-center ion-padding">
+
+        <ion-icon
+          name="file-tray-outline"
+          class="icono-vacio">
+        </ion-icon>
+
+        <p>No hay productos registrados.</p>
+      </div>
+
+    </ion-card-content>
   </ion-card>
 
 </ion-content>
